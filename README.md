@@ -1,6 +1,9 @@
 # Nighttime-Parenting-Device
 This is a senior design project that we completed over 2 semesters - Fall 2021 and Spring 2022.
 
+test
+
+
 # Description
 This device is a wearable sleeve intended to make the task of caring for a baby during the night more pleasant and less detrimental to the parent's mental health. It has a 
 number of functions. It will detect when a baby wakes up in the middle of the night and when a parent comes to comfort the baby, it will output encouraging messages to a screen 
