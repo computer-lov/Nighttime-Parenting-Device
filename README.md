@@ -8,6 +8,7 @@ and use the parent's pulse to track agitation and frustration levels. It will us
 into the headphone jack. When the current caregiver gets too agitated and/or has been at it too long, it will notify the secondary caregiver to take over. It will also track 
 and log sessions per caregiver. 
 
+
 # Contact Info:
 Beatriz Perez bp1590@nyu.edu
 Andrew Mayer apm532@nyu.edu
