@@ -70,8 +70,12 @@ class StereoDecoder:
     def pause():
         pass
 
-    # adjusts volume to given level
-    def changeVol(level):
+    # increments volume
+    def increaseVol():
+        pass
+
+    # decrements volume
+    def decreaseVol():
         pass
 
 
