@@ -14,3 +14,19 @@
 #       write stub functions and classes
 
 class StereoDecoder:
+
+    # initializes StereoDecoder class
+    def __init__(self):
+        pass
+
+    # plays audio
+    def play():
+        pass
+
+    # pauses audio
+    def pause():
+        pass
+
+    # adjusts volume to given level
+    def changeVol(level):
+        pass
