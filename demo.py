@@ -8,10 +8,10 @@ if __name__ == "__main__":
     m = mic()
     print("Testing Microphone Circuit...")
     # call and display micCircuit methods
-    aVal = m.readAnalogVal()
+    dVal = m.getDigitalVal()
+    print("Digital Value: ", dVal)
+    aVal = m.getAnalogVal()
     print("Analog Value: ", aVal)
-    dVal = m.atod(aVal)
-    print("Digitial Value: ", dVal)
     trigVal = 2.5
     isTriggered = m.trigger(trigVal)
     message = "Voltage is above threshold value..." if isTriggered else "Voltage is below threshold value..."
