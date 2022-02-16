@@ -1,16 +1,16 @@
-import micCircuit as mic
+import nighttimeParenting as infra
 
 if __name__ == "__main__":
 
     ##################### CODE TO TEST MIC CIRCUIT LIBRARY #####################
 
     # initialize mic object
-    m = mic()
+    sleeve = infra()
     print("Testing Microphone Circuit...")
     # call and display micCircuit methods
-    dVal = m.getDigitalVal()
+    dVal = sleeve.getDigitalVal()
     print("Digital Value: ", dVal)
-    aVal = m.getAnalogVal()
+    aVal = sleeve.getAnalogVal()
     print("Analog Value: ", aVal)
     trigVal = 2.5
     isTriggered = m.trigger(trigVal)
