@@ -78,5 +78,42 @@ class StereoDecoder:
     def decreaseVol():
         pass
 
+    
+################### HEART RATE SENSOR SECTION ################### 
+
+# Author: Developed and maintained by Beatriz Perez
+# Creation Date: 2/20/2022
+# Last Updated: 2/20/2022
+# License: MIT License 2022
+# Further Description:
+#   Stub function section for Heart Rate Sensor with MAX30102 chip
+#   This section was written in VS Code and tested on a Raspberry Pi Zero
+
+
+class HRSensor:
+
+    # initializes Heart Rate Sensor Class
+    def __init__(self):
+        # initialize i2c here
+        pass
+
+    # reads heart rate from sensor and returns BPM
+    def getHR():
+        BPM = None;
+        return BPM
+
+    # reads oxygen saturation level and returns value
+    def getSPO2():
+        SPO2 = None;
+        return SPO2
+        
+
+    # reads temperature at sensor and returns value
+    def getTemp():
+        temp = None;
+        return temp
+        
+
+
 
 
