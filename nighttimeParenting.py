@@ -42,10 +42,12 @@ class micCircuit:
     def getAvg(self, timeInterval):
         start = time.time()
         sum = 0
+        count = 0
         while ((time.time() - start) <= timeInterval):
             sum += self.getDigitalVal()
+            count += 1
         
-        avg = (sum / timeInterval)
+        avg = (sum / count)
         return avg
 
         
@@ -75,19 +77,19 @@ class StereoDecoder:
         pass
 
     # plays audio
-    def play():
+    def play(self):
         pass
 
     # pauses audio
-    def pause():
+    def pause(self):
         pass
 
     # increments volume
-    def increaseVol():
+    def increaseVol(self):
         pass
 
     # decrements volume
-    def decreaseVol():
+    def decreaseVol(self):
         pass
 
     
@@ -110,18 +112,18 @@ class HRSensor:
         pass
 
     # reads heart rate from sensor and returns BPM
-    def getHR():
+    def getHR(self):
         BPM = None;
         return BPM
 
     # reads oxygen saturation level and returns value
-    def getSPO2():
+    def getSPO2(self):
         SPO2 = None;
         return SPO2
         
 
     # reads temperature at sensor and returns value
-    def getTemp():
+    def getTemp(self):
         temp = None;
         return temp
         
