@@ -32,28 +32,32 @@ class micCircuit:
         return dVal
 
     # converts digital value to analog value
-    def getAnalogVal(self):
-        # get digital value
-        dVal = self.getDigitalVal()
+    # will convert current digitalvalue by default
+    # else it will convert whatever is passed into dVal
+    def getAnalogVal(self, dVal = getDigitalVal()):
         aVal = (dVal/1024)*3.3
         return aVal
 
     # calculate and returns average value over a given time interval
-    def getAvg(self, timeInterval):
+    # step value is set to 100ms by default
+    def getAvg(self, timeInterval, step = 0.1):
         start = time.time()
+        # sums up digital value
         sum = 0
+        # count number of times something is added to sum
         count = 0
         while ((time.time() - start) <= timeInterval):
             sum += self.getDigitalVal()
             count += 1
+            time.sleep(step)
         
         avg = (sum / count)
         return avg
 
         
     # returns true if curr analog value is greater than threshold false otherwise
-    def trigger(self, thresholdVal):
-        res = True if (self.getAnalogVal() > thresholdVal) else False
+    def trigger(self, thresholdVal, timeInterval):
+        res = True if (self.getAvg(thresholdVal, timeInterval) > thresholdVal) else False
         return res
         
 ################### AUDIO OUTPUT/STEREO DECODER SECTION ################### 

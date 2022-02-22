@@ -9,14 +9,16 @@ if __name__ == "__main__":
     print("Testing Microphone Circuit...")
     # call and display micCircuit methods
     dVal = m.getDigitalVal()
-    print("Current Digital Value: ", dVal)
     aVal = m.getAnalogVal()
+    print("Current Digital Value: ", dVal)
     print("Current Analog Value: ", "{:.2f}".format(aVal), "V")
-    trigVal = 2.5
-    isTriggered = m.trigger(trigVal)
+    tIntv = 10
+    avg = m.getAvg(tIntv)
     print("Calculating Average over 10 second interval...")
-    avg = m.getAvg(10)
-    print("Average Digital Value: ", avg)
+    print("Average Digital Value: ", "{:.0f}".format(avg))
+    print("Average Analog Value: ",  "{:.2f}".format(m.getAnalogVal(avg)), "V")
+    trigVal = 2.5
+    isTriggered = m.trigger(trigVal, tIntv)
     message = "Voltage is above threshold value..." if isTriggered else "Voltage is below threshold value..."
     print(message); 
 
