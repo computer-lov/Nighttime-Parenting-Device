@@ -34,7 +34,9 @@ class micCircuit:
     # converts digital value to analog value
     # will convert current digitalvalue by default
     # else it will convert whatever is passed into dVal
-    def getAnalogVal(self, dVal = getDigitalVal()):
+    def getAnalogVal(self, dVal = None):
+        if (dVal == None):
+            dVal = self.getDigitalVal()
         aVal = (dVal/1024)*3.3
         return aVal
 
