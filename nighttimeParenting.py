@@ -38,20 +38,20 @@ class micCircuit:
         aVal = (dVal/1024)*3.3
         return aVal
 
-    # calculate and returns average value over a given time interval
+    # calculate and returns peak-to-peak average value over a given time interval
     # step value is set to 100ms by default
-    def getAvg(self, timeInterval, step = 0.1):
+    def getPkPkAvg(self, timeInterval, step = 0.1):
         start = time.time()
         # sums up digital value
         sum = 0
         # count number of times something is added to sum
         count = 0
         while ((time.time() - start) <= timeInterval):
-            sum += self.getDigitalVal()
+            sum += abs(self.getDigitalVal()-512)
             count += 1
             time.sleep(step)
         
-        avg = (sum / count)
+        avg = ((sum / count)/(512))*1024
         return avg
 
         
