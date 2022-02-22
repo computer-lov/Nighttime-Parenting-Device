@@ -1,4 +1,5 @@
 import spidev
+import time
 
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
@@ -36,6 +37,17 @@ class micCircuit:
         dVal = self.getDigitalVal()
         aVal = (dVal/1024)*3.3
         return aVal
+
+    # calculate and returns average value over a given time interval
+    def getAvg(self, timeInterval):
+        start = time.time()
+        sum = 0
+        while ((time.time() - start) <= timeInterval):
+            sum += self.getDigitalVal()
+        
+        avg = (sum / timeInterval)
+        return avg
+
         
     # returns true if curr analog value is greater than threshold false otherwise
     def trigger(self, thresholdVal):
