@@ -1,6 +1,6 @@
 import spidev
 import time
-
+import smbus
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
 # Author: Developed and maintained by Andrew P. Mayer
@@ -115,6 +115,12 @@ class HRSensor:
     # initializes Heart Rate Sensor Class
     def __init__(self):
         # initialize i2c here
+        self.HR_ADDR = 0x57
+        self.WRITE_ADDR = 0xAE
+        self.READ_ADDR = 0xAF
+        
+        self.i2c = smbus.SMBus(1)
+        self.bpm = 0
         pass
 
     # reads heart rate from sensor and returns BPM
@@ -130,8 +136,21 @@ class HRSensor:
 
     # reads temperature at sensor and returns value
     def getTemp(self):
-        temp = None;
+        # temperature read in integer and fraction, both added
+        # to find total temp
+        
+        # Enabling the temperature reading
+        i2c.write_byte_data(HR_ADDR, 0x21, 1) # TEMP_EN
+        i2c.write_byte_data(HR_ADDR, 0x03, 1) #DIE_TEMP_RDY_EN
+        
+        # Address for temp int = 0x1F
+        T_int = i2c.read_byte_data(HR_ADDR, 0x1F)
+        # Address for temp frac = 0x20
+        T_frac = i2c.read_byte_data(HR_ADDR, 0x20)
+        
+        temp = T_int + T_frac
         return temp
+        
         
 
 
