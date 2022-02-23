@@ -15,7 +15,6 @@ class micCircuit:
 
     # initializes micCircuit class
     def __init__(self):
-        # these numbers may need to be changed
         self.ADC_CH0 = 0b01101000
 
         self.spi = spidev.SpiDev()
@@ -50,16 +49,17 @@ class micCircuit:
         count = 0
         while ((time.time() - start) <= timeInterval):
             sum += abs(self.getDigitalVal()-512)
-            count += 1
+            count += 512
             time.sleep(step)
         
-        avg = ((sum / count)/(512))*1024
+        avg = (sum / count)*1024*3
         return avg
 
         
     # returns true if curr analog value is greater than threshold false otherwise
     def trigger(self, thresholdVal, timeInterval):
-        res = True if (self.getAvg(thresholdVal, timeInterval) > thresholdVal) else False
+        aVal = self.getAnalogVal(self.getPkPkAvg(thresholdVal, timeInterval))
+        res = True if (aVal  > thresholdVal) else False
         return res
         
 ################### AUDIO OUTPUT/STEREO DECODER SECTION ################### 
