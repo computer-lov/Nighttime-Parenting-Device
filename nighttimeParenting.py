@@ -1,6 +1,9 @@
 import spidev
 import time
 import smbus
+import sys
+import pygame as pg
+import os
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
 # Author: Developed and maintained by Andrew P. Mayer
@@ -71,33 +74,67 @@ class micCircuit:
 # Further Description:
 #   Stub function section for the Adafruit I2S Stereo Decoder - UDA1334A
 #   This section was written in VS Code and tested on a Raspberry Pi Zero
+#   This uses the pygame library, documentation found here https://github.com/pygame/pygame and 
+#   here https://web.archive.org/web/20211006193848/http://www.pygame.org/docs/ref/mixer.html
+#   Sample code found here https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/audio-with-pygame#run-demo-2693434-7
 
-
-# TODO:
-#       write stub functions and classes
 
 class StereoDecoder:
 
     # initializes StereoDecoder class
     def __init__(self):
-        pass
+        freq=44100
+        bitsize=-16
+        channels=2
+        buffer=2048
+        self.mixer = pg.mixer
+        self.mixer.init(freq, bitsize, channels, buffer)
+        # default starting volume will be 20%
+        self.mixer.music.set_volume(0.2)
 
-    # plays audio
+    # queues up and starts audio
     def play(self):
-        pass
+        mp3s = []
+        for file in os.listdir("."):
+            if file.endswith(".mp3"):
+                mp3s.append(file)
+                
+        for x in mp3s:
+            try:
+                self.mixer.music.load(x)
+            except pygame.error:
+                print("File {} not found! {}".format(music_file, pg.get_error()))
+                return
+            
+            self.mixer.music.play()
+            # check if playback is finished
+            while self.mixer.music.get_busy():
+                clock.tick(30)
+            # small pause between songs
+            time.sleep(0.25)
 
-    # pauses audio
+    # pauses any playing audio
     def pause(self):
-        pass
+        if self.mixer.music.get_busy():
+            self.mixer.pause()
+            
+    # unpauses any paused audio
+    def unpause(self):
+        self.mixer.unpause()
 
     # increments volume
     def increaseVol(self):
-        pass
+        if self.mixer.music.get_volume() <= 0.9:
+        self.mixer.music.set_volume(self.mixer.music.get_volume() + 0.1)
 
     # decrements volume
     def decreaseVol(self):
-        pass
-
+        if self.mixer.music.get_volume() >= 0.1:
+        self.mixer.music.set_volume(self.mixer.music.get_volume() - 0.1)
+        
+    # stops all audio
+    def stop(self):
+        self.mixer.stop()
     
 ################### HEART RATE SENSOR SECTION ################### 
 
