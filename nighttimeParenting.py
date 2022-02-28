@@ -77,6 +77,8 @@ class micCircuit:
 #   This uses the pygame library, documentation found here https://github.com/pygame/pygame and 
 #   here https://web.archive.org/web/20211006193848/http://www.pygame.org/docs/ref/mixer.html
 #   Sample code found here https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/audio-with-pygame#run-demo-2693434-7
+# 
+# TODO: Add skip?
 
 
 class StereoDecoder:
