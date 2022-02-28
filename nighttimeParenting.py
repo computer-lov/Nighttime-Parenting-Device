@@ -122,12 +122,12 @@ class StereoDecoder:
     def unpause(self):
         self.mixer.unpause()
 
-    # increments volume
+    # increments volume, volume is a float between 0.0 and 1.0
     def increaseVol(self):
         if self.mixer.music.get_volume() <= 0.9:
         self.mixer.music.set_volume(self.mixer.music.get_volume() + 0.1)
 
-    # decrements volume
+    # decrements volume, volume is a float between 0.0 and 1.0
     def decreaseVol(self):
         if self.mixer.music.get_volume() >= 0.1:
         self.mixer.music.set_volume(self.mixer.music.get_volume() - 0.1)
