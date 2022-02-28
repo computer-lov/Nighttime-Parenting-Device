@@ -6,6 +6,6 @@ setup(name='nighttimeParenting',
       author=['Andrew Paul Mayer', 'Aron Goldberg', 'Beatriz Perez'],
       author_email='apm532@nyu.edu',
       url='git@github.com:computer-lov/Nighttime-Parenting-Device.git',
-      install_requires=['spidev'],
+      install_requires=['spidev','pygame'],
       py_modules=['nighttimeParenting']
       )
