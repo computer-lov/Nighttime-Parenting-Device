@@ -30,12 +30,25 @@ if __name__ == "__main__":
     # call and display StereoDecoder methods
     print("Pressing play...")
     sd.play()
+    time.sleep(10)
     print("Pressing pause...")
     sd.pause()
+    time.sleep(3)
+    print("Pressing unpause")
+    sd.unpause()
     print("Increasing volume...")
     sd.increaseVol()
+    sd.increaseVol()
+    sd.increaseVol()
+    time.sleep(2)
     print("Decreasing volume...")
     sd.decreaseVol()
+    sd.decreaseVol()
+    sd.decreaseVol()
+    time.sleep(2)
+    print("Stopping audio...")
+    sd.stop()
+    
 
     ################## CODE TO TEST HEART RATE SENSOR #################
 
