@@ -111,7 +111,7 @@ class StereoDecoder:
             self.mixer.music.play()
             # check if playback is finished
             while self.mixer.music.get_busy():
-                clock.tick(30)
+                time.sleep(2)
             # small pause between songs
             time.sleep(0.25)
 
