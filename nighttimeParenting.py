@@ -108,12 +108,12 @@ class StereoDecoder:
                 print("File {} not found! {}".format(music_file, pg.get_error()))
                 return
             
-            self.mixer.music.play()
+            self.mixer.music.play(-1)
             # check if playback is finished
-            while self.mixer.music.get_busy():
-                time.sleep(2)
+            # while self.mixer.music.get_busy():
+            #    time.sleep(2)
             # small pause between songs
-            time.sleep(0.25)
+            #time.sleep(0.25)
 
     # pauses any playing audio
     def pause(self):
