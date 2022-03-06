@@ -173,26 +173,5 @@ class HRSensor:
         return SPO2
         
 
-    # reads temperature at sensor and returns value
-    def getTemp(self):
-        # temperature read in integer and fraction, both added
-        # to find total temp
-        
-        # Enabling the temperature reading
-        i2c.write_byte_data(HR_ADDR, 0x21, 1) # TEMP_EN
-        i2c.write_byte_data(HR_ADDR, 0x03, 1) #DIE_TEMP_RDY_EN
-        
-        # Address for temp int = 0x1F
-        T_int = i2c.read_byte_data(HR_ADDR, 0x1F)
-        # Address for temp frac = 0x20
-        T_frac = i2c.read_byte_data(HR_ADDR, 0x20)
-        
-        temp = T_int + T_frac
-        return temp
-        
-        
-
-        
-
 
 
