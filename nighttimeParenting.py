@@ -4,6 +4,9 @@ import smbus
 import sys
 import pygame as pg
 import os
+import RPi.GPIO as GPIO
+from time import sleep
+
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
 # Author: Developed and maintained by Andrew P. Mayer
@@ -164,14 +167,83 @@ class HRSensor:
 
     # reads heart rate from sensor and returns BPM
     def getHR(self):
-        BPM = None;
-        return BPM
+        pass
 
     # reads oxygen saturation level and returns value
     def getSPO2(self):
-        SPO2 = None;
-        return SPO2
-        
+        pass        
 
 
+
+################### LED BAR GUIDED BREATHING SECTION ################### 
+
+# Author: Developed and maintained by Beatriz Perez
+# Creation Date: 03/05/2022
+# Last Updated: 03/05/2022
+# License: MIT License 2022
+# Further Description:
+#   This section was written in VS Code and tested on a Raspberry Pi Zero
+
+class ledBar:
+
+    def __init__(self):
+        self.spi = spidev.SpiDev()
+        self.spi.open(0,0)
+        self.spi.mode = 0b00
+        self.spi.max_speed_hz = 7629
+        self.GPIO.setwarnings(False)
+        self.GPIO.setmode(GPIO.BCM)
+        self.GPIO.setup(14, GPIO.OUT)
+        self.GPIO.setup(15, GPIO.OUT)
+        self.dt = 0.5  # Time delay between LED breaths
+
+    def breathe_in():
+        spi.xfer([0b00000000])
+        GPIO.output(14, GPIO.LOW)
+        GPIO.output(15, GPIO.LOW)
+        sleep(2)
+        spi.xfer([0b00000001])
+        sleep(dt)
+        spi.xfer([0b00000011])
+        sleep(dt)
+        spi.xfer([0b00000111])
+        sleep(dt)
+        spi.xfer([0b00001111])
+        sleep(dt)
+        spi.xfer([0b00011111])
+        sleep(dt)
+        spi.xfer([0b00111111])
+        sleep(dt)
+        spi.xfer([0b01111111])
+        sleep(dt)
+        spi.xfer([0b11111111])
+        sleep(dt)
+        GPIO.output(15, GPIO.HIGH)
+        sleep(dt)
+        GPIO.output(14, GPIO.HIGH)
+
+def breathe_out():
+        sleep(2)
+        GPIO.output(14, GPIO.LOW)
+        sleep(dt)
+        GPIO.output(15, GPIO.LOW)
+        sleep(dt)
+        spi.xfer([0b11111111])
+        sleep(dt)
+        spi.xfer([0b01111111])
+        sleep(dt)
+        spi.xfer([0b00111111])
+        sleep(dt)
+        spi.xfer([0b00011111])
+        sleep(dt)
+        spi.xfer([0b00001111])
+        sleep(dt)
+        spi.xfer([0b00000111])
+        sleep(dt)
+        spi.xfer([0b00000011])
+        sleep(dt)
+        spi.xfer([0b00000001])
+        sleep(dt)
+        spi.xfer([0b00000000])
+        sleep(dt)
 
