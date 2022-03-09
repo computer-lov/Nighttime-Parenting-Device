@@ -45,6 +45,14 @@ class micCircuit:
         aVal = (dVal/1024)*3.3
         return aVal
 
+    # gets local maximum in single step interval
+    def getLocalMax(self, step):
+        start = time.time()
+        localMax = 0
+        while ((time.time() - start) <= step):
+            localMax = max(self.getDigitalVal(), localMax)
+        return localMax
+
     # calculate and returns peak-to-peak average value over a given time interval
     # step value is set to 100ms by default
     def getPkPkAvg(self, timeInterval, step = 0.1):
@@ -54,13 +62,11 @@ class micCircuit:
         # count number of times something is added to sum
         count = 0
         while ((time.time() - start) <= timeInterval):
-            sum += abs(self.getDigitalVal()-512)
-            count += 512
-            time.sleep(step)
+            sum += self.getLocalMax(step)
+            count += 1
         
-        avg = (sum / count)*1024*3
+        avg = sum / count
         return avg
-
         
     # returns true if curr analog value is greater than threshold false otherwise
     def trigger(self, thresholdVal, timeInterval):
