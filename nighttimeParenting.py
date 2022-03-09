@@ -126,8 +126,8 @@ class StereoDecoder:
 
     # pauses any playing audio
     def pause(self):
-        if self.mixer.music.get_busy():
-            self.mixer.pause()
+        #if self.mixer.music.get_busy():
+        self.mixer.pause()
             
     # unpauses any paused audio
     def unpause(self):
