@@ -127,11 +127,11 @@ class StereoDecoder:
     # pauses any playing audio
     def pause(self):
         #if self.mixer.music.get_busy():
-        self.mixer.pause()
+        self.mixer.music.pause()
             
     # unpauses any paused audio
     def unpause(self):
-        self.mixer.unpause()
+        self.mixer.music.unpause()
 
     # increments volume, volume is a float between 0.0 and 1.0
     def increaseVol(self):
