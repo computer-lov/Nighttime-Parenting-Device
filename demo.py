@@ -37,16 +37,21 @@ if __name__ == "__main__":
     time.sleep(3)
     print("Pressing unpause")
     sd.unpause()
-    print("Increasing volume...")
+    time.sleep(3)
+    print("Increasing volume by 5...")
     sd.increaseVol()
     sd.increaseVol()
     sd.increaseVol()
-    time.sleep(2)
-    print("Decreasing volume...")
+    sd.increaseVol()
+    sd.increaseVol()
+    time.sleep(3)
+    print("Decreasing volume by 5...")
     sd.decreaseVol()
     sd.decreaseVol()
     sd.decreaseVol()
-    time.sleep(2)
+    sd.decreaseVol()
+    sd.decreaseVol()
+    time.sleep(3)
     print("Stopping audio...")
     sd.stop()
     
@@ -54,15 +59,15 @@ if __name__ == "__main__":
     ################## CODE TO TEST HEART RATE SENSOR #################
 
     # initialize heart rate sensor object
-    hrs = infra.HRSensor()
-    print("Testing Heart Rate Sensor...")
+    #hrs = infra.HRSensor()
+    #print("Testing Heart Rate Sensor...")
     # call and display HRSensor methods
-    hRate = hrs.getHR()
-    print("Heart Rate (BPM): ", hRate)
-    oSatLevel = hrs.getSPO2()
-    print("Oxygen Saturation Level (SPO2): ", oSatLevel)
-    temp = hrs.getTemp()
-    print("Temperature: ", temp)
+    #hRate = hrs.getHR()
+    #print("Heart Rate (BPM): ", hRate)
+    #oSatLevel = hrs.getSPO2()
+    #print("Oxygen Saturation Level (SPO2): ", oSatLevel)
+    #temp = hrs.getTemp()
+    #print("Temperature: ", temp)
 
 
 
