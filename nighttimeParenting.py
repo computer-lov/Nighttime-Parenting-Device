@@ -17,7 +17,12 @@ from time import sleep
 #   Stub function section for the CMEJ-9745-37-P Electric Condensor Microphone
 #   This section was written in VS Code and tested on a Raspberry Pi Zero
 
-class micCircuit: 
+# TODO:
+# getDigitalVal() is only really get values between 450-600 (not good)
+# we need to code to get the max amplitude in a time interval
+# this max interval should then trigger an alarm event
+
+class micCircuit:
 
     # initializes micCircuit class
     def __init__(self):
@@ -46,12 +51,19 @@ class micCircuit:
         return aVal
 
     # gets local maximum in single step interval
-    def getLocalMax(self, step):
+    def getAmplitude(self, step):
         start = time.time()
         localMax = 0
+        localMin = 1024
+        # get local max and min in step interval
         while ((time.time() - start) <= step):
-            localMax = max(self.getDigitalVal(), localMax)
-        return localMax
+            currVal = self.getDigitalVal()
+            localMax = max(currVal, localMax)
+            localMin = min(currVal, localMin)
+
+        # calculate peakTopeak amplitude
+        peakToPeak = localMax - localMin
+        return peakToPeak
 
     # calculate and returns peak-to-peak average value over a given time interval
     # step value is set to 100ms by default
