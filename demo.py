@@ -19,9 +19,9 @@ if __name__ == "__main__":
     print("Average Digital Value: ", "{:.0f}".format(avg))
     print("Average Analog Value: ",  "{:.2f}".format(m.getAnalogVal(avg)), "V")
     trigVal = 2.5
-    isTriggered = m.trigger(trigVal, tIntv)
-    message = "Voltage is above threshold value..." if isTriggered else "Voltage is below threshold value..."
-    print(message); 
+    # isTriggered = m.trigger(trigVal, tIntv)
+    # message = "Voltage is above threshold value..." if isTriggered else "Voltage is below threshold value..."
+    # print(message); 
 
     #################### CODE TO TEST STEREO DECODER ##################
 
