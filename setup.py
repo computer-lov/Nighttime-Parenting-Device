@@ -6,6 +6,6 @@ setup(name='nighttimeParenting',
       author=['Andrew Paul Mayer', 'Aron Goldberg', 'Beatriz Perez'],
       author_email='apm532@nyu.edu',
       url='git@github.com:computer-lov/Nighttime-Parenting-Device.git',
-      install_requires=['spidev','pygame'],
+      install_requires=['spidev','pygame','adafruit-circuitpython-ssd1327','adafruit-circuitpython-display-text'],
       py_modules=['nighttimeParenting']
       )
