@@ -82,7 +82,6 @@ if __name__ == "__main__":
     lBar.breath_in()
     print("Breathing out...")
     lBar.breath_out()
-    
 
 
 

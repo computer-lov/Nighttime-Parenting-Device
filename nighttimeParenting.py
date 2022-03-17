@@ -236,7 +236,7 @@ class ledBar:
         sleep(dt)
         GPIO.output(14, GPIO.HIGH)
 
-def breathe_out():
+    def breathe_out():
         sleep(2)
         GPIO.output(14, GPIO.LOW)
         sleep(dt)
