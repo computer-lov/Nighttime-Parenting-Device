@@ -13,9 +13,9 @@ if __name__ == "__main__":
     aVal = m.getAnalogVal()
     print("Current Digital Value: ", dVal)
     print("Current Analog Value: ", "{:.2f}".format(aVal), "V")
-    tIntv = 10
-    avg = 0 # m.getPkPkAvg(tIntv)
-    print("Calculating Average over 10 second interval...")
+    tIntv = 2
+    avg = m.getPkPkAvg(tIntv)
+    print("Calculating Average over 2 second interval...")
     print("Average Digital Value: ", "{:.0f}".format(avg))
     print("Average Analog Value: ",  "{:.2f}".format(m.getAnalogVal(avg)), "V")
     trigVal = 2.5
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     lBar.breath_in()
     print("Breathing out...")
     lBar.breath_out()
-
+   
 
 
 

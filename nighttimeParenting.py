@@ -74,7 +74,7 @@ class micCircuit:
         # count number of times something is added to sum
         count = 0
         while ((time.time() - start) <= timeInterval):
-            sum += self.getLocalMax(step)
+            sum += self.getAmplitude(step)
             count += 1
         
         avg = sum / count
