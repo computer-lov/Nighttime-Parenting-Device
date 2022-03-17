@@ -17,11 +17,6 @@ from time import sleep
 #   Stub function section for the CMEJ-9745-37-P Electric Condensor Microphone
 #   This section was written in VS Code and tested on a Raspberry Pi Zero
 
-# TODO:
-# getDigitalVal() is only really get values between 450-600 (not good)
-# we need to code to get the max amplitude in a time interval
-# this max interval should then trigger an alarm event
-
 class micCircuit:
 
     # initializes micCircuit class
