@@ -1,26 +1,23 @@
-import spidev
 import time
-import smbus
 import sys
-import pygame as pg
 import os
-import RPi.GPIO as GPIO
+import smbus
+import spidev
+import pygame as pg
 from time import sleep
+import RPi.GPIO as GPIO
+from max30102 import MAX30102
+import hrcalc
 
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
 # Author: Developed and maintained by Andrew P. Mayer
 # Creation Date: 2/15/2022
-# Last Updated: 2/15/2022
+# Last Updated: 3/17/2022
 # License: MIT License 2022
 # Further Description:
 #   Stub function section for the CMEJ-9745-37-P Electric Condensor Microphone
 #   This section was written in VS Code and tested on a Raspberry Pi Zero
-
-# TODO:
-# getDigitalVal() is only really get values between 450-600 (not good)
-# we need to code to get the max amplitude in a time interval
-# this max interval should then trigger an alarm event
 
 class micCircuit:
 
@@ -154,21 +151,24 @@ class StereoDecoder:
     # stops all audio
     def stop(self):
         self.mixer.stop()
+
     
 ################### HEART RATE SENSOR SECTION ################### 
 
-# Author: Developed and maintained by Beatriz Perez
+# Author: Developed and maintained by Beatriz Perez and Andrew P. Mayer
 # Creation Date: 2/20/2022
-# Last Updated: 2/20/2022
+# Last Updated: 3/30/2022
 # License: MIT License 2022
 # Further Description:
 #   Stub function section for Heart Rate Sensor with MAX30102 chip
 #   This section was written in VS Code and tested on a Raspberry Pi Zero
 
+# TODO:
+#       add link to max30102.py and hrcalc.py
 
 class HRSensor:
 
-    # initializes Heart Rate Sensor Class
+    # initializes Heart Rate Sensor sensor
     def __init__(self):
         # initialize i2c here
         self.HR_ADDR = 0x57
@@ -176,18 +176,49 @@ class HRSensor:
         self.READ_ADDR = 0xAF
         
         self.i2c = smbus.SMBus(1)
-        self.bpm = 0
-        pass
+
+        # initialize heart rate monitor class
+        self.sensor = MAX30102()
+
+    # collects bpm and spo2 data from heart rate sensor
+    def getAllData(self):
+        ir_data = []
+        red_data = []
+
+        # check if any data is available
+        num_bytes = self.sensor.get_data_present()
+    
+        # grab all the data and stash it into arrays
+        while num_bytes > 0:
+            red, ir = self.sensor.read_fifo()
+            num_bytes -= 1
+            ir_data.append(ir)
+            red_data.append(red)
+
+        # calculate hr and spo2
+        bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
+
+        # validate data
+        if valid_bpm and valid_spo2:
+            # case if finger not detected
+            if (ir_data/len(ir_data) < 50000 and red_data/len(red_data) < 50000):
+                self.bpm = 0
+                print("Finger not detected")
+            return bpm, spo2
+        else:
+            return (None, None)
 
     # reads heart rate from sensor and returns BPM
     def getHR(self):
-        pass
+        HR = self.getAllData()
+        if (len(HR) == 2):
+            return HR[0]
 
     # reads oxygen saturation level and returns value
     def getSPO2(self):
-        pass        
-
-
+        SPO2 = self.getAllData()
+        if (len(SPO2) == 2):
+            return SPO2[1]
 
 ################### LED BAR GUIDED BREATHING SECTION ################### 
 

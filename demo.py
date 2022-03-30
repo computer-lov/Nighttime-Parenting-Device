@@ -62,13 +62,13 @@ if __name__ == "__main__":
     ################## CODE TO TEST HEART RATE SENSOR #################
 
     # initialize heart rate sensor object
-    #hrs = infra.HRSensor()
-    #print("Testing Heart Rate Sensor...")
+    hrs = infra.HRSensor()
+    print("Testing Heart Rate Sensor...")
     # call and display HRSensor methods
-    #hRate = hrs.getHR()
-    #print("Heart Rate (BPM): ", hRate)
-    #oSatLevel = hrs.getSPO2()
-    #print("Oxygen Saturation Level (SPO2): ", oSatLevel)
+    hRate = hrs.getHR()
+    print("Heart Rate (BPM): ", hRate)
+    oSatLevel = hrs.getSPO2()
+    print("Oxygen Saturation Level (SPO2): ", oSatLevel)
     #temp = hrs.getTemp()
     #print("Temperature: ", temp)
 
