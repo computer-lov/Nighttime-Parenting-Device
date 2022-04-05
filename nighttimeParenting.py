@@ -157,26 +157,16 @@ class StereoDecoder:
 
 # Author: Developed and maintained by Beatriz Perez and Andrew P. Mayer
 # Creation Date: 2/20/2022
-# Last Updated: 3/30/2022
+# Last Updated: 4/5/2022
 # License: MIT License 2022
 # Further Description:
 #   Stub function section for Heart Rate Sensor with MAX30102 chip
 #   This section was written in VS Code and tested on a Raspberry Pi Zero
 
-# TODO:
-#       add link to max30102.py and hrcalc.py
-
 class HRSensor:
 
     # initializes Heart Rate Sensor sensor
     def __init__(self):
-        # initialize i2c here
-        self.HR_ADDR = 0x57
-        self.WRITE_ADDR = 0xAE
-        self.READ_ADDR = 0xAF
-        
-        self.i2c = smbus.SMBus(1)
-
         # initialize heart rate monitor class
         self.sensor = MAX30102()
 
@@ -185,18 +175,20 @@ class HRSensor:
         ir_data = []
         red_data = []
         dataCap = 100
+        dataCount = 0
     
         # grab all the data and stash it into arrays
         # loop until data is found
-        while num_bytes <= dataCap:
+        while dataCount <= dataCap:
             # check if any data is available
             num_bytes = self.sensor.get_data_present()
 
-        while num_bytes > 0:
-            red, ir = self.sensor.read_fifo()
-            num_bytes -= 1
-            ir_data.append(ir)
-            red_data.append(red)
+            while num_bytes > 0:
+                red, ir = self.sensor.read_fifo()
+                num_bytes -= 1
+                dataCount += 1
+                ir_data.append(ir)
+                red_data.append(red)
 
         # calculate hr and spo2
         bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
@@ -204,24 +196,23 @@ class HRSensor:
         # validate data
         if valid_bpm and valid_spo2:
             # case if finger not detected
-            if (ir_data/len(ir_data) < 50000 and red_data/len(red_data) < 50000):
+            if (sum(ir_data)/len(ir_data) < 50000 and sum(red_data)/len(red_data) < 50000):
                 self.bpm = 0
                 print("Finger not detected")
             return bpm, spo2
         else:
             return (None, None)
 
-    # reads heart rate from sensor and returns BPM
-    def getHR(self):
-        HR = self.getAllData()
-        if (len(HR) == 2):
-            return HR[0]
+    # reads heart rate and oxygen saturation level from sensor and returns them
+    def getHR_SPO2(self):
+        print("Place finger on HR monitor")
+        HR_SPO2 = (None, None)
 
-    # reads oxygen saturation level and returns value
-    def getSPO2(self):
-        SPO2 = self.getAllData()
-        if (len(SPO2) == 2):
-            return SPO2[1]
+        # wait for valid data
+        while HR_SPO2[0] == None and HR_SPO2[1] == None:
+            HR_SPO2 = self.getAllData()
+        
+        return (HR_SPO2[0], HR_SPO2[1])
 
 ################### LED BAR GUIDED BREATHING SECTION ################### 
 

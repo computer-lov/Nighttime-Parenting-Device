@@ -2,7 +2,7 @@ import nighttimeParenting as infra
 import time
 
 if __name__ == "__main__":
-
+    """
     ##################### CODE TO TEST MIC CIRCUIT #####################
 
     # initialize mic object
@@ -58,18 +58,18 @@ if __name__ == "__main__":
     print("Stopping audio...")
     sd.stop()
     
-
+    """
     ################## CODE TO TEST HEART RATE SENSOR #################
 
     # initialize heart rate sensor object
     hrs = infra.HRSensor()
     print("Testing Heart Rate Sensor...")
     # call and display HRSensor methods
-    hRate = hrs.getHR()
-    print("Heart Rate (BPM): ", hRate)
-    oSatLevel = hrs.getSPO2()
-    print("Oxygen Saturation Level (SPO2): ", oSatLevel)
+    hr_spo2 = hrs.getHR_SPO2()
+    print("Heart Rate (BPM): ", hr_spo2[0])
+    print("Oxygen Saturation Level (SPO2): ", hr_spo2[1])
 
+    """
     ###################### CODE TO TEST LED Bar #######################
 
     # initialize led bar object
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     print("Breathing out...")
     lBar.breath_out()
    
-
+    """
 
 
 
