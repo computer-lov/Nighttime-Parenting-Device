@@ -184,21 +184,19 @@ class HRSensor:
     def getAllData(self):
         ir_data = []
         red_data = []
-        dataNotFound = True
+        dataCap = 100
     
         # grab all the data and stash it into arrays
         # loop until data is found
-        while dataNotFound:
+        while num_bytes <= dataCap:
             # check if any data is available
             num_bytes = self.sensor.get_data_present()
 
-            while num_bytes > 0:
-                red, ir = self.sensor.read_fifo()
-                num_bytes -= 1
-                ir_data.append(ir)
-                red_data.append(red)
-                dataNotFound = False
-
+        while num_bytes > 0:
+            red, ir = self.sensor.read_fifo()
+            num_bytes -= 1
+            ir_data.append(ir)
+            red_data.append(red)
 
         # calculate hr and spo2
         bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)

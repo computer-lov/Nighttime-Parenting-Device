@@ -69,8 +69,6 @@ if __name__ == "__main__":
     print("Heart Rate (BPM): ", hRate)
     oSatLevel = hrs.getSPO2()
     print("Oxygen Saturation Level (SPO2): ", oSatLevel)
-    #temp = hrs.getTemp()
-    #print("Temperature: ", temp)
 
     ###################### CODE TO TEST LED Bar #######################
 
