@@ -201,16 +201,15 @@ class HRSensor:
 
 
         # calculate hr and spo2
-        if len(ir_data) > 0 and len(red_data) > 0:
-            bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
+        bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
 
-            # validate data
-            if valid_bpm and valid_spo2:
-                # case if finger not detected
-                if (ir_data/len(ir_data) < 50000 and red_data/len(red_data) < 50000):
-                    self.bpm = 0
-                    print("Finger not detected")
-                return bpm, spo2
+        # validate data
+        if valid_bpm and valid_spo2:
+            # case if finger not detected
+            if (ir_data/len(ir_data) < 50000 and red_data/len(red_data) < 50000):
+                self.bpm = 0
+                print("Finger not detected")
+            return bpm, spo2
         else:
             return (None, None)
 
