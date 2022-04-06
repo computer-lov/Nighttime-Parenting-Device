@@ -8,6 +8,13 @@ from time import sleep
 import RPi.GPIO as GPIO
 from max30102 import MAX30102
 import hrcalc
+import math
+import datetime
+from demo_opts import get_device
+from luma.oled.device import ssd1306
+from luma.core.interface.serial import i2c
+from luma.core.render import canvas
+from lume.core.device import device
 
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
@@ -95,8 +102,6 @@ class micCircuit:
 #   This uses the pygame library, documentation found here https://github.com/pygame/pygame and 
 #   here https://web.archive.org/web/20211006193848/http://www.pygame.org/docs/ref/mixer.html
 #   Sample code found here https://learn.adafruit.com/adafruit-i2s-stereo-decoder-uda1334a/audio-with-pygame#run-demo-2693434-7
-# 
-# TODO: Add skip?
 
 
 class StereoDecoder:
@@ -151,7 +156,86 @@ class StereoDecoder:
     # stops all audio
     def stop(self):
         self.mixer.stop()
+        
+################### OLED DISPLAY SECTION ################### 
 
+# Author: Developed and maintained by Aron Goldberg
+# Creation Date: 4/6/2022
+# Last Updated: 4/6/2022
+# License: MIT License 2022
+# Further Description:
+#  Uses luma.oled library
+
+class OLED:
+    
+    # initializes i2c communication parameters for OLED
+    def __init__(self):
+        serial = i2c(port=1, address=0x3C)
+        device = ssd1306(serial)
+        
+    # prints out given string
+    # TODO handle length
+    def printMessage(text):
+        with canvas(device) as draw:
+            draw.rectangle(device.bounding_box, outline="white", fill="black")
+            draw.text((10, 10), text, fill="white")
+
+        with canvas(device, dither=True) as draw:
+            draw.rectangle((10, 10, 30, 30), outline="white", fill="red")
+            time.sleep(5)
+            
+    # changes contrast to desired level
+    def changeContrast(level):
+        device.contrast(level)
+
+        
+    # helper function for displayTime
+    def posn(angle, arm_length):
+        dx = int(math.cos(math.radians(angle)) * arm_length)
+        dy = int(math.sin(math.radians(angle)) * arm_length)
+        return (dx, dy)
+        
+        
+    # displays analog and digital time
+    def displayTime():
+        today_last_time = "Unknown"
+        while True:
+            now = datetime.datetime.now()
+            today_date = now.strftime("%d %b %y")
+            today_time = now.strftime("%I:%M:%S")
+            if today_time != today_last_time:
+                today_last_time = today_time
+                with canvas(device) as draw:
+                    now = datetime.datetime.now()
+                    today_date = now.strftime("%d %b %y")
+
+                    margin = 4
+
+                    cx = 30
+                    cy = min(device.height, 64) / 2
+
+                    left = cx - cy
+                    right = cx + cy
+
+                    hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
+                    hrs = posn(hrs_angle, cy - margin - 7)
+
+                    min_angle = 270 + (6 * now.minute)
+                    mins = posn(min_angle, cy - margin - 2)
+
+                    sec_angle = 270 + (6 * now.second)
+                    secs = posn(sec_angle, cy - margin - 2)
+
+                    draw.ellipse((left + margin, margin, right - margin, min(device.height, 64) - margin), outline="white")
+                    draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill="white")
+                    draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill="white")
+                    draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill="red")
+                    draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill="white", outline="white")
+                    draw.text((2 * (cx + margin), cy - 8), today_date, fill="yellow")
+                    draw.text((2 * (cx + margin), cy), today_time, fill="yellow")
+
+            time.sleep(0.1)
+        
     
 ################### HEART RATE SENSOR SECTION ################### 
 
