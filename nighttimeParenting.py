@@ -6,8 +6,8 @@ import spidev
 import pygame as pg
 from time import sleep
 import RPi.GPIO as GPIO
-from max30102 import MAX30102
-import hrcalc
+from InfraLibraries.max30102 import MAX30102
+import InfraLibraries.hrcalc as hrcalc
 import math
 import datetime
 from demo_opts import get_device
@@ -369,4 +369,28 @@ class ledBar:
         sleep(dt)
         spi.xfer([0b00000000])
         sleep(dt)
+
+
+############################## Physical UI ###############################
+
+# Author: Developed and maintained by Andrew P. Mayer
+# Creation Date: 4/6/2022
+# Last Updated: 4/6/2022
+# License: MIT License 2022
+# Further Description:
+#  a class to implement the physical user interface methods
+
+class PhysicalUI:
+
+    def __init__(self):
+        pass
+
+    def toggleVolume(self):
+        pass
+    
+    def toggleBrightness(self):
+        pass
+
+    def triggerSOS(self):
+        pass
 
