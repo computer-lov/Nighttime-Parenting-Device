@@ -6,7 +6,7 @@ import spidev
 import pygame as pg
 from time import sleep
 import RPi.GPIO as GPIO
-from InfraLibraries.max30102 import MAX30102
+#from InfraLibraries.max30102 import MAX30102
 import InfraLibraries.hrcalc as hrcalc
 import math
 import datetime
