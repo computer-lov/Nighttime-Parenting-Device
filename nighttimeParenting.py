@@ -14,7 +14,7 @@ import datetime
 from luma.oled.device import ssd1306
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
-from lume.core.device import device
+from luma.core.device import device
 
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
