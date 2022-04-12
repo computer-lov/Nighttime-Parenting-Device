@@ -175,7 +175,7 @@ class OLED:
         
     # prints out given string
     # TODO handle length
-    def printMessage(text):
+    def printMessage(self, text):
         with canvas(device) as draw:
             draw.rectangle(device.bounding_box, outline="white", fill="black")
             draw.text((10, 10), text, fill="white")
@@ -197,7 +197,7 @@ class OLED:
         
         
     # displays analog and digital time
-    def displayTime():
+    def displayTime(self):
         today_last_time = "Unknown"
         while True:
             now = datetime.datetime.now()
