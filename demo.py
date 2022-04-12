@@ -61,10 +61,10 @@ if __name__ == "__main__":
     oled = infra.OLED()
     print("Displaying clock")
     #oled.displayTime()
-    sleep(3)
+    time.sleep(3)
     print("Display text")
     oled.printMessage("hello")
-    sleep(3)
+    time.sleep(3)
     
     ################## CODE TO TEST HEART RATE SENSOR #################
 
