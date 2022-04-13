@@ -20,7 +20,7 @@ from lume.core.device import device
 
 # Author: Developed and maintained by Andrew P. Mayer
 # Creation Date: 2/15/2022
-# Last Updated: 3/17/2022
+# Last Updated: 4/12/2022
 # License: MIT License 2022
 # Further Description:
 #   Stub function section for the CMEJ-9745-37-P Electric Condensor Microphone
@@ -30,7 +30,7 @@ class micCircuit:
 
     # initializes micCircuit class
     def __init__(self):
-        self.ADC_CH0 = 0b01101000
+        self.ADC_CH0 = 0b01100000
 
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
@@ -383,14 +383,62 @@ class ledBar:
 class PhysicalUI:
 
     def __init__(self):
-        pass
+        # set up GPIO
+        GPIO.setmode(GPIO.BCM)
+        self.pin = None # do not know pin # yet
+        GPIO.setup(self.pin, GPIO.OUT)
+        self.pinState = GPIO.LOW
+
+        # set up adc channel 1 - not sure if this is correct
+        self.ADC_CH1 = 0b01101000
+
+        self.spi = spidev.SpiDev()
+        self.spi.open(0, 1)
+        self.spi.mode = 0b00
+        self.spi.max_speed_hz = 1200000
+
+        # get current volume
+
+        # Read from CH1
+        readBytes = self.spi.xfer2([self.ADC_CH1, 0x00])
+        # obtain digital value
+        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+
+        # get current screen level
+        self.currLevel = 0 # placeholder
+
+        # inherit Stereo decoder class and OLED
+        self.sd = StereoDecoder()
+        self.oled = OLED()
 
     def toggleVolume(self):
-        pass
+        # save prev volume
+        prevVol = self.currVol
+        # Read from CH1
+        readBytes = self.spi.xfer2([self.ADC_CH1, 0x00])
+        # obtain digital value
+        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+
+        # get difference in previous vs current volume
+        volDifference = self.currVol - prevVol
+
+        # toggle volume by difference
+        if (volDifference > 0):
+            [self.sd.increaseVol() for i in range(0, volDifference, 0.1)]
+        else:
+            [self.sd.decreaseVol() for i in range(volDifference, 0, 0.1)]
     
-    def toggleBrightness(self):
-        pass
+    # turns oled screen on/off
+    def toggleScreen(self):
+        # wait for button press
+        GPIO.wait_for_edge(self.pin, GPIO.FALLING)
+        # wait for button release 
+        GPIO.wait_for_edge(self.pin, GPIO.RISING)
+
+        # change oled display level
+        self.oled.changeContrast(self.currLevel)
+        self.currLevel = 0 # place holder do not know level value
 
     def triggerSOS(self):
-        pass
+        pass # need to implement still
 
