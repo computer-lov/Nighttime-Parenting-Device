@@ -300,7 +300,7 @@ class HRSensor:
 
 ################### LED BAR GUIDED BREATHING SECTION ################### 
 
-# Author: Developed and maintained by Beatriz Perez
+# Author: Developed and maintained by Beatriz Perez and Andrew Mayer
 # Creation Date: 03/05/2022
 # Last Updated: 03/05/2022
 # License: MIT License 2022
@@ -320,7 +320,7 @@ class ledBar:
         self.GPIO.setup(15, GPIO.OUT)
         self.dt = 0.5  # Time delay between LED breaths
 
-    def breathe_in():
+    def breathe_in(self):
         spi.xfer([0b00000000])
         GPIO.output(14, GPIO.LOW)
         GPIO.output(15, GPIO.LOW)
@@ -345,7 +345,7 @@ class ledBar:
         sleep(dt)
         GPIO.output(14, GPIO.HIGH)
 
-    def breathe_out():
+    def breathe_out(self):
         sleep(2)
         GPIO.output(14, GPIO.LOW)
         sleep(dt)
@@ -369,20 +369,31 @@ class ledBar:
         sleep(dt)
         spi.xfer([0b00000000])
         sleep(dt)
+    
+    # toggles state of led bar (from on to off)
+    def toggleLedBar(state):
+        if state == 0:
+            spi.xfer([0b00000000])
+            GPIO.output(14, GPIO.LOW)
+            GPIO.output(15, GPIO.LOW)
+        else:
+            self.breathe_in() # needs to be improved
+            self.breathe_out()
+
 
 
 ############################## Physical UI ###############################
 
 # Author: Developed and maintained by Andrew P. Mayer
 # Creation Date: 4/6/2022
-# Last Updated: 4/6/2022
+# Last Updated: 4/13/2022
 # License: MIT License 2022
 # Further Description:
 #  a class to implement the physical user interface methods
 
 class PhysicalUI:
 
-    def __init__(self):
+    def __init__(self, sd, oled, lbar):
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
         self.pin = None # do not know pin # yet
@@ -404,12 +415,13 @@ class PhysicalUI:
         # obtain digital value
         self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
 
-        # get current screen level
-        self.currLevel = 0 # placeholder
+        # get state for ledbar / oled (on or off)
+        self.state = 0 # placeholder
 
         # inherit Stereo decoder class and OLED
-        self.sd = StereoDecoder()
-        self.oled = OLED()
+        self.sd = sd
+        self.oled = oled
+        self.lbar = lbar
 
     def toggleVolume(self):
         # save prev volume
@@ -436,8 +448,13 @@ class PhysicalUI:
         GPIO.wait_for_edge(self.pin, GPIO.RISING)
 
         # change oled display level
-        self.oled.changeContrast(self.currLevel)
-        self.currLevel = 0 # place holder do not know level value
+        self.oled.changeContrast(self.state)
+        self.lbar.toggleLEDBar(self.state)
+        
+        if self.state == 0:
+            self.state = 1 # place holder do not know level value
+        else:
+            self.state = 0
 
     def triggerSOS(self):
         pass # need to implement still
