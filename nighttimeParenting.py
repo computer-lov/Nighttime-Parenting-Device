@@ -6,15 +6,15 @@ import spidev
 import pygame as pg
 from time import sleep
 import RPi.GPIO as GPIO
-from InfraLibraries.max30102 import MAX30102
+#from InfraLibraries.max30102 import MAX30102
 import InfraLibraries.hrcalc as hrcalc
 import math
 import datetime
-from demo_opts import get_device
+#from demo_opts import get_device
 from luma.oled.device import ssd1306
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
-from lume.core.device import device
+from luma.core.device import device
 
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
@@ -175,7 +175,7 @@ class OLED:
         
     # prints out given string
     # TODO handle length
-    def printMessage(text):
+    def printMessage(self, text):
         with canvas(device) as draw:
             draw.rectangle(device.bounding_box, outline="white", fill="black")
             draw.text((10, 10), text, fill="white")
@@ -197,7 +197,7 @@ class OLED:
         
         
     # displays analog and digital time
-    def displayTime():
+    def displayTime(self):
         today_last_time = "Unknown"
         while True:
             now = datetime.datetime.now()
