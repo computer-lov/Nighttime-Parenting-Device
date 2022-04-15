@@ -279,6 +279,7 @@ class OLED:
 
             time.sleep(0.1)
             once = False
+        return today_time
 
         
     
