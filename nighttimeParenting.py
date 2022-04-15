@@ -227,7 +227,7 @@ class OLED:
         self.oled.show()
         
         # helper function for displayTime
-    def posn(angle, arm_length):
+    def posn(self, angle, arm_length):
         dx = int(math.cos(math.radians(angle)) * arm_length)
         dy = int(math.sin(math.radians(angle)) * arm_length)
         return (dx, dy)
