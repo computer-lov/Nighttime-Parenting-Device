@@ -221,7 +221,7 @@ class OLED:
 
         # Draw a rectangle with no fill, ten pixels thick
         draw.rectangle((0, 0, self.oled.width, self.oled.height),
-            outline=255, fill=0)
+            outline=0, fill=0)
         
         self.oled.image(image)
         self.oled.show()
