@@ -267,13 +267,13 @@ class OLED:
                 sec_angle = 270 + (6 * now.second)
                 secs = self.posn(sec_angle, cy - margin - 2)
 
-                draw.ellipse((left + margin, margin, right - margin, min(self.oled.height, 64) - margin), outline="white")
-                draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill="white")
-                draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill="white")
-                draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill="red")
-                draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill="white", outline="white")
-                draw.text((2 * (cx + margin), cy - 8), today_date, font = font, fill="yellow")
-                draw.text((2 * (cx + margin), cy), today_time, font = font, fill="yellow")
+                draw.ellipse((left + margin, margin, right - margin, min(self.oled.height, 64) - margin), outline=255) #"white")
+                draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill=255)#"white")
+                draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill=255)#"white")
+                draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill=140)#"red")
+                draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=255, outline=255)#"white", outline="white")
+                draw.text((2 * (cx + margin), cy - 8), today_date, font = font, fill=190)#"yellow")
+                draw.text((2 * (cx + margin), cy), today_time, font = font, fill=190)#"yellow")
 
             time.sleep(0.1)
             once = False
