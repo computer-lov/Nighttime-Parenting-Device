@@ -211,6 +211,9 @@ class OLED:
 
     def shutDisplay(self):
         self.oled.write_cmd(OLED.OLED_DISPOFF)
+
+    def turnDisplayOn(self):
+        self.oled.write_cmd(OLED.OLED_DISPON)
         
     """     # helper function for displayTime
     def posn(angle, arm_length):
