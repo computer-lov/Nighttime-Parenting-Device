@@ -275,7 +275,7 @@ class OLED:
                 draw.text((2 * (cx + margin), cy - 8), today_date, font = font, fill=190)#"yellow")
                 draw.text((2 * (cx + margin), cy), today_time, font = font, fill=190)#"yellow")
                 self.oled.image(image)
-                self.oled.show
+                self.oled.show()
 
             time.sleep(0.1)
             once = False
