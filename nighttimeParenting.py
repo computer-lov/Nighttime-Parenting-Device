@@ -4,17 +4,16 @@ import os
 import smbus
 import spidev
 import pygame as pg
-from time import sleep
 import RPi.GPIO as GPIO
 #from InfraLibraries.max30102 import MAX30102
 import InfraLibraries.hrcalc as hrcalc
 import math
 import datetime
-#from demo_opts import get_device
-from luma.oled.device import ssd1306
-from luma.core.interface.serial import i2c
-from luma.core.render import canvas
-from luma.core.device import device
+import board
+import busio
+from PIL import Image, ImageDraw, ImageFont
+import adafruit_ssd1306
+
 
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
@@ -164,37 +163,61 @@ class StereoDecoder:
 # Last Updated: 4/6/2022
 # License: MIT License 2022
 # Further Description:
-#  Uses luma.oled library
+#  Uses PIL library
 
 class OLED:
+
+    OLED_WIDTH = 128
+    OLED_HEIGHT = 64
+    OLED_ADDRESS = 0x3c
+    OLED_REGADDR = 0x00
+    OLED_DISPOFF = 0xAE
+    OLED_DISPON  = 0xAF
+
+
     
+
     # initializes i2c communication parameters for OLED
     def __init__(self):
-        serial = i2c(port=1, address=0x3C)
-        device = ssd1306(serial)
+        # Initialize I2C library busio
+        i2c = busio.I2C(board.SCL, board.SDA)
+        oled = adafruit_ssd1306.SSD1306_I2C(OLED_WIDTH, OLED_HEIGHT,
+            i2c, addr=OLED_ADDRESS)
         
-    # prints out given string
-    # TODO handle length
+
     def printMessage(self, text):
-        with canvas(device) as draw:
-            draw.rectangle(device.bounding_box, outline="white", fill="black")
-            draw.text((10, 10), text, fill="white")
+        # Graphics stuff - create a canvas to draw/write on
+        image = Image.new("1", (self.oled.width, self.oled.height))
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.load_default()
 
-        with canvas(device, dither=True) as draw:
-            draw.rectangle((10, 10, 30, 30), outline="white", fill="red")
-            time.sleep(5)
-            
-    # changes contrast to desired level
-    def changeContrast(level):
-        device.contrast(level)
+        # Draw a rectangle with no fill, ten pixels thick
+        draw.rectangle((0, 0, self.oled.width-1, self.oled.height-1),
+            outline=10, fill=0)
+        # Draw some text
+        text = "ghijklmnopqrstu"
+        (font_width, font_height) = font.getsize(text)
+        draw.text( # position text in center
+            # (3, 1),
+            (self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
+            text,
+            font=font,
+            fill=255,
+        )
 
+        # Display image
+        self.oled.image(image)
+        self.oled.show()
+
+    def shutDisplay(self):
+        self.oled.write_cmd(OLED_DISPOFF)
         
-    # helper function for displayTime
+    """     # helper function for displayTime
     def posn(angle, arm_length):
         dx = int(math.cos(math.radians(angle)) * arm_length)
         dy = int(math.sin(math.radians(angle)) * arm_length)
         return (dx, dy)
-        
+    """  
         
     # displays analog and digital time
     def displayTime(self):
