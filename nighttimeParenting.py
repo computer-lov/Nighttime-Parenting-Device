@@ -223,6 +223,9 @@ class OLED:
         draw.rectangle((0, 0, self.oled.width, self.oled.height),
             outline=255, fill=0)
         
+        self.oled.image(image)
+        self.oled.show()
+        
     """     # helper function for displayTime
     def posn(angle, arm_length):
         dx = int(math.cos(math.radians(angle)) * arm_length)
