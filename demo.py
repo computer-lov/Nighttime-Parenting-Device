@@ -71,6 +71,9 @@ if __name__ == "__main__":
     print("Turning display back on")
     oled.turnDisplayOn()
     time.sleep(3)
+    print("Clearing display")
+    oled.clearDisplay()
+    time.sleep(3)
     
     ################## CODE TO TEST HEART RATE SENSOR #################
 

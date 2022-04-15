@@ -215,7 +215,7 @@ class OLED:
     def turnDisplayOn(self):
         self.oled.write_cmd(OLED.OLED_DISPON)
     
-    def clearDisplay(display):
+    def clearDisplay(self):
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
 
