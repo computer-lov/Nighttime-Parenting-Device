@@ -62,8 +62,21 @@ if __name__ == "__main__":
     print("Displaying clock")
     print(oled.displayTime())
     time.sleep(3)
-    print("Display text")
-    oled.printMessage("1\n2\n3\n4\n5\n6\n7\n8\n9\n")
+    text1 = "abcd efghij klmnopqr"
+    text2 = "abcd efghij klmnopqr stuvwxyz 12345 67890"
+    text3 = "abcd efghij klmnopqr stuvwxyz 12345 67890" + text1
+    text4 = text2 + text2
+    print("Display text1")
+    oled.printMessage(text1)
+    time.sleep(3)
+    print("Display text2")
+    oled.printMessage(text2)
+    time.sleep(3)
+    print("Display text3")
+    oled.printMessage(text3)
+    time.sleep(3)
+    print("Display text4")
+    oled.printMessage(text4)
     time.sleep(3)
     print("Shutting display")
     oled.turnDisplayOff()

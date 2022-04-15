@@ -208,6 +208,36 @@ class OLED:
         elif len(text) < 41:
             line1 = text[:20]
             line2 = text[20:]
+            draw.text( # position text in center
+                (3, 1),
+                #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
+                line1 + "\n" + line2,
+                font=font,
+                fill=255,
+            )
+        elif len(text) < 61:
+            line1 = text[:20]
+            line2 = text[20:40]
+            line3 = text[40:]
+            draw.text( # position text in center
+                (3, 1),
+                #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
+                line1 + "\n" + line2 + "\n" + line3,
+                font=font,
+                fill=255,
+            )
+        elif len(text) < 81:
+            line1 = text[:20]
+            line2 = text[20:40]
+            line3 = text[40:60]
+            line4 = text[60:]
+            draw.text( # position text in center
+                (3, 1),
+                #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
+                line1 + "\n" + line2 + "\n" + line3 + "\n" + line4,
+                font=font,
+                fill=255,
+            )
 
         # Display image
         self.oled.image(image)
