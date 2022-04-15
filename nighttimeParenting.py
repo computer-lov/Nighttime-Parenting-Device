@@ -238,7 +238,8 @@ class OLED:
         today_last_time = "Unknown"
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
-        while True:
+        once = True
+        while once:
             now = datetime.datetime.now()
             today_date = now.strftime("%d %b %y")
             today_time = now.strftime("%I:%M:%S")
@@ -274,6 +275,9 @@ class OLED:
                 draw.text((2 * (cx + margin), cy), today_time, fill="yellow")
 
             time.sleep(0.1)
+            once = False
+            self.oled.image(image)
+            self.oled.show
 
         
     
