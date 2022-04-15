@@ -66,6 +66,7 @@ if __name__ == "__main__":
     text2 = "abcd efghij klmnopqr stuvwxyz 12345 6789"
     text3 = "abcd efghij klmnopqr stuvwxyz 12345 6789" + text1
     text4 = text2 + text2
+    text5 = text4 + "a"
     print("Display text1")
     oled.printMessage(text1)
     time.sleep(3)
@@ -77,6 +78,9 @@ if __name__ == "__main__":
     time.sleep(3)
     print("Display text4")
     oled.printMessage(text4)
+    time.sleep(3)
+    print("Display text5 - too long")
+    oled.printMessage(text5)
     time.sleep(3)
     print("Shutting display")
     oled.turnDisplayOff()
