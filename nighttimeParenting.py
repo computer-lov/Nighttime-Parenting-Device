@@ -238,6 +238,7 @@ class OLED:
         today_last_time = "Unknown"
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
+        font = ImageFont.load_default()
         once = True
         while once:
             now = datetime.datetime.now()
@@ -271,8 +272,8 @@ class OLED:
                 draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill="white")
                 draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill="red")
                 draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill="white", outline="white")
-                draw.text((2 * (cx + margin), cy - 8), today_date, fill="yellow")
-                draw.text((2 * (cx + margin), cy), today_time, fill="yellow")
+                draw.text((2 * (cx + margin), cy - 8), today_date, font = font, fill="yellow")
+                draw.text((2 * (cx + margin), cy), today_time, font = font, fill="yellow")
 
             time.sleep(0.1)
             once = False
