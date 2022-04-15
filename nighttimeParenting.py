@@ -194,7 +194,7 @@ class OLED:
         # Draw a rectangle with no fill, ten pixels thick
         draw.rectangle((0, 0, self.oled.width-1, self.oled.height-1),
             outline=10, fill=0)
-            
+
         # Draw some text
         (font_width, font_height) = font.getsize(text)
         draw.text( # position text in center
@@ -209,11 +209,19 @@ class OLED:
         self.oled.image(image)
         self.oled.show()
 
-    def shutDisplay(self):
+    def turnDisplayOff(self):
         self.oled.write_cmd(OLED.OLED_DISPOFF)
 
     def turnDisplayOn(self):
         self.oled.write_cmd(OLED.OLED_DISPON)
+    
+    def clearDisplay(display):
+        image = Image.new("1", (self.oled.width, self.oled.height))
+        draw = ImageDraw.Draw(image)
+
+        # Draw a rectangle with no fill, ten pixels thick
+        draw.rectangle((0, 0, self.oled.width, self.oled.height),
+            outline=255, fill=0)
         
     """     # helper function for displayTime
     def posn(angle, arm_length):

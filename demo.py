@@ -66,7 +66,7 @@ if __name__ == "__main__":
     oled.printMessage("hello")
     time.sleep(3)
     print("Shutting display")
-    oled.shutDisplay()
+    oled.turnDisplayOff()
     time.sleep(2)
     print("Turning display back on")
     oled.turnDisplayOn()
