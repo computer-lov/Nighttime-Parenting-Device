@@ -199,7 +199,6 @@ class OLED:
         (font_width, font_height) = font.getsize(text)
         if len(text) < 21:
             draw.text( # position text in center
-                #(3, 1),
                 (self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
                 text,
                 font=font,
@@ -218,9 +217,8 @@ class OLED:
             line1 = text[:20]
             line2 = text[20:40]
             line3 = text[40:]
-            draw.text( # position text in center
+            draw.text( # position text starting at upper middle left
                 (3, 10),
-                #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
                 line1 + "\n" + line2 + "\n" + line3,
                 font=font,
                 fill=255,
@@ -230,9 +228,8 @@ class OLED:
             line2 = text[20:40]
             line3 = text[40:60]
             line4 = text[60:]
-            draw.text( # position text in center
+            draw.text( # # position text starting at upper left corner
                 (3, 1),
-                #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
                 line1 + "\n" + line2 + "\n" + line3 + "\n" + line4,
                 font=font,
                 fill=255,
