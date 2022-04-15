@@ -181,7 +181,7 @@ class OLED:
     def __init__(self):
         # Initialize I2C library busio
         i2c = busio.I2C(board.SCL, board.SDA)
-        oled = adafruit_ssd1306.SSD1306_I2C(OLED.OLED_WIDTH, OLED.OLED_HEIGHT,
+        self.oled = adafruit_ssd1306.SSD1306_I2C(OLED.OLED_WIDTH, OLED.OLED_HEIGHT,
             i2c, addr=OLED.OLED_ADDRESS)
         
 
