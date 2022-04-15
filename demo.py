@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # call and display StereoDecoder methods
     print("Pressing play...")
     sd.play()
-    time.sleep(10)
+    time.sleep(3)
     print("Pressing pause...")
     sd.pause()
     time.sleep(3)
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     oled.displayTime()
     time.sleep(3)
     print("Display text")
-    oled.printMessage()
+    oled.printMessage("text")
     time.sleep(3)
     print("Shutting display")
     oled.turnDisplayOff()
