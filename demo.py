@@ -63,7 +63,7 @@ if __name__ == "__main__":
     print(oled.displayTime())
     time.sleep(3)
     print("Display text")
-    oled.printMessage("text")
+    oled.printMessage("1\n2\n3\n4\n5\n6\n7\n8\n9\n")
     time.sleep(3)
     print("Shutting display")
     oled.turnDisplayOff()
