@@ -181,8 +181,8 @@ class OLED:
     def __init__(self):
         # Initialize I2C library busio
         i2c = busio.I2C(board.SCL, board.SDA)
-        oled = adafruit_ssd1306.SSD1306_I2C(OLED_WIDTH, OLED_HEIGHT,
-            i2c, addr=OLED_ADDRESS)
+        oled = adafruit_ssd1306.SSD1306_I2C(OLED.OLED_WIDTH, OLED.OLED_HEIGHT,
+            i2c, addr=OLED.OLED_ADDRESS)
         
 
     def printMessage(self, text):
@@ -210,14 +210,14 @@ class OLED:
         self.oled.show()
 
     def shutDisplay(self):
-        self.oled.write_cmd(OLED_DISPOFF)
+        self.oled.write_cmd(OLED.OLED_DISPOFF)
         
     """     # helper function for displayTime
     def posn(angle, arm_length):
         dx = int(math.cos(math.radians(angle)) * arm_length)
         dy = int(math.sin(math.radians(angle)) * arm_length)
         return (dx, dy)
-    """  
+      
         
     # displays analog and digital time
     def displayTime(self):
@@ -258,6 +258,8 @@ class OLED:
                     draw.text((2 * (cx + margin), cy), today_time, fill="yellow")
 
             time.sleep(0.1)
+
+    """
         
     
 ################### HEART RATE SENSOR SECTION ################### 
