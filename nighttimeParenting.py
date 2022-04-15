@@ -274,12 +274,11 @@ class OLED:
                 draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=255, outline=255)#"white", outline="white")
                 draw.text((2 * (cx + margin), cy - 8), today_date, font = font, fill=190)#"yellow")
                 draw.text((2 * (cx + margin), cy), today_time, font = font, fill=190)#"yellow")
+                self.oled.image(image)
+                self.oled.show
 
             time.sleep(0.1)
             once = False
-
-        self.oled.image(image)
-        self.oled.show
 
         
     
