@@ -208,11 +208,8 @@ class OLED:
         elif len(text) < 41:
             line1 = text[:20]
             line2 = text[20:]
-            text = line1 + "\n" + line2,
-            (font_width, font_height) = font.getsize(text)
-            draw.text( # position text in center
-                #(3, 1),
-                (self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
+            draw.text( # position text starting at middle left
+                (7, 1),
                 line1 + "\n" + line2,
                 font=font,
                 fill=255,
