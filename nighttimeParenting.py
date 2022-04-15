@@ -197,13 +197,17 @@ class OLED:
 
         # Draw some text
         (font_width, font_height) = font.getsize(text)
-        draw.text( # position text in center
-            # (3, 1),
-            (self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
-            text,
-            font=font,
-            fill=255,
-        )
+        if len(text) < 21:
+            draw.text( # position text in center
+                # (3, 1),
+                (self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
+                text,
+                font=font,
+                fill=255,
+            )
+        elif len(text) < 41:
+            line1 = text[:20]
+            line2 = text[20:]
 
         # Display image
         self.oled.image(image)
