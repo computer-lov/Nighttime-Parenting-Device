@@ -209,7 +209,7 @@ class OLED:
             line1 = text[:20]
             line2 = text[20:]
             draw.text( # position text starting at middle left
-                (3, 20),
+                (3, 18),
                 line1 + "\n" + line2,
                 font=font,
                 fill=255,
@@ -219,7 +219,7 @@ class OLED:
             line2 = text[20:40]
             line3 = text[40:]
             draw.text( # position text in center
-                (3, 9),
+                (3, 10),
                 #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
                 line1 + "\n" + line2 + "\n" + line3,
                 font=font,
@@ -234,6 +234,13 @@ class OLED:
                 (3, 1),
                 #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
                 line1 + "\n" + line2 + "\n" + line3 + "\n" + line4,
+                font=font,
+                fill=255,
+            )
+        else:
+            draw.text( # position text in center
+                (5, 18),
+                "Message too long - \n80 character limit",
                 font=font,
                 fill=255,
             )
