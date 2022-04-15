@@ -63,8 +63,8 @@ if __name__ == "__main__":
     print(oled.displayTime())
     time.sleep(3)
     text1 = "abcd efghij klmnopqr"
-    text2 = "abcd efghij klmnopqr stuvwxyz 12345 67890"
-    text3 = "abcd efghij klmnopqr stuvwxyz 12345 67890" + text1
+    text2 = "abcd efghij klmnopqr stuvwxyz 12345 6789"
+    text3 = "abcd efghij klmnopqr stuvwxyz 12345 6789" + text1
     text4 = text2 + text2
     print("Display text1")
     oled.printMessage(text1)
