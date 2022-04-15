@@ -59,9 +59,9 @@ if __name__ == "__main__":
     sd.stop()
     
     oled = infra.OLED()
-    #print("Displaying clock")
-    #oled.displayTime()
-    #time.sleep(3)
+    print("Displaying clock")
+    oled.displayTime()
+    time.sleep(3)
     print("Display text")
     oled.printMessage("hello")
     time.sleep(3)
