@@ -65,8 +65,10 @@ if __name__ == "__main__":
     print("Display text")
     oled.printMessage("hello")
     time.sleep(3)
+    print("Shutting display")
     oled.shutDisplay()
     time.sleep(2)
+    print("Turning display back on")
     oled.turnDisplayOn()
     time.sleep(3)
     

@@ -194,8 +194,8 @@ class OLED:
         # Draw a rectangle with no fill, ten pixels thick
         draw.rectangle((0, 0, self.oled.width-1, self.oled.height-1),
             outline=10, fill=0)
+            
         # Draw some text
-        text = "ghijklmnopqrstu"
         (font_width, font_height) = font.getsize(text)
         draw.text( # position text in center
             # (3, 1),
