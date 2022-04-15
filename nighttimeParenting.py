@@ -219,7 +219,7 @@ class OLED:
             line2 = text[20:40]
             line3 = text[40:]
             draw.text( # position text in center
-                (3, 1),
+                (3, 9),
                 #(self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
                 line1 + "\n" + line2 + "\n" + line3,
                 font=font,
