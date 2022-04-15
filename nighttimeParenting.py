@@ -209,7 +209,7 @@ class OLED:
             line1 = text[:20]
             line2 = text[20:]
             draw.text( # position text starting at middle left
-                (3, 9),
+                (3, 15),
                 line1 + "\n" + line2,
                 font=font,
                 fill=255,
