@@ -276,8 +276,9 @@ class OLED:
 
             time.sleep(0.1)
             once = False
-            self.oled.image(image)
-            self.oled.show
+
+        self.oled.image(image)
+        self.oled.show
 
         
     
