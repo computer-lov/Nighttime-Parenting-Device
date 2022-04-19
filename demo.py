@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # call and display StereoDecoder methods
     print("Pressing play...")
     sd.play()
-    time.sleep(10)
+    time.sleep(3)
     print("Pressing pause...")
     sd.pause()
     time.sleep(3)
@@ -60,10 +60,36 @@ if __name__ == "__main__":
     
     oled = infra.OLED()
     print("Displaying clock")
-    oled.displayTime()
+    print(oled.displayTime())
     time.sleep(3)
-    print("Display text")
-    oled.printMessage("hello")
+    text1 = "abcd efghij klmnopqr"
+    text2 = "abcd efghij klmnopqr stuvwxyz 12345 6789"
+    text3 = "abcd efghij klmnopqr stuvwxyz 12345 6789" + text1
+    text4 = text2 + text2
+    text5 = text4 + "a"
+    print("Display text1")
+    oled.printMessage(text1)
+    time.sleep(3)
+    print("Display text2")
+    oled.printMessage(text2)
+    time.sleep(3)
+    print("Display text3")
+    oled.printMessage(text3)
+    time.sleep(3)
+    print("Display text4")
+    oled.printMessage(text4)
+    time.sleep(3)
+    print("Display text5 - too long")
+    oled.printMessage(text5)
+    time.sleep(3)
+    print("Shutting display")
+    oled.turnDisplayOff()
+    time.sleep(2)
+    print("Turning display back on")
+    oled.turnDisplayOn()
+    time.sleep(3)
+    print("Clearing display")
+    oled.clearDisplay()
     time.sleep(3)
     
     ################## CODE TO TEST HEART RATE SENSOR #################

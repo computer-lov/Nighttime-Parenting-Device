@@ -4,17 +4,16 @@ import os
 import smbus
 import spidev
 import pygame as pg
-from time import sleep
 import RPi.GPIO as GPIO
 #from InfraLibraries.max30102 import MAX30102
 import InfraLibraries.hrcalc as hrcalc
 import math
 import datetime
-#from demo_opts import get_device
-from luma.oled.device import ssd1306
-from luma.core.interface.serial import i2c
-from luma.core.render import canvas
-from luma.core.device import device
+import board
+import busio
+from PIL import Image, ImageDraw, ImageFont
+import adafruit_ssd1306
+
 
 ################### MICROPHONE SOUND LEVEL CIRCUIT SECTION ################### 
 
@@ -164,77 +163,161 @@ class StereoDecoder:
 # Last Updated: 4/6/2022
 # License: MIT License 2022
 # Further Description:
-#  Uses luma.oled library
+#  Uses PIL library
 
 class OLED:
+
+    OLED_WIDTH = 128
+    OLED_HEIGHT = 64
+    OLED_ADDRESS = 0x3c
+    OLED_REGADDR = 0x00
+    OLED_DISPOFF = 0xAE
+    OLED_DISPON  = 0xAF
+
+
     
+
     # initializes i2c communication parameters for OLED
     def __init__(self):
-        serial = i2c(port=1, address=0x3C)
-        device = ssd1306(serial)
+        # Initialize I2C library busio
+        i2c = busio.I2C(board.SCL, board.SDA)
+        self.oled = adafruit_ssd1306.SSD1306_I2C(OLED.OLED_WIDTH, OLED.OLED_HEIGHT,
+            i2c, addr=OLED.OLED_ADDRESS)
         
-    # prints out given string
-    # TODO handle length
+
     def printMessage(self, text):
-        with canvas(device) as draw:
-            draw.rectangle(device.bounding_box, outline="white", fill="black")
-            draw.text((10, 10), text, fill="white")
+        # Graphics stuff - create a canvas to draw/write on
+        image = Image.new("1", (self.oled.width, self.oled.height))
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.load_default()
 
-        with canvas(device, dither=True) as draw:
-            draw.rectangle((10, 10, 30, 30), outline="white", fill="red")
-            time.sleep(5)
-            
-    # changes contrast to desired level
-    def changeContrast(level):
-        device.contrast(level)
+        # Draw a rectangle with no fill, ten pixels thick
+        draw.rectangle((0, 0, self.oled.width-1, self.oled.height-1),
+            outline=10, fill=0)
 
+        # Draw some text
+        (font_width, font_height) = font.getsize(text)
+        if len(text) < 21:
+            draw.text( # position text in center
+                (self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2),
+                text,
+                font=font,
+                fill=255,
+            )
+        elif len(text) < 41:
+            line1 = text[:20]
+            line2 = text[20:]
+            draw.text( # position text starting at middle left
+                (3, 18),
+                line1 + "\n" + line2,
+                font=font,
+                fill=255,
+            )
+        elif len(text) < 61:
+            line1 = text[:20]
+            line2 = text[20:40]
+            line3 = text[40:]
+            draw.text( # position text starting at upper middle left
+                (3, 10),
+                line1 + "\n" + line2 + "\n" + line3,
+                font=font,
+                fill=255,
+            )
+        elif len(text) < 81:
+            line1 = text[:20]
+            line2 = text[20:40]
+            line3 = text[40:60]
+            line4 = text[60:]
+            draw.text( # # position text starting at upper left corner
+                (3, 1),
+                line1 + "\n" + line2 + "\n" + line3 + "\n" + line4,
+                font=font,
+                fill=255,
+            )
+        else:
+            draw.text( # position text in center
+                (5, 18),
+                "Message too long - \n80 character limit",
+                font=font,
+                fill=255,
+            )
+
+        # Display image
+        self.oled.image(image)
+        self.oled.show()
+
+    def turnDisplayOff(self):
+        self.oled.write_cmd(OLED.OLED_DISPOFF)
+
+    def turnDisplayOn(self):
+        self.oled.write_cmd(OLED.OLED_DISPON)
+    
+    def clearDisplay(self):
+        image = Image.new("1", (self.oled.width, self.oled.height))
+        draw = ImageDraw.Draw(image)
+
+        # Draw a rectangle with no fill, ten pixels thick
+        draw.rectangle((0, 0, self.oled.width, self.oled.height),
+            outline=0, fill=0)
         
-    # helper function for displayTime
-    def posn(angle, arm_length):
+        self.oled.image(image)
+        self.oled.show()
+        
+        # helper function for displayTime
+    def posn(self, angle, arm_length):
         dx = int(math.cos(math.radians(angle)) * arm_length)
         dy = int(math.sin(math.radians(angle)) * arm_length)
         return (dx, dy)
-        
+      
         
     # displays analog and digital time
     def displayTime(self):
         today_last_time = "Unknown"
-        while True:
+        image = Image.new("1", (self.oled.width, self.oled.height))
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.load_default()
+        once = True
+        while once:
             now = datetime.datetime.now()
             today_date = now.strftime("%d %b %y")
             today_time = now.strftime("%I:%M:%S")
             if today_time != today_last_time:
                 today_last_time = today_time
-                with canvas(device) as draw:
-                    now = datetime.datetime.now()
-                    today_date = now.strftime("%d %b %y")
+                #with canvas(device) as draw:
+                now = datetime.datetime.now()
+                today_date = now.strftime("%d %b %y")
 
-                    margin = 4
+                margin = 4
 
-                    cx = 30
-                    cy = min(device.height, 64) / 2
+                cx = 30
+                cy = min(self.oled.height, 64) / 2
 
-                    left = cx - cy
-                    right = cx + cy
+                left = cx - cy
+                right = cx + cy
 
-                    hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
-                    hrs = posn(hrs_angle, cy - margin - 7)
+                hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
+                hrs = self.posn(hrs_angle, cy - margin - 7)
 
-                    min_angle = 270 + (6 * now.minute)
-                    mins = posn(min_angle, cy - margin - 2)
+                min_angle = 270 + (6 * now.minute)
+                mins = self.posn(min_angle, cy - margin - 2)
 
-                    sec_angle = 270 + (6 * now.second)
-                    secs = posn(sec_angle, cy - margin - 2)
+                sec_angle = 270 + (6 * now.second)
+                secs = self.posn(sec_angle, cy - margin - 2)
 
-                    draw.ellipse((left + margin, margin, right - margin, min(device.height, 64) - margin), outline="white")
-                    draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill="white")
-                    draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill="white")
-                    draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill="red")
-                    draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill="white", outline="white")
-                    draw.text((2 * (cx + margin), cy - 8), today_date, fill="yellow")
-                    draw.text((2 * (cx + margin), cy), today_time, fill="yellow")
+                draw.ellipse((left + margin, margin, right - margin, min(self.oled.height, 64) - margin), outline=255) #"white")
+                draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill=255)#"white")
+                draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill=255)#"white")
+                draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill=140)#"red")
+                draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=255, outline=255)#"white", outline="white")
+                draw.text((2 * (cx + margin), cy - 8), today_date, font = font, fill=190)#"yellow")
+                draw.text((2 * (cx + margin), cy), today_time, font = font, fill=190)#"yellow")
+                self.oled.image(image)
+                self.oled.show()
 
             time.sleep(0.1)
+            once = False
+        return today_time
+
         
     
 ################### HEART RATE SENSOR SECTION ################### 
