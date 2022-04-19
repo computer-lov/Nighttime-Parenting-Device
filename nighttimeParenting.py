@@ -494,15 +494,11 @@ class PhysicalUI:
         self.spi.mode = 0b00
         self.spi.max_speed_hz = 1200000
 
-        # get current volume and brightness
+        # get current volume
         # Read from CH1
         readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
         # obtain digital value for volume
         self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
-        # Read from CH2
-        readBytes = self.spi.xfer2([0x01, self.ADC_CH2, 0x00])
-        # obtain digital value for brightness
-        self.currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
 
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
@@ -528,36 +524,26 @@ class PhysicalUI:
             [self.sd.decreaseVol() for i in range(volDifference, 0, 0.1)]
     
     # turns oled screen on/off
-    def toggleScreen(self):
-         # save prev brightness
-        prevBrightness = self.currBrightness
+    def toggleBrightness(self):
+        # get current brightness
         # Read from CH2
         readBytes = self.spi.xfer2([0x01, self.ADC_CH2, 0x00])
         # obtain digital value
-        self.currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
-
-        # get difference in previous vs current volume
-        brightDiff = self.currBrightness - prevBrightness
+        currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
 
         # toggle volume by difference
-        # 255 chosen as a "signifcant difference"
-        if (brightDiff < -255):
+        if (currBrightness < 255):
             self.oled.turnDisplayOff()
             self.lbar.turnOffLBar()
         
-        elif (brightDiff > 255):
+        elif (currBrightness > 755):
             self.oled.turnDisplayOn()
             self.lbar.turnOnLBar()
 
     # trigger SOS button
     def triggerSOS(self):
-        while True:
-            if GPIO.input(self.pin):
-                return True
-
-    # resets sos button
-    def resetSOS(self):
-        self.triggerSOS()
+        if GPIO.input(self.pin):
+            return True
 
 
 
