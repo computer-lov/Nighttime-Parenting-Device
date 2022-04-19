@@ -5,7 +5,7 @@ import smbus
 import spidev
 import pygame as pg
 import RPi.GPIO as GPIO
-#from InfraLibraries.max30102 import MAX30102
+from InfraLibraries.max30102 import MAX30102
 import InfraLibraries.hrcalc as hrcalc
 import math
 import datetime
@@ -29,7 +29,7 @@ class micCircuit:
 
     # initializes micCircuit class
     def __init__(self):
-        self.ADC_CH0 = 0b01100000
+        self.ADC_CH0 = 0b11000000 # adc channel 0
 
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
@@ -39,7 +39,7 @@ class micCircuit:
     # reads in digital value and returns it
     def getDigitalVal(self):
         # Read from CH0
-        readBytes = self.spi.xfer2([self.ADC_CH0, 0x00])
+        readBytes = self.spi.xfer2([0x01, self.ADC_CH0, 0x00])
         # obtain digital value
         dVal = (((readBytes[0] & 0b11) << 8) | readBytes[1])
         return dVal
@@ -383,9 +383,9 @@ class HRSensor:
 
 ################### LED BAR GUIDED BREATHING SECTION ################### 
 
-# Author: Developed and maintained by Beatriz Perez and Andrew Mayer
-# Creation Date: 03/05/2022
-# Last Updated: 03/05/2022
+# Author: Developed and maintained by Beatriz Perez and Andrew P. Mayer
+# Creation Date: 3/05/2022
+# Last Updated: 4/19/2022
 # License: MIT License 2022
 # Further Description:
 #   This section was written in VS Code and tested on a Raspberry Pi Zero
@@ -404,113 +404,117 @@ class ledBar:
         self.dt = 0.5  # Time delay between LED breaths
 
     def breathe_in(self):
-        spi.xfer([0b00000000])
+        self.spi.xfer([0b00000000])
         GPIO.output(14, GPIO.LOW)
         GPIO.output(15, GPIO.LOW)
-        sleep(2)
-        spi.xfer([0b00000001])
-        sleep(dt)
-        spi.xfer([0b00000011])
-        sleep(dt)
-        spi.xfer([0b00000111])
-        sleep(dt)
-        spi.xfer([0b00001111])
-        sleep(dt)
-        spi.xfer([0b00011111])
-        sleep(dt)
-        spi.xfer([0b00111111])
-        sleep(dt)
-        spi.xfer([0b01111111])
-        sleep(dt)
-        spi.xfer([0b11111111])
-        sleep(dt)
+        time.sleep(2)
+        self.spi.xfer([0b00000001])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00000011])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00000111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00001111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00011111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00111111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b01111111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b11111111])
+        time.sleep(self.dt)
         GPIO.output(15, GPIO.HIGH)
-        sleep(dt)
+        time.sleep(self.dt)
         GPIO.output(14, GPIO.HIGH)
 
     def breathe_out(self):
-        sleep(2)
+        time.sleep(2)
         GPIO.output(14, GPIO.LOW)
-        sleep(dt)
+        time.sleep(self.dt)
         GPIO.output(15, GPIO.LOW)
-        sleep(dt)
-        spi.xfer([0b11111111])
-        sleep(dt)
-        spi.xfer([0b01111111])
-        sleep(dt)
-        spi.xfer([0b00111111])
-        sleep(dt)
-        spi.xfer([0b00011111])
-        sleep(dt)
-        spi.xfer([0b00001111])
-        sleep(dt)
-        spi.xfer([0b00000111])
-        sleep(dt)
-        spi.xfer([0b00000011])
-        sleep(dt)
-        spi.xfer([0b00000001])
-        sleep(dt)
-        spi.xfer([0b00000000])
-        sleep(dt)
+        time.sleep(self.dt)
+        self.spi.xfer([0b11111111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b01111111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00111111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00011111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00001111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00000111])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00000011])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00000001])
+        time.sleep(self.dt)
+        self.spi.xfer([0b00000000])
+        time.sleep(self.dt)
     
-    # toggles state of led bar (from on to off)
-    def toggleLedBar(state):
-        if state == 0:
-            spi.xfer([0b00000000])
-            GPIO.output(14, GPIO.LOW)
-            GPIO.output(15, GPIO.LOW)
-        else:
-            self.breathe_in() # needs to be improved
-            self.breathe_out()
+    # turns off led bar
+    def turnOffLBar(self):
+        GPIO.setup(14, GPIO.IN)
+        GPIO.output(15, GPIO.IN)
 
-
+    # turns on led bar
+    def turnOnLBar(self):
+        GPIO.setup(14, GPIO.OUT)
+        GPIO.output(15, GPIO.OUT)
 
 ############################## Physical UI ###############################
 
 # Author: Developed and maintained by Andrew P. Mayer
 # Creation Date: 4/6/2022
-# Last Updated: 4/13/2022
+# Last Updated: 4/19/2022
 # License: MIT License 2022
 # Further Description:
 #  a class to implement the physical user interface methods
 
+# TODO:
+# should we initialize all of the spi stuff in this class
+# needs to be test (not sure if all devices that use spi will conflict with each other)
+
 class PhysicalUI:
 
     def __init__(self, sd, oled, lbar):
-        # set up GPIO
-        GPIO.setmode(GPIO.BCM)
-        self.pin = None # do not know pin # yet
-        GPIO.setup(self.pin, GPIO.OUT)
-        self.pinState = GPIO.LOW
-
-        # set up adc channel 1 - not sure if this is correct
-        self.ADC_CH1 = 0b01101000 # look back at lab
-
-        self.spi = spidev.SpiDev()
-        self.spi.open(0, 1)
-        self.spi.mode = 0b00
-        self.spi.max_speed_hz = 1200000
-
-        # get current volume
-
-        # Read from CH1
-        readBytes = self.spi.xfer2([self.ADC_CH1, 0x00])
-        # obtain digital value
-        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
-
-        # get state for ledbar / oled (on or off)
-        self.state = 0 # placeholder
 
         # inherit Stereo decoder class and OLED
         self.sd = sd
         self.oled = oled
         self.lbar = lbar
 
+        # set up adc channel 1 and 2
+        self.ADC_CH1 = 0b1101000
+        self.ADC_CH2 = 0b1110000
+
+        self.spi = spidev.SpiDev()
+        self.spi.open(0, 1)
+        self.spi.mode = 0b00
+        self.spi.max_speed_hz = 1200000
+
+        # get current volume and brightness
+        # Read from CH1
+        readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
+        # obtain digital value for volume
+        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        # Read from CH2
+        readBytes = self.spi.xfer2([0x01, self.ADC_CH2, 0x00])
+        # obtain digital value for brightness
+        self.currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+
+        # set up GPIO
+        GPIO.setmode(GPIO.BCM)
+        self.pin = None # do not know pin number yet
+        GPIO.setup(self.pin, GPIO.IN)
+
+    # changes stereo decoder volume
     def toggleVolume(self):
         # save prev volume
         prevVol = self.currVol
         # Read from CH1
-        readBytes = self.spi.xfer2([self.ADC_CH1, 0x00])
+        readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
         # obtain digital value
         self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
 
@@ -525,20 +529,36 @@ class PhysicalUI:
     
     # turns oled screen on/off
     def toggleScreen(self):
-        # wait for button press
-        GPIO.wait_for_edge(self.pin, GPIO.FALLING)
-        # wait for button release 
-        GPIO.wait_for_edge(self.pin, GPIO.RISING)
+         # save prev brightness
+        prevBrightness = self.currBrightness
+        # Read from CH2
+        readBytes = self.spi.xfer2([0x01, self.ADC_CH2, 0x00])
+        # obtain digital value
+        self.currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
 
-        # change oled display level
-        self.oled.changeContrast(self.state)
-        self.lbar.toggleLEDBar(self.state)
+        # get difference in previous vs current volume
+        brightDiff = self.currBrightness - prevBrightness
+
+        # toggle volume by difference
+        # 255 chosen as a "signifcant difference"
+        if (brightDiff < -255):
+            self.oled.turnDisplayOff()
+            self.lbar.turnOffLBar()
         
-        if self.state == 0:
-            self.state = 1 # place holder do not know level value
-        else:
-            self.state = 0
+        elif (brightDiff > 255):
+            self.oled.turnDisplayOn()
+            self.lbar.turnOnLBar()
 
+    # trigger SOS button
     def triggerSOS(self):
-        pass # need to implement still
+        while True:
+            if GPIO.input(self.pin):
+                return True
+
+    # resets sos button
+    def resetSOS(self):
+        self.triggerSOS()
+
+
+
 
