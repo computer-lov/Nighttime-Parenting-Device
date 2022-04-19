@@ -401,7 +401,7 @@ class PhysicalUI:
         self.pinState = GPIO.LOW
 
         # set up adc channel 1 - not sure if this is correct
-        self.ADC_CH1 = 0b01101000
+        self.ADC_CH1 = 0b01101000 # look back at lab
 
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
