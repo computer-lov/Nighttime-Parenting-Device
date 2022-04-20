@@ -1,29 +1,30 @@
 import nighttimeParenting as infra
 import time
-from threading import Thread
+from threading import Thread, Lock, Event
 
 # TODO:
-#       need to add locks
-#       need to add events (maybe?)
+#       need to use events for things that run in response to something else
 
 #################### tasks that run in background ####################
 
 # updates oled screen
 def updateOLED():
-    messages = [] # need to add messages
-    oled.clearDisplay()
-    oled.displayTime()
-    oled.clearDisplay()
-    
-    for mes in messages:
-        oled.printMessage(mes)
-        time.sleep(3)
+    with i2cL:
+        messages = [] # need to add messages
         oled.clearDisplay()
+        oled.displayTime()
+        oled.clearDisplay()
+        
+        for mes in messages:
+            oled.printMessage(mes)
+            time.sleep(3)
+            oled.clearDisplay()
 
 # updates oled bar
 def updateLedBar():
-    lBar.breathe_in()
-    lBar.breath_out()
+    with spiL:
+        lBar.breathe_in()
+        lBar.breathe_out()
 
 # calculate stress level of caregiver
 def calculateStessLevel():
@@ -61,7 +62,9 @@ def isAwake():
         timeInt = 2
         # trigger value 2.5V
         trigVal = 2.5
-        isTriggered = m.trigger(trigVal, timeInt)
+
+        with spiL:
+            isTriggered = m.trigger(trigVal, timeInt)
         
         # return true if audio level above threshold
         if isTriggered:
@@ -74,6 +77,9 @@ if __name__ == "__main__":
     lBar = infra.ledBar()
     hrs = infra.HRSensor()
     phyUI = infra.PhysicalUI(sd, oled, lBar)
+
+    i2cL = Lock()
+    spiL = Lock()
 
     t1 = Thread(target=isAwake)
     t1.start()
