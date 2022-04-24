@@ -429,7 +429,7 @@ class ledBar:
         GPIO.output(14, GPIO.HIGH)
 
     def breathe_out(self):
-        time.sleep(2)
+        time.sleep(4)
         GPIO.output(14, GPIO.LOW)
         time.sleep(self.dt)
         GPIO.output(15, GPIO.LOW)
