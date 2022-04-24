@@ -113,6 +113,19 @@ if __name__ == "__main__":
     print("Breathing out...")
     lBar.breath_out()
 
+    ###################### CODE TO TEST PHYSICAL UI #####################
+
+    # initialize physical ui object 
+
+    phyUI = infra.PhysicalUI(sd, oled, lBar)
+    while True:
+        try:
+            phyUI.toggleBrightness()
+            phyUI.toggleVolume()
+            phyUI.triggerSOS()
+        except KeyboardInterrupt:
+            break
+
 
 
 
