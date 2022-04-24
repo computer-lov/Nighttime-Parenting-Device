@@ -429,7 +429,7 @@ class ledBar:
         GPIO.output(14, GPIO.HIGH)
 
     def breathe_out(self):
-        time.sleep(4)
+        time.sleep(2)
         GPIO.output(14, GPIO.LOW)
         time.sleep(self.dt)
         GPIO.output(15, GPIO.LOW)
@@ -531,7 +531,7 @@ class PhysicalUI:
         # obtain digital value
         currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
 
-        # toggle volume by difference
+        # toggle brightness by difference
         if (currBrightness < 255):
             self.oled.turnDisplayOff()
             self.lbar.turnOffLBar()
