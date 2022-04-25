@@ -34,14 +34,14 @@ class micCircuit:
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
         self.spi.mode = 0b00
-        self.spi.max_speed_hz = 1200000
+        self.spi.max_speed_hz = 1350000
 
     # reads in digital value and returns it
     def getDigitalVal(self):
         # Read from CH0
         readBytes = self.spi.xfer2([0x01, self.ADC_CH0, 0x00])
         # obtain digital value
-        dVal = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        dVal = (((readBytes[1] & 0b11) << 8) | readBytes[2])
         return dVal
 
     # converts digital value to analog value
