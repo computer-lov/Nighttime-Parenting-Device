@@ -492,13 +492,13 @@ class PhysicalUI:
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
         self.spi.mode = 0b00
-        self.spi.max_speed_hz = 1200000
+        self.spi.max_speed_hz = 1350000
 
         # get current volume
         # Read from CH1
         readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
         # obtain digital value for volume
-        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        self.currVol = (((readBytes[1] & 0b11) << 8) | readBytes[2])
 
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
@@ -512,7 +512,7 @@ class PhysicalUI:
         # Read from CH1
         readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
         # obtain digital value
-        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        self.currVol = (((readBytes[1] & 0b11) << 8) | readBytes[2])
 
         # get difference in previous vs current volume
         volDifference = self.currVol - prevVol
@@ -529,7 +529,7 @@ class PhysicalUI:
         # Read from CH2
         readBytes = self.spi.xfer2([0x01, self.ADC_CH2, 0x00])
         # obtain digital value
-        currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        currBrightness = (((readBytes[1] & 0b11) << 8) | readBytes[2])
 
         # toggle brightness by difference
         if (currBrightness < 255):
