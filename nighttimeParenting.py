@@ -34,7 +34,6 @@ class micCircuit:
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
         self.mode = 0x00
-      
         self.spi.max_speed_hz = 1350000
 
     # reads in digital value and returns it
@@ -43,7 +42,7 @@ class micCircuit:
         readBytes = self.spi.xfer2([1, (8+self.channel)<<4, 0])
 
         # obtain digital value
-        dVal = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
+        dVal = 1023 - ((readBytes[1] & 3) << 8) + readBytes[2])
         return dVal
 
     # converts digital value to analog value
@@ -499,13 +498,13 @@ class PhysicalUI:
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
         self.spi.mode = 0b00
-        self.spi.max_speed_hz = 1200000
+        self.spi.max_speed_hz = 1350000
 
         # get current volume
         # Read from CH1
         readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
         # obtain digital value for volume
-        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        self.currVol = (((readBytes[1] & 0b11) << 8) | readBytes[2])
 
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
@@ -519,7 +518,7 @@ class PhysicalUI:
         # Read from CH1
         readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
         # obtain digital value
-        self.currVol = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        self.currVol = (((readBytes[1] & 0b11) << 8) | readBytes[2])
 
         # get difference in previous vs current volume
         volDifference = self.currVol - prevVol
@@ -536,7 +535,7 @@ class PhysicalUI:
         # Read from CH2
         readBytes = self.spi.xfer2([0x01, self.ADC_CH2, 0x00])
         # obtain digital value
-        currBrightness = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        currBrightness = (((readBytes[1] & 0b11) << 8) | readBytes[2])
 
         # toggle brightness by difference
         if (currBrightness < 255):
