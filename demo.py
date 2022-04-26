@@ -22,7 +22,9 @@ if __name__ == "__main__":
     isTriggered = m.trigger(trigVal, tIntv)
     message = "Voltage is above threshold value..." if isTriggered else "Voltage is below threshold value..."
     print(message); 
+    m.close()
 
+    
     #################### CODE TO TEST STEREO DECODER ##################
 
     # initialize stereo decoder object

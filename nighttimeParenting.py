@@ -29,19 +29,21 @@ class micCircuit:
 
     # initializes micCircuit class
     def __init__(self):
-        self.ADC_CH0 = 0b11000000 # adc channel 0
+        self.channel = 0 # adc channel 0
 
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
-        self.spi.mode = 0b00
-        self.spi.max_speed_hz = 1200000
+        self.mode = 0x00
+      
+        self.spi.max_speed_hz = 1350000
 
     # reads in digital value and returns it
     def getDigitalVal(self):
         # Read from CH0
-        readBytes = self.spi.xfer2([0x01, self.ADC_CH0, 0x00])
+        readBytes = self.spi.xfer2([1, (8+self.channel)<<4, 0])
+
         # obtain digital value
-        dVal = (((readBytes[0] & 0b11) << 8) | readBytes[1])
+        dVal = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
         return dVal
 
     # converts digital value to analog value
@@ -88,6 +90,11 @@ class micCircuit:
         aVal = self.getAnalogVal(self.getPkPkAvg(thresholdVal, timeInterval))
         res = True if (aVal  > thresholdVal) else False
         return res
+
+    # closes spi
+    def close(self):
+        self.spi.close()
+
         
 ################### AUDIO OUTPUT/STEREO DECODER SECTION ################### 
 
