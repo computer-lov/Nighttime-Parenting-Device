@@ -42,7 +42,7 @@ class micCircuit:
         readBytes = self.spi.xfer2([1, (8+self.channel)<<4, 0])
 
         # obtain digital value
-        dVal = 1023 - ((readBytes[1] & 3) << 8) + readBytes[2])
+        dVal = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
         return dVal
 
     # converts digital value to analog value
@@ -492,8 +492,8 @@ class PhysicalUI:
         self.lbar = lbar
 
         # set up adc channel 1 and 2
-        self.ADC_CH1 = 0b1101000
-        self.ADC_CH2 = 0b1110000
+        self.channel1 = 1
+        self.channel2 = 2
 
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
@@ -502,9 +502,9 @@ class PhysicalUI:
 
         # get current volume
         # Read from CH1
-        readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
-        # obtain digital value for volume
-        self.currVol = (((readBytes[1] & 0b11) << 8) | readBytes[2])
+        readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
+        # obtain digital value
+        self.currVol = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
 
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
@@ -516,9 +516,9 @@ class PhysicalUI:
         # save prev volume
         prevVol = self.currVol
         # Read from CH1
-        readBytes = self.spi.xfer2([0x01, self.ADC_CH1, 0x00])
+        readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
         # obtain digital value
-        self.currVol = (((readBytes[1] & 0b11) << 8) | readBytes[2])
+        self.currVol = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
 
         # get difference in previous vs current volume
         volDifference = self.currVol - prevVol
@@ -533,9 +533,9 @@ class PhysicalUI:
     def toggleBrightness(self):
         # get current brightness
         # Read from CH2
-        readBytes = self.spi.xfer2([0x01, self.ADC_CH2, 0x00])
+        readBytes = self.spi.xfer2([1, (8+self.channel2)<<4, 0])
         # obtain digital value
-        currBrightness = (((readBytes[1] & 0b11) << 8) | readBytes[2])
+        currBrightness = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
 
         # toggle brightness by difference
         if (currBrightness < 255):
