@@ -169,7 +169,7 @@ class StereoDecoder:
 # Last Updated: 4/6/2022
 # License: MIT License 2022
 # Further Description:
-#  Uses PIL library
+#  Uses PIL library and i2c
 
 class OLED:
 
