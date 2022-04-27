@@ -5,7 +5,7 @@ import smbus
 import spidev
 import pygame as pg
 import RPi.GPIO as GPIO
-from InfraLibraries.max30102 import MAX30102
+import InfraLibraries.max30102 as MAX30102
 import InfraLibraries.hrcalc as hrcalc
 import math
 import datetime
@@ -341,7 +341,7 @@ class HRSensor:
     # initializes Heart Rate Sensor sensor
     def __init__(self):
         # initialize heart rate monitor class
-        self.sensor = MAX30102()
+        self.sensor = MAX30102.MAX30102()
 
     # collects bpm and spo2 data from heart rate sensor
     def getAllData(self):
@@ -403,16 +403,16 @@ class ledBar:
         self.spi.open(0,0)
         self.spi.mode = 0b00
         self.spi.max_speed_hz = 7629
-        self.GPIO.setwarnings(False)
-        self.GPIO.setmode(GPIO.BCM)
-        self.GPIO.setup(14, GPIO.OUT)
-        self.GPIO.setup(15, GPIO.OUT)
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(22, GPIO.OUT)
+        GPIO.setup(27, GPIO.OUT)
         self.dt = 0.5  # Time delay between LED breaths
 
     def breathe_in(self):
         self.spi.xfer([0b00000000])
-        GPIO.output(14, GPIO.LOW)
-        GPIO.output(15, GPIO.LOW)
+        GPIO.output(22, GPIO.LOW)
+        GPIO.output(27, GPIO.LOW)
         time.sleep(2)
         self.spi.xfer([0b00000001])
         time.sleep(self.dt)
@@ -430,15 +430,15 @@ class ledBar:
         time.sleep(self.dt)
         self.spi.xfer([0b11111111])
         time.sleep(self.dt)
-        GPIO.output(15, GPIO.HIGH)
+        GPIO.output(22, GPIO.HIGH)
         time.sleep(self.dt)
-        GPIO.output(14, GPIO.HIGH)
+        GPIO.output(27, GPIO.HIGH)
 
     def breathe_out(self):
         time.sleep(2)
-        GPIO.output(14, GPIO.LOW)
+        GPIO.output(27, GPIO.LOW)
         time.sleep(self.dt)
-        GPIO.output(15, GPIO.LOW)
+        GPIO.output(22, GPIO.LOW)
         time.sleep(self.dt)
         self.spi.xfer([0b11111111])
         time.sleep(self.dt)
@@ -461,13 +461,13 @@ class ledBar:
     
     # turns off led bar
     def turnOffLBar(self):
-        GPIO.setup(14, GPIO.IN)
-        GPIO.output(15, GPIO.IN)
+        GPIO.setup(22, GPIO.IN)
+        GPIO.output(27, GPIO.IN)
 
     # turns on led bar
     def turnOnLBar(self):
-        GPIO.setup(14, GPIO.OUT)
-        GPIO.output(15, GPIO.OUT)
+        GPIO.setup(22, GPIO.OUT)
+        GPIO.output(27, GPIO.OUT)
 
 ############################## Physical UI ###############################
 

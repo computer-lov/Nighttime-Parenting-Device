@@ -111,9 +111,9 @@ if __name__ == "__main__":
     print("Testing LED Bar...")
     # call and display led bar methods
     print("Breathing in...")
-    lBar.breath_in()
+    lBar.breathe_in()
     print("Breathing out...")
-    lBar.breath_out()
+    lBar.breathe_out()
 
     ###################### CODE TO TEST PHYSICAL UI #####################
 
