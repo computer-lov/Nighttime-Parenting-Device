@@ -22,7 +22,9 @@ if __name__ == "__main__":
     isTriggered = m.trigger(trigVal, tIntv)
     message = "Voltage is above threshold value..." if isTriggered else "Voltage is below threshold value..."
     print(message); 
+    m.close()
 
+    
     #################### CODE TO TEST STEREO DECODER ##################
 
     # initialize stereo decoder object
@@ -109,9 +111,22 @@ if __name__ == "__main__":
     print("Testing LED Bar...")
     # call and display led bar methods
     print("Breathing in...")
-    lBar.breath_in()
+    lBar.breathe_in()
     print("Breathing out...")
-    lBar.breath_out()
+    lBar.breathe_out()
+
+    ###################### CODE TO TEST PHYSICAL UI #####################
+
+    # initialize physical ui object 
+
+    phyUI = infra.PhysicalUI(sd, oled, lBar)
+    while True:
+        try:
+            phyUI.toggleBrightness()
+            phyUI.toggleVolume()
+            phyUI.triggerSOS()
+        except KeyboardInterrupt:
+            break
 
 
 
