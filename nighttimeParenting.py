@@ -316,8 +316,8 @@ class OLED:
                 draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill=140)#"red")
                 draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=255, outline=255)#"white", outline="white")
                 """
-                draw.text((2 * (cx + margin), cy - 8), today_date, font = font, fill=190)#"yellow")
-                draw.text((2 * (cx + margin), cy), today_time, font = font, fill=190)#"yellow")
+                draw.text((self.oled.width // 2 - font_width // 2, (self.oled.height // 2 - font_height // 2 - 8)), today_date, font = font, fill=190)#"yellow")
+                draw.text((self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2), today_time, font = font, fill=190)#"yellow")
                 self.oled.image(image)
                 self.oled.show()
 
