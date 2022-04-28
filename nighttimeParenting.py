@@ -39,7 +39,7 @@ class micCircuit:
     # reads in digital value and returns it
     def getDigitalVal(self):
         # Read from CH0
-        readBytes = self.spi.xfer2([1, (8+self.channel)<<4, 0])
+        readBytes = self.spi.xfer([1, (8+self.channel)<<4, 0])
 
         # obtain digital value
         dVal = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
