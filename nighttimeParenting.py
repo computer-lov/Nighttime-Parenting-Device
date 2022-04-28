@@ -155,7 +155,7 @@ class StereoDecoder:
     
     # volume should be a float between 0.0 and 1.0
     def setVol(self, volume):
-        if volume <=1.0 and >= 0.0:
+        if volume <= 1.0 and volume >= 0.0:
             self.mixer.music.set_volume(volume)
 
     # increments volume, volume is a float between 0.0 and 1.0
