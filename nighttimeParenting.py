@@ -509,7 +509,7 @@ class PhysicalUI:
 
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
-        self.pin = None # do not know pin number yet
+        self.pin = 17 # gpio 17
         GPIO.setup(self.pin, GPIO.IN)
 
     # changes stereo decoder volume
