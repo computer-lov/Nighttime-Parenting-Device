@@ -300,7 +300,7 @@ class OLED:
 
                 left = cx - cy
                 right = cx + cy
-"""
+                """
                 hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
                 hrs = self.posn(hrs_angle, cy - margin - 7)
 
