@@ -64,7 +64,8 @@ def monitorBaby():
     # constantly monitor audio levels
     while True:
         with spiL:
-            isTriggered = m.trigger(trigVal, timeInt)
+            # isTriggered = m.trigger(trigVal, timeInt)
+            isTriggered = True # made this change to test app layer w/o mic
         
         # return true if audio level above threshold
         if isTriggered:
