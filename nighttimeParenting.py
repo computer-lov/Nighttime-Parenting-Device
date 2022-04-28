@@ -43,6 +43,7 @@ class micCircuit:
 
         # obtain digital value
         dVal = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
+        print(readBytes[0], readBytes[1], readBytes[2])
         return dVal
 
     # converts digital value to analog value
