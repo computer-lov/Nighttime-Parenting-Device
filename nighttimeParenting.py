@@ -147,6 +147,15 @@ class StereoDecoder:
     # unpauses any paused audio
     def unpause(self):
         self.mixer.music.unpause()
+        
+    # returns volume as a float between 0.0 and 1.0
+    def getVol(self):
+        return self.mixer.music.get_volume()
+    
+    # volume should be a float between 0.0 and 1.0
+    def setVol(self, volume):
+        if volume <=1.0 and >= 0.0:
+            self.mixer.music.set_volume(volume)
 
     # increments volume, volume is a float between 0.0 and 1.0
     def increaseVol(self):
@@ -523,15 +532,12 @@ class PhysicalUI:
 
         # get difference in previous vs current volume
         volDifference = self.currVol - prevVol
-        
-        # map 0 - 1
-        volDifference = int((volDifference/1023)*10)
 
         # toggle volume by difference
         if (volDifference > 0):
-            [self.sd.increaseVol() for i in range(0, volDifference, 1)]
+            [self.sd.increaseVol() for i in range(0, volDifference, 0.1)]
         else:
-            [self.sd.decreaseVol() for i in range(volDifference, 0, -1)]
+            [self.sd.decreaseVol() for i in range(volDifference, 0, 0.1)]
     
     # turns oled screen on/off
     def toggleBrightness(self):
