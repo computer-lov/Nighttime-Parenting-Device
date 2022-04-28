@@ -101,7 +101,7 @@ def notifyStessLevels():
     Subject: Stress Level Elevated!
 
     BPM above 110 and SPO2 below 95%."""
-    sendEmail(message)
+    # sendEmail(message)
 
 # updates encouriging messages
 def updateDisplay():
@@ -147,7 +147,7 @@ def wakeupEvent():
     Subject: Your baby is Awake! 
         
     Your baby woke up at approximately """ + wakeupTime + "."
-    sendEmail(message)
+    # sendEmail(message)
     wakeup.clear()
 
 ############### tasks that run in response to stress browser UI ##############
@@ -188,7 +188,7 @@ def sendSOS():
         Subject: SOS
             
         In dire need of assistance! Please come help!"""
-        sendEmail(message)
+        #sendEmail(message)
 
         # show confirmation on display
         confirmMes = "Email sent successfully!"
@@ -231,8 +231,8 @@ if __name__ == "__main__":
     port = 587  # For starttls
     smtp_server = "smtp.gmail.com"
     sender_email = "apm532@nyu.edu"
-    receiver_email = input("Type your email and press enter: ")
-    password = input("Type your password and press enter: ")
+    # receiver_email = input("Type your email and press enter: ")
+    # password = input("Type your password and press enter: ")
 
     # thread everything except browser UI
     t1 = Thread(target=monitorBaby)
