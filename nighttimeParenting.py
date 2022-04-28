@@ -523,12 +523,15 @@ class PhysicalUI:
 
         # get difference in previous vs current volume
         volDifference = self.currVol - prevVol
+        
+        # map 0 - 1
+        volDifference = int((volDifference/1023)*10)
 
         # toggle volume by difference
         if (volDifference > 0):
-            [self.sd.increaseVol() for i in range(0, volDifference, 0.1)]
+            [self.sd.increaseVol() for i in range(0, volDifference, 1)]
         else:
-            [self.sd.decreaseVol() for i in range(volDifference, 0, 0.1)]
+            [self.sd.decreaseVol() for i in range(volDifference, 0, -1)]
     
     # turns oled screen on/off
     def toggleBrightness(self):
