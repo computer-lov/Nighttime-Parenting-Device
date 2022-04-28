@@ -25,7 +25,7 @@ def stressLevelAvg(timeInt):
     spo2Sum = 0
     count = 0
     start = time.time()
-    while (time.time - start) < timeInt:
+    while (time.time() - start) < timeInt:
         curr = hrs.getHR_SPO2()
         bpmSum += curr[0]
         spo2Sum += curr[1]

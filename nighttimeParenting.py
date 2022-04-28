@@ -43,6 +43,7 @@ class micCircuit:
 
         # obtain digital value
         dVal = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
+        print(readBytes[0], readBytes[1], readBytes[2])
         return dVal
 
     # converts digital value to analog value
@@ -147,6 +148,15 @@ class StereoDecoder:
     # unpauses any paused audio
     def unpause(self):
         self.mixer.music.unpause()
+        
+    # returns volume as a float between 0.0 and 1.0
+    def getVol(self):
+        return self.mixer.music.get_volume()
+    
+    # volume should be a float between 0.0 and 1.0
+    def setVol(self, volume):
+        if volume <=1.0 and >= 0.0:
+            self.mixer.music.set_volume(volume)
 
     # increments volume, volume is a float between 0.0 and 1.0
     def increaseVol(self):
