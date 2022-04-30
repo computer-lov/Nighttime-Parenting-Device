@@ -33,17 +33,16 @@ class micCircuit:
 
         self.spi = spidev.SpiDev()
         self.spi.open(0, 1)
-        self.mode = 0x00
+        self.mode = 0b00
         self.spi.max_speed_hz = 1350000
 
     # reads in digital value and returns it
     def getDigitalVal(self):
         # Read from CH0
-        readBytes = self.spi.xfer([1, (8+self.channel)<<4, 0])
-
+        readBytes = self.spi.xfer2([1, (8+self.channel)<<4, 0])
+      
         # obtain digital value
-        dVal = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
-        print(readBytes[0], readBytes[1], readBytes[2])
+        dVal = (((readBytes[1] & 3) << 8) + readBytes[2])
         return dVal
 
     # converts digital value to analog value
@@ -79,16 +78,20 @@ class micCircuit:
         # count number of times something is added to sum
         count = 0
         while ((time.time() - start) <= timeInterval):
-            sum += self.getAmplitude(step)
-            count += 1
+            curr = self.getAmplitude(step)
+            if (curr > 0):
+                sum += curr
+                count += 1
         
-        avg = sum / count
-        return avg
+        if (count > 0):
+            return sum / count
+        else:
+            return 0
         
-    # returns true if curr analog value is greater than threshold false otherwise
+    # returns true if avg digital value is greater than threshold false otherwise
     def trigger(self, thresholdVal, timeInterval):
-        aVal = self.getAnalogVal(self.getPkPkAvg(thresholdVal, timeInterval))
-        res = True if (aVal  > thresholdVal) else False
+        dVal = self.getPkPkAvg(timeInterval)
+        res = True if (dVal  >= thresholdVal) else False
         return res
 
     # closes spi
