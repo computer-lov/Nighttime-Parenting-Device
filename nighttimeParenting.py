@@ -549,6 +549,8 @@ class PhysicalUI:
         # obtain digital value
         currBrightness = (((readBytes[1] & 3) << 8) + readBytes[2])
 
+        print(currBrightness)
+
         # toggle brightness by difference
         if (currBrightness < 255):
             self.oled.turnDisplayOff()
