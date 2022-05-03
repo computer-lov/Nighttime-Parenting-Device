@@ -79,6 +79,8 @@ def calculateStessLevel():
             enableMessages.clear()
             enableMusic.clear()
             disableAll.set()
+        
+        time.sleep(2)
 
 ############### tasks that run in response to stress level ##############
 
@@ -218,8 +220,6 @@ if __name__ == "__main__":
     lBar = infra.ledBar()
     hrs = infra.HRSensor()
     phyUI = infra.PhysicalUI(sd, oled, lBar)
-
-    oled.displayTime()
 
     # create empty log
     log = []
