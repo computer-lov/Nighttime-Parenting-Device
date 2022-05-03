@@ -532,24 +532,20 @@ class PhysicalUI:
         # Read from CH1
         readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
         # obtain digital value
-        self.currVol = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
+        self.currVol = ((readBytes[1] & 3) << 8) + readBytes[2])
+        # map volume to value between 0 and 1
+        self.currVol = (self.currVol/1023)*1
 
-        # get difference in previous vs current volume
-        volDifference = self.currVol - prevVol
-
-        # toggle volume by difference
-        if (volDifference > 0):
-            [self.sd.increaseVol() for i in range(0, volDifference, 0.1)]
-        else:
-            [self.sd.decreaseVol() for i in range(volDifference, 0, 0.1)]
-    
+        # set volume
+        self.sd.setVol(self.currVol)
+        
     # turns oled screen on/off
     def toggleBrightness(self):
         # get current brightness
         # Read from CH2
         readBytes = self.spi.xfer2([1, (8+self.channel2)<<4, 0])
         # obtain digital value
-        currBrightness = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
+        currBrightness = ((readBytes[1] & 3) << 8) + readBytes[2])
 
         # toggle brightness by difference
         if (currBrightness < 255):
