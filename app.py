@@ -7,6 +7,8 @@ import smtplib, ssl
 # TODO:
 #       need to test this layer
 #       need to check if pi has smtplib, ssl libraries
+#       might need to remove a few functions
+#       have to figure out stuff for analytics
 
 ######################## supporting functions ########################
 

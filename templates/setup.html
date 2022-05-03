@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>NighttimeParentingBrowser</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="border-color: var(--bs-purple);">
+    <nav class="navbar navbar-light navbar-expand-md">
+        <div class="container-fluid"><a class="navbar-brand" href="index.html">Features</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="setup.html">Setup</a></li>
+                    <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Hello! Please Set Up Desired Configurations</h1>
+                <p>I am&nbsp;<select name="caregiver">
+                        <optgroup label="Caregivers">
+                            <option value="12" selected="">Caregiver 1</option>
+                            <option value="13">Caregiver 2</option>
+                            <option value="14">Caregiver 3</option>
+                        </optgroup>
+                    </select></p>
+            </div>
+        </div>
+        <h3>Controls:</h3>
+        <div class="row" style="--bs-body-color: var(--bs-purple);">
+            <div class="col-md-3">
+                <h3 class="text-center">Music</h3>
+                <p style="text-align: center;">
+                <div class="btn-group d-lg-flex justify-content-lg-center" role="group" style="text-align: center;"><button class="btn btn-primary" type="button" name="pause" style="--bs-body-bg: var(--bs-purple);border-color: var(--bs-purple);background: var(--bs-purple);"><i class="fas fa-pause" style="background: var(--bs-purple);"></i></button><button class="btn btn-primary" type="submit" style="background: var(--bs-purple);border-color: var(--bs-purple);" name="play"><i class="fas fa-play"></i></button></div>
+                </p>
+                <p><i class="fas fa-volume-up" style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;);"></i><input class="form-range" type="range" style="border-color: var(--bs-purple);--bs-body-bg: var(--bs-purple);color: var(--bs-purple);--bs-body-color: var(--bs-purple);" name="volume"></p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-center">Personal Message</h3><input type="text" style="width: 187.8px;--bs-body-bg: var(--bs-purple);" placeholder="Input Messages Here" maxlength="80"><button class="btn btn-primary" type="submit" style="background: var(--bs-purple);border-color: var(--bs-purple);--bs-body-bg: var(--bs-purple);" name="add">Add</button><button class="btn btn-primary" type="submit" style="background: var(--bs-purple);border-color: var(--bs-purple);" name="delete">Delete</button>
+            </div>
+            <div class="col-md-5">
+                <h3 class="text-center">Guided Breathing</h3><input type="checkbox" name="guidedBreathing">
+            </div>
+            <div class="col-md-3">
+                <h3 class="text-center">&nbsp; &nbsp; &nbsp; &nbsp; Messages</h3><input type="checkbox" name="messages">
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
