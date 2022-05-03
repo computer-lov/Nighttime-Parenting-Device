@@ -26,7 +26,7 @@ def timeDisplay():
     with i2cL:
         oled.clearDisplay()
         oled.displayTime()
-        time.sleep(1) # new time displayed every second
+    time.sleep(1) # new time displayed every second
 
 # displays encouriging messages
 def messageDisplay():
@@ -35,6 +35,7 @@ def messageDisplay():
             oled.clearDisplay()
             oled.printMessage(mes)
             time.sleep(3) # new message displayed every 3 seconds
+    time.sleep(3)
 
 #################### tasks that run in background ####################
 
@@ -259,7 +260,7 @@ if __name__ == "__main__":
     t2.start()
     t3 = Thread(target=notifyStessLevels)
     t3.start()
-    t4 = Thread(target=updateDisplay)
+    t4 = Thread(target=messageDisplay)
     t4.start()
     t5 = Thread(target=updateBreathing)
     t5.start()
