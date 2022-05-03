@@ -232,7 +232,7 @@ if __name__ == "__main__":
                 "Keep calm, hold your breath, and change this diaper.", 
                 "3 am. Party in my crib, be there. Bring your own diaper.",
                 "Poops, I did it again, I made you believe that this could be pee.",
-                "Houston, we have a problem… It is code brown."]
+                "Houston, we have a problem... It is code brown."]
 
     # set up server for email
     port = 587  # For starttls
