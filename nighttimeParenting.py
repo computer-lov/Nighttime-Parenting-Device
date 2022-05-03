@@ -302,7 +302,6 @@ class OLED:
             today_time = now.strftime("%I:%M:%S")
             if today_time != today_last_time:
                 today_last_time = today_time
-                #with canvas(device) as draw:
                 now = datetime.datetime.now()
                 today_date = now.strftime("%d %b %y")
 
@@ -329,6 +328,7 @@ class OLED:
                 draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill=140)#"red")
                 draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=255, outline=255)#"white", outline="white")
                 """
+                (font_width, font_height) = font.getsize(text)
                 draw.text((self.oled.width // 2 - font_width // 2, (self.oled.height // 2 - font_height // 2 - 8)), today_date, font = font, fill=190)#"yellow")
                 draw.text((self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2), today_time, font = font, fill=190)#"yellow")
                 self.oled.image(image)
