@@ -518,7 +518,7 @@ class PhysicalUI:
         # Read from CH1
         readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
         # obtain digital value
-        self.currVol = 1023 - (((readBytes[1] & 3) << 8) + readBytes[2])
+        self.currVol = (((readBytes[1] & 3) << 8) + readBytes[2])
 
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
@@ -545,7 +545,7 @@ class PhysicalUI:
         # Read from CH2
         readBytes = self.spi.xfer2([1, (8+self.channel2)<<4, 0])
         # obtain digital value
-        currBrightness = ((readBytes[1] & 3) << 8) + readBytes[2])
+        currBrightness = (((readBytes[1] & 3) << 8) + readBytes[2])
 
         # toggle brightness by difference
         if (currBrightness < 255):
