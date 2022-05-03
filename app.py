@@ -160,13 +160,38 @@ def changeScreenView():
     else:
         state = 1
 
+# pauses messages
+def pauseMessages():
+    with i2cL:
+        oled.turnDisplayOff()
+
+# resumes messages
+def resumeMessages():
+    with i2cL:
+        oled.turnDisplayOn()
+
+# pauses breathing
+def pauseBreathing():
+    with spiL:
+        lBar.turnOffLBar()
+
+# resumes breathing
+def resumeBreathing():
+    with spiL:
+        lBar.turnOnLBar()
+
 # pauses music
 def pauseMusic():
     sd.pause()
 
-# unpauses music
-def unpauseMusic():
+# resumes music
+def resumeMusic():
     sd.unpause()
+
+# adjusts volume
+def adjustVolume(volLevel):
+    with spiL:
+        sd.setVol(volLevel)
 
 ############### tasks that run in response to physical UI ##############
 
