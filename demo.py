@@ -62,7 +62,7 @@ if __name__ == "__main__":
     
     oled = infra.OLED()
     print("Displaying clock")
-    print(oled.displayTime())
+    # print(oled.displayTime())
     time.sleep(3)
     text1 = "abcd efghij klmnopqr"
     text2 = "abcd efghij klmnopqr stuvwxyz 12345 6789"
