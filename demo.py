@@ -120,7 +120,8 @@ if __name__ == "__main__":
     # initialize physical ui object 
 
     phyUI = infra.PhysicalUI(sd, oled, lBar)
-    while True:
+    start = time.time()
+    while (time.time() - start < 10):
         try:
             phyUI.toggleBrightness()
             phyUI.toggleVolume()
