@@ -26,7 +26,7 @@ def timeDisplay():
     with i2cL:
         oled.clearDisplay()
         oled.displayTime()
-    time.sleep(1) # new time displayed every second
+        time.sleep(1) # new time displayed every second
 
 # displays encouriging messages
 def messageDisplay():
@@ -35,7 +35,6 @@ def messageDisplay():
             oled.clearDisplay()
             oled.printMessage(mes)
             time.sleep(3) # new message displayed every 3 seconds
-        time.sleep(3) # let it appear on screen for 3 seconds
 
 #################### tasks that run in background ####################
 
@@ -69,17 +68,23 @@ def calculateStessLevel():
 
         # determine if stress level is high
         if (BPM >= 110 and Spo2 < 95):
-            stressLOW.clear()
-            stressHIGH.set()
+            disableAll.clear()
+            stressHigh.set()
+            enableBreathing.set()
+            enableMessages.set()
+            enableMusic.set()
         else:
-            stressHIGH.clear()
-            stressLOW.set()
+            stressHigh.clear()
+            enableBreathing.clear()
+            enableMessages.clear()
+            enableMusic.clear()
+            disableAll.set()
 
 ############### tasks that run in response to stress level ##############
 
 # sends email warning stress levels are high
 def notifyStessLevels():
-    stressHIGH.wait()    
+    stressHigh.wait()    
     message = """\
     Subject: Stress Level Elevated!
 
@@ -88,7 +93,7 @@ def notifyStessLevels():
 
 # updates encouriging messages
 def updateDisplay():
-    stressHIGH.wait()
+    enableMessages.wait()
     while True:
         if state:
             timeDisplay()
@@ -97,29 +102,26 @@ def updateDisplay():
 
 # updates breathing
 def updateBreathing():
-    stressHIGH.wait()
+    enableBreathing.wait()
     while True:
         with spiL:
             lBar.turnOnLBar()
             lBar.breathe_in()
             lBar.breathe_out()
-        time.sleep(3) # let it appear on screen for 3 seconds
 
 # turns on soothing music
 def playMusic():
-    stressHIGH.wait()
+    enableMusic.wait()
     sd.play()
 
 # stops music, breathing exercise, and ecouraging messages
 def haltStressRelief():
-    stressLOW.wait()
+    disableAll.wait()
     sd.stop()
     with spiL:
         lBar.turnOffLBar()
-    time.sleep(3) # let it appear on screen for 3 seconds
     with i2cL:
         oled.turnDisplayOff()
-    time.sleep(3) # let it appear on screen for 3 seconds
 
 ############### tasks that run in response to baby wakeup ##############
 
@@ -150,25 +152,21 @@ def changeScreenView():
 def pauseMessages():
     with i2cL:
         oled.turnDisplayOff()
-    time.sleep(3) # let it appear on screen for 3 seconds
 
 # resumes messages
 def resumeMessages():
     with i2cL:
         oled.turnDisplayOn()
-    time.sleep(3) # let it appear on screen for 3 seconds
 
 # pauses breathing
 def pauseBreathing():
     with spiL:
         lBar.turnOffLBar()
-    time.sleep(3) # let it appear on screen for 3 seconds
     
 # resumes breathing
 def resumeBreathing():
     with spiL:
         lBar.turnOnLBar()
-    time.sleep(3) # let it appear on screen for 3 seconds
 
 # pauses music
 def pauseMusic():
@@ -182,7 +180,6 @@ def resumeMusic():
 def adjustVolume(volLevel):
     with spiL:
         sd.setVol(volLevel)
-    time.sleep(3) # let it appear on screen for 3 seconds
 
 ############### tasks that run in response to physical UI ##############
 
@@ -190,13 +187,11 @@ def adjustVolume(volLevel):
 def updateBrightness():
     with spiL:
         phyUI.toggleBrightness()
-    time.sleep(3) # let it appear on screen for 3 seconds
 
 # updates volume
 def updateVolume():
     with spiL:
         phyUI.toggleVolume()
-    time.sleep(3) # let it appear on screen for 3 seconds
 
 # send SOS message to parent
 def sendSOS():
@@ -213,7 +208,7 @@ def sendSOS():
         with i2cL:
             oled.clearDisplay()
             oled.printMessage(confirmMes)
-        time.sleep(3) # let it appear on screen for 3 seconds
+            time.sleep(3) # let it appear on screen for 3 seconds
 
 if __name__ == "__main__":
     # create objects
@@ -233,8 +228,11 @@ if __name__ == "__main__":
 
     # create events
     wakeup = Event()
-    stressHIGH = Event()
-    stressLOW = Event()
+    stressHigh = Event()
+    enableBreathing = Event()
+    enableMusic = Event()
+    enableMessages = Event()
+    disableAll = Event()
 
     # set state to zero by default (display encouring messages)
     state = 0
