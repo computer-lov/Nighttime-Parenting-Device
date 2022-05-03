@@ -26,7 +26,7 @@ def timeDisplay():
     with i2cL:
         oled.clearDisplay()
         oled.displayTime()
-        time.sleep(1) # new time displayed every second
+    time.sleep(1) # new time displayed every second
 
 # displays encouriging messages
 def messageDisplay():
@@ -35,6 +35,7 @@ def messageDisplay():
             oled.clearDisplay()
             oled.printMessage(mes)
             time.sleep(3) # new message displayed every 3 seconds
+        time.sleep(3) # let it appear on screen for 3 seconds
 
 #################### tasks that run in background ####################
 
@@ -102,6 +103,7 @@ def updateBreathing():
             lBar.turnOnLBar()
             lBar.breathe_in()
             lBar.breathe_out()
+        time.sleep(3) # let it appear on screen for 3 seconds
 
 # turns on soothing music
 def playMusic():
@@ -114,8 +116,10 @@ def haltStressRelief():
     sd.stop()
     with spiL:
         lBar.turnOffLBar()
+    time.sleep(3) # let it appear on screen for 3 seconds
     with i2cL:
         oled.turnDisplayOff()
+    time.sleep(3) # let it appear on screen for 3 seconds
 
 ############### tasks that run in response to baby wakeup ##############
 
@@ -146,21 +150,25 @@ def changeScreenView():
 def pauseMessages():
     with i2cL:
         oled.turnDisplayOff()
+    time.sleep(3) # let it appear on screen for 3 seconds
 
 # resumes messages
 def resumeMessages():
     with i2cL:
         oled.turnDisplayOn()
+    time.sleep(3) # let it appear on screen for 3 seconds
 
 # pauses breathing
 def pauseBreathing():
     with spiL:
         lBar.turnOffLBar()
+    time.sleep(3) # let it appear on screen for 3 seconds
     
 # resumes breathing
 def resumeBreathing():
     with spiL:
         lBar.turnOnLBar()
+    time.sleep(3) # let it appear on screen for 3 seconds
 
 # pauses music
 def pauseMusic():
@@ -174,6 +182,7 @@ def resumeMusic():
 def adjustVolume(volLevel):
     with spiL:
         sd.setVol(volLevel)
+    time.sleep(3) # let it appear on screen for 3 seconds
 
 ############### tasks that run in response to physical UI ##############
 
@@ -181,11 +190,13 @@ def adjustVolume(volLevel):
 def updateBrightness():
     with spiL:
         phyUI.toggleBrightness()
+    time.sleep(3) # let it appear on screen for 3 seconds
 
 # updates volume
 def updateVolume():
     with spiL:
         phyUI.toggleVolume()
+    time.sleep(3) # let it appear on screen for 3 seconds
 
 # send SOS message to parent
 def sendSOS():
@@ -202,7 +213,7 @@ def sendSOS():
         with i2cL:
             oled.clearDisplay()
             oled.printMessage(confirmMes)
-            time.sleep(3) # let it appear on screen for 3 seconds
+        time.sleep(3) # let it appear on screen for 3 seconds
 
 if __name__ == "__main__":
     # create objects
