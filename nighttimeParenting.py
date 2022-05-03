@@ -532,7 +532,7 @@ class PhysicalUI:
         # Read from CH1
         readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
         # obtain digital value
-        self.currVol = ((readBytes[1] & 3) << 8) + readBytes[2])
+        self.currVol = (((readBytes[1] & 3) << 8) + readBytes[2])
         # map volume to value between 0 and 1
         self.currVol = (self.currVol/1023)*1
 
