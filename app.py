@@ -9,6 +9,7 @@ import smtplib, ssl
 #       need to check if pi has smtplib, ssl libraries
 #       might need to remove a few functions
 #       have to figure out stuff for analytics
+#       figure out when to show time vs encouraging messages
 
 ######################## supporting functions ########################
 
@@ -19,25 +20,6 @@ def sendEmail(message):
         server.starttls(context=context)
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
-
-# averages bpm and spo2 over specified time interval
-def stressLevelAvg(timeInt):
-    # sample bpm and spo2 over 2 second interval
-    bpmSum = 0
-    spo2Sum = 0
-    count = 0
-    start = time.time()
-    while (time.time() - start) < timeInt:
-        curr = hrs.getHR_SPO2()
-        bpmSum += curr[0]
-        spo2Sum += curr[1]
-        count += 1
-    
-    # calculate average bpm and sp02 
-    avgBPM = bpmSum / count
-    avgSpo2 = spo2Sum / count
-
-    return (avgBPM, avgSpo2)
 
 # displays time
 def timeDisplay():
@@ -75,19 +57,17 @@ def monitorBaby():
 
 # calculate stress level of caregiver
 def calculateStessLevel():
-     # time interval to 2 seconds
-    timeInt = 2
-
     while True:
         # get stress level
-        stressLevel = stressLevelAvg(timeInt)
+        with i2cL:
+            stressLevel = hrs.getHR_SPO2()
         
         # calculate average bpm and sp02 
-        avgBPM = stressLevel[0]
-        avgSpo2 = stressLevel[1]
+        BPM = stressLevel[0]
+        Spo2 = stressLevel[1]
 
         # determine if stress level is high
-        if (avgBPM >= 110 and avgSpo2 < 95):
+        if (BPM >= 110 and Spo2 < 95):
             stressLOW.clear()
             stressHIGH.set()
         else:
@@ -252,7 +232,7 @@ if __name__ == "__main__":
                 "Keep calm, hold your breath, and change this diaper.", 
                 "3 am. Party in my crib, be there. Bring your own diaper.",
                 "Poops, I did it again, I made you believe that this could be pee.",
-                "Huston, we have a problem… It is code brown."]
+                "Houston, we have a problem… It is code brown."]
 
     # set up server for email
     port = 587  # For starttls
