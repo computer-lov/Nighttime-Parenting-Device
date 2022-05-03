@@ -40,10 +40,10 @@ def messageDisplay():
 
 # monitors audio level in bedrooom
 def monitorBaby():
-    # time interval to 2 seconds
-    timeInt = 2
-    # trigger value 2.5V
-    trigVal = 2.5
+    # time interval to 10 seconds
+    timeInt = 10
+    # trigger value 10
+    trigVal = 10
 
     # constantly monitor audio levels
     while True:
@@ -218,6 +218,8 @@ if __name__ == "__main__":
     lBar = infra.ledBar()
     hrs = infra.HRSensor()
     phyUI = infra.PhysicalUI(sd, oled, lBar)
+
+    oled.displayTime()
 
     # create empty log
     log = []
