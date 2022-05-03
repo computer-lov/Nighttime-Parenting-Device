@@ -356,6 +356,7 @@ class HRSensor:
     def __init__(self):
         # initialize heart rate monitor class
         self.sensor = MAX30102.MAX30102()
+        self.oled = OLED()
 
     # collects bpm and spo2 data from heart rate sensor
     def getAllData(self):
@@ -385,14 +386,14 @@ class HRSensor:
             # case if finger not detected
             if (sum(ir_data)/len(ir_data) < 50000 and sum(red_data)/len(red_data) < 50000):
                 self.bpm = 0
-                print("Finger not detected")
+                self.oled.printMessage("Finger not detected")
             return bpm, spo2
         else:
             return (None, None)
 
     # reads heart rate and oxygen saturation level from sensor and returns them
     def getHR_SPO2(self):
-        print("Place finger on HR monitor")
+        self.oled.printMessage("Place finger on HR monitor")
         HR_SPO2 = (None, None)
 
         # wait for valid data
