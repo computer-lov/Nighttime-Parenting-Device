@@ -342,10 +342,12 @@ class HRSensor:
         red_data = []
         dataCap = 100
         dataCount = 0
+        start = time.time()
+        timeout = 5
     
         # grab all the data and stash it into arrays
         # loop until data is found
-        while dataCount <= dataCap:
+        while dataCount <= dataCap and ((time.time - start) < timeout):
             # check if any data is available
             num_bytes = self.sensor.get_data_present()
             print("Before num_bytes loop", num_bytes)
