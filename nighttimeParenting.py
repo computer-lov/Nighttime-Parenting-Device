@@ -400,20 +400,15 @@ class ledBar:
         self.dt = 0.5  # Time delay between LED breaths
 
     def breathe_in(self):
-        self.spi.xfer([0b00000000])
         GPIO.output(5, GPIO.LOW)
         GPIO.output(27, GPIO.LOW)
-        for val in [0b10000000, 0b11000000, 0b11100000, 0b11110000, 0b11111000, 0b11111100, 0b11111110, 0b11111111]:
+        for val in [0b00000000, 0b10000000, 0b11000000, 0b11100000, 0b11110000, 0b11111000, 0b11111100, 0b11111110, 0b11111111]:
             self.spi.xfer([val])
             time.sleep(self.dt)
-        GPIO.output(27, GPIO.HIGH)
-        time.sleep(self.dt)
-        GPIO.output(5, GPIO.HIGH)
 
     def breathe_out(self):
         GPIO.output(5, GPIO.LOW)
         GPIO.output(27, GPIO.LOW)
-        time.sleep(2)
         for val in [0b11111111, 0b11111110, 0b11111100, 0b11111000, 0b11110000, 0b11100000, 0b11000000, 0b10000000, 0b00000000]:
             self.spi.xfer([val])
             time.sleep(self.dt)
