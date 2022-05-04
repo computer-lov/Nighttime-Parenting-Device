@@ -45,8 +45,11 @@ def monitorBaby():
 def calculateStessLevel():
     while True:
         # get stress level
+        print("Waiting to acquire i2cL in calculateStressLevel")
         with i2cL:
+            print("Acquired i2cL in calculateStressLevel")
             stressLevel = hrs.getHR_SPO2()
+        print("Released i2cL in calculateStressLevel")
         
         # calculate average bpm and sp02 
         BPM = stressLevel[0]
@@ -173,7 +176,7 @@ def updateBrightness():
             currBrightness = phyUI.getBrightness()
         with i2cL:
             phyUI.setBrightness(currBrightness)
-            
+
         time.sleep(3)
     
 # updates volume

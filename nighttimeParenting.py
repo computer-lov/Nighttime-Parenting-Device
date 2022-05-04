@@ -399,6 +399,17 @@ class ledBar:
         GPIO.setup(27, GPIO.OUT)
         self.dt = 0.5  # Time delay between LED breaths
 
+    def set_bar_level(self, level):
+        GPIO.output(5,  level & 0b1000000000)
+        GPIO.output(27, level & 0b0100000000)
+        self.spi.xfer([ level & 0b0011111111])
+
+    #def breathe_in(ledbarthing): goes in app layer
+    #    for val in [list of 10-bit values]:
+    #        with spiL:
+    #            set_bar_level(88)
+    #        time.sleep(somethign)
+
     def breathe_in(self):
         GPIO.output(5, GPIO.LOW)
         GPIO.output(27, GPIO.LOW)
