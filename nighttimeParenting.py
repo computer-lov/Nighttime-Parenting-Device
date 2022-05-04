@@ -337,17 +337,17 @@ class HRSensor:
         self.oled = OLED()
 
     # collects bpm and spo2 data from heart rate sensor
-    def getAllData(self):
+    def getAllData(self, timeoutON):
         ir_data = []
         red_data = []
         dataCap = 100
         dataCount = 0
         start = time.time()
-        timeout = 5
+        timeout = 30
     
         # grab all the data and stash it into arrays
         # loop until data is found
-        while dataCount <= dataCap and ((time.time() - start) < timeout):
+        while dataCount <= dataCap and ((time.time()-start) < timeout):
             # check if any data is available
             num_bytes = self.sensor.get_data_present()
 
@@ -358,7 +358,9 @@ class HRSensor:
                 ir_data.append(ir)
                 red_data.append(red)
 
-        if (dataCount == 100):
+        if (dataCount != 100):
+            return (None, None)
+        else:
             # calculate hr and spo2
             bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
 
@@ -368,8 +370,8 @@ class HRSensor:
                 if (sum(ir_data)/len(ir_data) < 50000 and sum(red_data)/len(red_data) < 50000):
                     self.bpm = 0
                 return bpm, spo2
-        else:
-            return (None, None)
+            else:
+                return (None, None)
 
     # reads heart rate and oxygen saturation level from sensor and returns them
     def getHR_SPO2(self):
