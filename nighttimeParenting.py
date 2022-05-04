@@ -299,7 +299,7 @@ class OLED:
         while once:
             now = datetime.datetime.now()
             today_date = now.strftime("%d %b %y")
-            today_time = now.strftime("%I:%M:%S")
+            today_time = now.strftime("%I:%M")
             if today_time != today_last_time:
                 today_last_time = today_time
                 now = datetime.datetime.now()
@@ -328,7 +328,7 @@ class OLED:
                 draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill=140)#"red")
                 draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=255, outline=255)#"white", outline="white")
                 """
-                text = '0:0:0 01/01/2000'
+                text = '0:0 01/01/2000'
                 (font_width, font_height) = font.getsize(text)
                 draw.text((self.oled.width // 2 - font_width // 2, (self.oled.height // 2 - font_height // 2 - 8)), today_date, font = font, fill=190)#"yellow")
                 draw.text((self.oled.width // 2 - font_width // 2, self.oled.height // 2 - font_height // 2), today_time, font = font, fill=190)#"yellow")
