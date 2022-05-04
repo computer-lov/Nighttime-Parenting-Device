@@ -123,7 +123,8 @@ if __name__ == "__main__":
     start = time.time()
     while (time.time() - start < 10):
         try:
-            phyUI.toggleBrightness()
+            currBrightness = phyUI.getBrightness()
+            phyUI.setBrightness(currBrightness)
             phyUI.toggleVolume()
             phyUI.triggerSOS()
         except KeyboardInterrupt:
