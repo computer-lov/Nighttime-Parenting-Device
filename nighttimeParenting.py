@@ -337,7 +337,7 @@ class HRSensor:
         self.oled = OLED()
 
     # collects bpm and spo2 data from heart rate sensor
-    def getAllData(self, timeoutON):
+    def getAllData(self):
         ir_data = []
         red_data = []
         dataCap = 100
