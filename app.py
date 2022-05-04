@@ -169,8 +169,11 @@ def adjustVolume(volLevel):
 # updates brightness
 def updateBrightness():
     while True:
-        with spiL and i2cL:
-            phyUI.toggleBrightness()
+        with spiL:
+            currBrightness = phyUI.getBrightness()
+        with i2cL:
+            phyUI.setBrightness(currBrightness)
+            
         time.sleep(3)
     
 # updates volume
