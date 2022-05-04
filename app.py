@@ -43,6 +43,12 @@ def monitorBaby():
 
 # calculate stress level of caregiver
 def calculateStessLevel():
+    # get once with blocking function
+    with i2cL:
+        stressLevel = hrs.getHR_SPO2()
+    BPM = stressLevel[0]
+    Spo2 = stressLevel[1]
+
     while True:
         # get stress level
         print("Waiting to acquire i2cL in calculateStressLevel")
@@ -50,21 +56,21 @@ def calculateStessLevel():
             print("Acquired i2cL in calculateStressLevel")
             stressLevel = hrs.getHR_SPO2()
         print("Released i2cL in calculateStressLevel")
-        
-        # calculate average bpm and sp02 
-        BPM = stressLevel[0]
-        Spo2 = stressLevel[1]
 
         print(BPM, Spo2)
 
         # determine if stress level is high
         if (BPM != None and Spo2 != None):
-            if (BPM >= 110 and Spo2 < 95):
-                disableAll.clear()
-                stressHigh.set()
-                enableBreathing.set()
-                enableMessages.set()
-                enableMusic.set()
+            # calculate average bpm and sp02 
+            BPM = stressLevel[0]
+            Spo2 = stressLevel[1]
+
+        if (BPM >= 110 and Spo2 < 95):
+            disableAll.clear()
+            stressHigh.set()
+            enableBreathing.set()
+            enableMessages.set()
+            enableMusic.set()
         else:
             stressHigh.clear()
             enableBreathing.clear()
