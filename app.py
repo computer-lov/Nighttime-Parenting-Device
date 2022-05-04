@@ -67,6 +67,8 @@ def calculateStessLevel():
         BPM = stressLevel[0]
         Spo2 = stressLevel[1]
 
+        print(BPM, Spo2)
+
         # determine if stress level is high
         if (BPM >= 110 and Spo2 < 95):
             disableAll.clear()
@@ -247,7 +249,7 @@ if __name__ == "__main__":
     t2.start()
     t3 = Thread(target=notifyStessLevels)
     t3.start()
-    t4 = Thread(target=messageDisplay)
+    t4 = Thread(target=updateDisplay)
     t4.start()
     t5 = Thread(target=updateBreathing)
     t5.start()
