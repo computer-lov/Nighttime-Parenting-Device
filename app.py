@@ -58,12 +58,13 @@ def calculateStessLevel():
         print(BPM, Spo2)
 
         # determine if stress level is high
-        if (BPM >= 110 and Spo2 < 95):
-            disableAll.clear()
-            stressHigh.set()
-            enableBreathing.set()
-            enableMessages.set()
-            enableMusic.set()
+        if (BPM != None and Spo2 != None):
+            if (BPM >= 110 and Spo2 < 95):
+                disableAll.clear()
+                stressHigh.set()
+                enableBreathing.set()
+                enableMessages.set()
+                enableMusic.set()
         else:
             stressHigh.clear()
             enableBreathing.clear()
