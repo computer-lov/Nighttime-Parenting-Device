@@ -70,6 +70,14 @@ def calculateStessLevel():
         
         time.sleep(2)
 
+# displays time
+def timeDisplay():
+    while True:
+        with i2cL:
+            oled.clearDisplay()
+            oled.displayTime()
+        time.sleep(1) # new time displayed every second
+
 ############### tasks that run in response to stress level ##############
 
 # sends email warning stress levels are high
@@ -81,17 +89,10 @@ def notifyStessLevels():
     BPM above 110 and SPO2 below 95%."""
     # sendEmail(message)
 
-# displays time
-def timeDisplay():
-    while True:
-        with i2cL:
-            oled.clearDisplay()
-            oled.displayTime()
-        time.sleep(1) # new time displayed every second
-
 # displays encouriging messages
 def messageDisplay():
     while toggleMessage:
+        enableMessages.wait()
         for mes in messages:
             with i2cL:
                 oled.clearDisplay()
@@ -101,11 +102,12 @@ def messageDisplay():
 
 # updates breathing
 def updateBreathing():
-    enableBreathing.wait()
     while True:
+        enableBreathing.wait()
         with spiL:
             lBar.breathe_in()
             lBar.breathe_out()
+        time.sleep(3)
 
 # turns on soothing music
 def playMusic():
