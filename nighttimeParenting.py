@@ -304,30 +304,7 @@ class OLED:
                 today_last_time = today_time
                 now = datetime.datetime.now()
                 today_date = now.strftime("%d %b %y")
-
-                margin = 4
-
-                cx = 30
-                cy = min(self.oled.height, 64) / 2
-
-                left = cx - cy
-                right = cx + cy
-                """
-                hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
-                hrs = self.posn(hrs_angle, cy - margin - 7)
-
-                min_angle = 270 + (6 * now.minute)
-                mins = self.posn(min_angle, cy - margin - 2)
-
-                sec_angle = 270 + (6 * now.second)
-                secs = self.posn(sec_angle, cy - margin - 2)
-
-                draw.ellipse((left + margin, margin, right - margin, min(self.oled.height, 64) - margin), outline=255) #"white")
-                draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill=255)#"white")
-                draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill=255)#"white")
-                draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill=140)#"red")
-                draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill=255, outline=255)#"white", outline="white")
-                """
+                
                 text = '0:0 01/01/2000'
                 (font_width, font_height) = font.getsize(text)
                 draw.text((self.oled.width // 2 - font_width // 2, (self.oled.height // 2 - font_height // 2 - 8)), today_date, font = font, fill=190)#"yellow")
@@ -426,51 +403,20 @@ class ledBar:
         self.spi.xfer([0b00000000])
         GPIO.output(5, GPIO.LOW)
         GPIO.output(27, GPIO.LOW)
-        time.sleep(2)
-        self.spi.xfer([0b10000000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11000000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11100000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11110000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111100])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111110])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111111])
-        time.sleep(self.dt)
+        for val in [0b10000000, 0b11000000, 0b11100000, 0b11110000, 0b11111000, 0b11111100, 0b11111110, 0b11111111]:
+            self.spi.xfer([val])
+            time.sleep(self.dt)
         GPIO.output(27, GPIO.HIGH)
         time.sleep(self.dt)
         GPIO.output(5, GPIO.HIGH)
 
     def breathe_out(self):
-        time.sleep(2)
         GPIO.output(5, GPIO.LOW)
-        time.sleep(self.dt)
         GPIO.output(27, GPIO.LOW)
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111111])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111110])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111100])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11111000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11110000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11100000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b11000000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b10000000])
-        time.sleep(self.dt)
-        self.spi.xfer([0b00000000])
-        time.sleep(self.dt)
+        time.sleep(2)
+        for val in [0b11111111, 0b11111110, 0b11111100, 0b11111000, 0b11110000, 0b11100000, 0b11000000, 0b10000000, 0b00000000]:
+            self.spi.xfer([val])
+            time.sleep(self.dt)
 
 ############################## Physical UI ###############################
 
@@ -480,10 +426,6 @@ class ledBar:
 # License: MIT License 2022
 # Further Description:
 #  a class to implement the physical user interface methods
-
-# TODO:
-# should we initialize all of the spi stuff in this class
-# needs to be test (not sure if all devices that use spi will conflict with each other)
 
 class PhysicalUI:
 
@@ -527,6 +469,7 @@ class PhysicalUI:
         readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
         # obtain digital value
         currBrightness = (((readBytes[1] & 3) << 8) + readBytes[2])
+        return currBrightness
 
     def setBrightness(self, currBrightness):
         # toggle brightness by difference
