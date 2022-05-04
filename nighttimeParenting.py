@@ -387,20 +387,17 @@ class HRSensor:
             # case if finger not detected
             if (sum(ir_data)/len(ir_data) < 50000 and sum(red_data)/len(red_data) < 50000):
                 self.bpm = 0
-                self.oled.printMessage("Finger not detected")
             return bpm, spo2
         else:
             return (None, None)
 
     # reads heart rate and oxygen saturation level from sensor and returns them
     def getHR_SPO2(self):
-        self.oled.printMessage("Place finger on HR monitor")
         HR_SPO2 = (None, None)
 
         # wait for valid data
         while HR_SPO2[0] == None and HR_SPO2[1] == None:
             HR_SPO2 = self.getAllData()
-        
         return (HR_SPO2[0], HR_SPO2[1])
 
 ################### LED BAR GUIDED BREATHING SECTION ################### 
@@ -521,7 +518,7 @@ class PhysicalUI:
         currVol = (currVol/1023)*1
 
         # set volume
-        self.sd.setVol(self.currVol)
+        self.sd.setVol(currVol)
         
     # turns oled screen on/off
     def toggleBrightness(self):
