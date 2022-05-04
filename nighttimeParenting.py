@@ -513,14 +513,12 @@ class PhysicalUI:
 
     # changes stereo decoder volume
     def toggleVolume(self):
-        # save prev volume
-        prevVol = self.currVol
         # Read from CH1
         readBytes = self.spi.xfer2([1, (8+self.channel2)<<4, 0])
         # obtain digital value
-        self.currVol = (((readBytes[1] & 3) << 8) + readBytes[2])
+        currVol = (((readBytes[1] & 3) << 8) + readBytes[2])
         # map volume to value between 0 and 1
-        self.currVol = (self.currVol/1023)*1
+        currVol = (self.currVol/1023)*1
 
         # set volume
         self.sd.setVol(self.currVol)
@@ -534,7 +532,7 @@ class PhysicalUI:
         currBrightness = (((readBytes[1] & 3) << 8) + readBytes[2])
 
         # toggle brightness by difference
-        if (currBrightness < 100):
+        if (currBrightness > 700):
             self.oled.turnDisplayOff()
         
         else:
