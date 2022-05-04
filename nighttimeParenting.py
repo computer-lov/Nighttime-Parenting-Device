@@ -405,10 +405,16 @@ class ledBar:
         for val in [0b00000000, 0b10000000, 0b11000000, 0b11100000, 0b11110000, 0b11111000, 0b11111100, 0b11111110, 0b11111111]:
             self.spi.xfer([val])
             time.sleep(self.dt)
+        GPIO.output(5, GPIO.HIGH)
+        time.sleep(self.dt)
+        GPIO.output(27, GPIO.HIGH)
+        time.sleep(self.dt)
 
     def breathe_out(self):
-        GPIO.output(5, GPIO.LOW)
         GPIO.output(27, GPIO.LOW)
+        time.sleep(self.dt)
+        GPIO.output(27, GPIO.LOW)
+        time.sleep(self.dt)
         for val in [0b11111111, 0b11111110, 0b11111100, 0b11111000, 0b11110000, 0b11100000, 0b11000000, 0b10000000, 0b00000000]:
             self.spi.xfer([val])
             time.sleep(self.dt)
