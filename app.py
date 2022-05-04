@@ -55,12 +55,13 @@ def calculateStessLevel():
         print("Released i2cL in calculateStressLevel")
 
         print(BPM, Spo2)
-
+        """
         # determine if stress level is high
         if (BPM != None and Spo2 != None):
             # calculate average bpm and sp02 
             BPM = stressLevel[0]
             Spo2 = stressLevel[1]
+        """
 
         if (BPM >= 110 and Spo2 < 95):
             disableAll.clear()
