@@ -73,10 +73,12 @@ def calculateStessLevel():
 # displays time
 def timeDisplay():
     while True:
-        with i2cL:
-            oled.clearDisplay()
-            oled.displayTime()
-        time.sleep(1) # new time displayed every second
+        if not toggleMessage:
+            with displayL:
+                with i2cL:
+                    oled.clearDisplay()
+                    oled.displayTime()
+            # time.sleep(60) # new time displayed every 60 seconds
 
 ############### tasks that run in response to stress level ##############
 
@@ -94,11 +96,12 @@ def messageDisplay():
     while toggleMessage:
         enableMessages.wait()
         for mes in messages:
-            with i2cL:
-                oled.clearDisplay()
-                oled.printMessage(mes)
-                time.sleep(3)
-            time.sleep(10) # new message displayed every 3 seconds
+            with displayL:
+                with i2cL:
+                    oled.clearDisplay()
+                    oled.printMessage(mes)
+                time.sleep(10)
+            # time.sleep(10) # new message displayed every 3 seconds
 
 # updates breathing
 def updateBreathing():
@@ -118,8 +121,8 @@ def playMusic():
 def haltStressRelief():
     disableAll.wait()
     sd.stop()
-    with i2cL:
-        oled.turnDisplayOff()
+    # with i2cL:
+    #    oled.turnDisplayOff()
 
 ############### tasks that run in response to baby wakeup ##############
 
@@ -210,6 +213,7 @@ if __name__ == "__main__":
     # creates locks
     i2cL = Lock()
     spiL = Lock()
+    displayL = Lock()
 
     # create events
     wakeup = Event()
