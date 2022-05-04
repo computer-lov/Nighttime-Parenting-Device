@@ -376,7 +376,6 @@ class HRSensor:
 
         # wait for valid data
         while HR_SPO2[0] == None and HR_SPO2[1] == None:
-            print("calling get all data")
             HR_SPO2 = self.getAllData()
         return (HR_SPO2[0], HR_SPO2[1])
 
