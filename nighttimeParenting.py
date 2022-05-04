@@ -350,6 +350,7 @@ class HRSensor:
             num_bytes = self.sensor.get_data_present()
 
             while num_bytes > 0:
+                print("number of bytes is", num_bytes)
                 red, ir = self.sensor.read_fifo()
                 num_bytes -= 1
                 dataCount += 1
@@ -374,6 +375,7 @@ class HRSensor:
 
         # wait for valid data
         while HR_SPO2[0] == None and HR_SPO2[1] == None:
+            print("calling get all data")
             HR_SPO2 = self.getAllData()
         return (HR_SPO2[0], HR_SPO2[1])
 
