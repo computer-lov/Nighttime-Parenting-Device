@@ -521,13 +521,14 @@ class PhysicalUI:
         self.sd.setVol(currVol)
         
     # turns oled screen on/off
-    def toggleBrightness(self):
+    def getBrightness(self):
         # get current brightness
         # Read from CH2
         readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
         # obtain digital value
         currBrightness = (((readBytes[1] & 3) << 8) + readBytes[2])
 
+    def setBrightness(self, currBrightness):
         # toggle brightness by difference
         if (currBrightness > 700):
             self.oled.turnDisplayOff()
