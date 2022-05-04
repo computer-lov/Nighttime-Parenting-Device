@@ -21,22 +21,6 @@ def sendEmail(message):
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
 
-# displays time
-def timeDisplay():
-    with i2cL:
-        oled.clearDisplay()
-        oled.displayTime()
-    time.sleep(1) # new time displayed every second
-
-# displays encouriging messages
-def messageDisplay():
-    with i2cL:
-        for mes in messages:
-            oled.clearDisplay()
-            oled.printMessage(mes)
-            time.sleep(3) # new message displayed every 3 seconds
-    time.sleep(3)
-
 #################### tasks that run in background ####################
 
 # monitors audio level in bedrooom
@@ -55,6 +39,7 @@ def monitorBaby():
         # return true if audio level above threshold
         if isTriggered:
             wakeup.set()
+        time.sleep(3)
 
 # calculate stress level of caregiver
 def calculateStessLevel():
@@ -96,14 +81,22 @@ def notifyStessLevels():
     BPM above 110 and SPO2 below 95%."""
     # sendEmail(message)
 
-# updates encouriging messages
-def updateDisplay():
-    enableMessages.wait()
+# displays time
+def timeDisplay():
     while True:
-        if state:
-            timeDisplay()
-        else:
-            messageDisplay()
+        with i2cL:
+            oled.clearDisplay()
+            oled.displayTime()
+        time.sleep(1) # new time displayed every second
+
+# displays encouriging messages
+def messageDisplay():
+    while toggleMessage:
+        for mes in messages:
+            with i2cL:
+                oled.clearDisplay()
+                oled.printMessage(mes)
+            time.sleep(10) # new message displayed every 3 seconds
 
 # updates breathing
 def updateBreathing():
@@ -142,23 +135,15 @@ def wakeupEvent():
 
 ############### tasks that run in response to stress browser UI ##############
 
-# toggles message and time for display
-def changeScreenView():
-    global state
-    if state:
-        state = 0
-    else:
-        state = 1
-
 # pauses messages
 def pauseMessages():
-    with i2cL:
-        oled.turnDisplayOff()
+    global toggleMessage
+    toggleMessage = False
 
 # resumes messages
 def resumeMessages():
-    with i2cL:
-        oled.turnDisplayOn()
+    global toggleMessage
+    toggleMessage = True
 
 # pauses music
 def pauseMusic():
@@ -227,7 +212,8 @@ if __name__ == "__main__":
     disableAll = Event()
 
     # set state to zero by default (display encouring messages)
-    state = 0
+    toggleMessage = True
+
     # taken from parenting.firstcry.com
     messages = ["You are doing great; it will be over soon, hang in there!", 
                 "Keep calm, hold your breath, and change this diaper.", 
@@ -249,22 +235,24 @@ if __name__ == "__main__":
     t2.start()
     t3 = Thread(target=notifyStessLevels)
     t3.start()
-    t4 = Thread(target=updateDisplay)
+    t4 = Thread(target=messageDisplay)
     t4.start()
-    t5 = Thread(target=updateBreathing)
+    t5 = Thread(target=timeDisplay)
     t5.start()
-    t6 = Thread(target=playMusic)
+    t6 = Thread(target=updateBreathing)
     t6.start()
-    t7 = Thread(target=haltStressRelief)
+    t7 = Thread(target=playMusic)
     t7.start()
-    t8 = Thread(target=wakeupEvent)
+    t8 = Thread(target=haltStressRelief)
     t8.start()
-    t9 = Thread(target=updateBrightness)
+    t9 = Thread(target=wakeupEvent)
     t9.start()
-    t10 = Thread(target=updateVolume)
+    t10 = Thread(target=updateBrightness)
     t10.start()
-    t11 = Thread(target=sendSOS)
+    t11 = Thread(target=updateVolume)
     t11.start()
+    t12 = Thread(target=sendSOS)
+    t12.start()
 
     # join threads
     t1.join()
@@ -278,4 +266,5 @@ if __name__ == "__main__":
     t9.join()
     t10.join()
     t11.join()
+    t12.join()
 
