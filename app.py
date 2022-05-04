@@ -162,30 +162,35 @@ def adjustVolume(volLevel):
 
 # updates brightness
 def updateBrightness():
-    with spiL:
-        phyUI.toggleBrightness()
-
+    while True:
+        with spiL and i2cL:
+            phyUI.toggleBrightness()
+        time.sleep(3)
+    
 # updates volume
 def updateVolume():
-    with spiL:
-        phyUI.toggleVolume()
+    while True:
+        with spiL:
+            phyUI.toggleVolume()
+        time.sleep(3)
 
 # send SOS message to parent
 def sendSOS():
-    if phyUI.triggerSOS():
-        # send email
-        message = """\
-        Subject: SOS
-            
-        In dire need of assistance! Please come help!"""
-        #sendEmail(message)
+    while True:
+        if phyUI.triggerSOS():
+            # send email
+            message = """\
+            Subject: SOS
+                
+            In dire need of assistance! Please come help!"""
+            #sendEmail(message)
 
-        # show confirmation on display
-        confirmMes = "Email sent successfully!"
-        with i2cL:
-            oled.clearDisplay()
-            oled.printMessage(confirmMes)
-            time.sleep(3) # let it appear on screen for 3 seconds
+            # show confirmation on display
+            confirmMes = "Email sent successfully!"
+            # with i2cL:
+            #    oled.clearDisplay()
+            #    oled.printMessage(confirmMes)
+        time.sleep(3) # let it appear on screen for 3 seconds
 
 if __name__ == "__main__":
     # create objects
