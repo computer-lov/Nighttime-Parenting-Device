@@ -121,8 +121,6 @@ def playMusic():
 def haltStressRelief():
     disableAll.wait()
     sd.stop()
-    with spiL:
-        lBar.turnOffLBar()
     with i2cL:
         oled.turnDisplayOff()
 
