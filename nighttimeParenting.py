@@ -348,6 +348,7 @@ class HRSensor:
         while dataCount <= dataCap:
             # check if any data is available
             num_bytes = self.sensor.get_data_present()
+            print("Before num_bytes loop", num_bytes)
 
             while num_bytes > 0:
                 print("number of bytes is", num_bytes)
