@@ -43,11 +43,8 @@ def monitorBaby():
 
 # calculate stress level of caregiver
 def calculateStessLevel():
-    # get once with blocking function
-    with i2cL:
-        stressLevel = hrs.getHR_SPO2_blocking()
-    BPM = stressLevel[0]
-    Spo2 = stressLevel[1]
+    BPM = 111
+    Spo2 = 94
 
     while True:
         # get stress level
