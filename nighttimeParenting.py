@@ -474,16 +474,6 @@ class ledBar:
         time.sleep(self.dt)
         self.spi.xfer([0b00000000])
         time.sleep(self.dt)
-    
-    # turns off led bar
-    def turnOffLBar(self):
-        GPIO.setup(5, GPIO.IN)
-        GPIO.output(27, GPIO.IN)
-
-    # turns on led bar
-    def turnOnLBar(self):
-        GPIO.setup(5, GPIO.OUT)
-        GPIO.output(27, GPIO.OUT)
 
 ############################## Physical UI ###############################
 
@@ -516,12 +506,6 @@ class PhysicalUI:
         self.spi.mode = 0b00
         self.spi.max_speed_hz = 1350000
 
-        # get current volume
-        # Read from CH1
-        readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
-        # obtain digital value
-        self.currVol = (((readBytes[1] & 3) << 8) + readBytes[2])
-
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
         self.pin = 17 # gpio 17
@@ -532,7 +516,7 @@ class PhysicalUI:
         # save prev volume
         prevVol = self.currVol
         # Read from CH1
-        readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
+        readBytes = self.spi.xfer2([1, (8+self.channel2)<<4, 0])
         # obtain digital value
         self.currVol = (((readBytes[1] & 3) << 8) + readBytes[2])
         # map volume to value between 0 and 1
@@ -545,20 +529,16 @@ class PhysicalUI:
     def toggleBrightness(self):
         # get current brightness
         # Read from CH2
-        readBytes = self.spi.xfer2([1, (8+self.channel2)<<4, 0])
+        readBytes = self.spi.xfer2([1, (8+self.channel1)<<4, 0])
         # obtain digital value
         currBrightness = (((readBytes[1] & 3) << 8) + readBytes[2])
 
-        print(currBrightness)
-
         # toggle brightness by difference
-        if (currBrightness < 255):
+        if (currBrightness < 100):
             self.oled.turnDisplayOff()
-            self.lbar.turnOffLBar()
         
-        elif (currBrightness > 755):
+        else:
             self.oled.turnDisplayOn()
-            self.lbar.turnOnLBar()
 
     # trigger SOS button
     def triggerSOS(self):
