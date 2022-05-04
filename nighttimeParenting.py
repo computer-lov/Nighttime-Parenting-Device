@@ -518,7 +518,7 @@ class PhysicalUI:
         # obtain digital value
         currVol = (((readBytes[1] & 3) << 8) + readBytes[2])
         # map volume to value between 0 and 1
-        currVol = (self.currVol/1023)*1
+        currVol = (currVol/1023)*1
 
         # set volume
         self.sd.setVol(self.currVol)
