@@ -108,7 +108,6 @@ def updateBreathing():
     enableBreathing.wait()
     while True:
         with spiL:
-            lBar.turnOnLBar()
             lBar.breathe_in()
             lBar.breathe_out()
 
@@ -158,16 +157,6 @@ def pauseMessages():
 def resumeMessages():
     with i2cL:
         oled.turnDisplayOn()
-
-# pauses breathing
-def pauseBreathing():
-    with spiL:
-        lBar.turnOffLBar()
-    
-# resumes breathing
-def resumeBreathing():
-    with spiL:
-        lBar.turnOnLBar()
 
 # pauses music
 def pauseMusic():
