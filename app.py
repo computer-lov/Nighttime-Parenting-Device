@@ -201,7 +201,7 @@ def sendSOS():
         if phyUI.triggerSOS():
             # send email
             print("button")
-            message = """\n
+            message = """
             Subject: SOS\n
             
             In dire need of assistance! Please come help!"""
