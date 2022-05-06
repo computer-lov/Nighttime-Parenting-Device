@@ -14,10 +14,10 @@ if __name__ == "__main__":
     print("Current Digital Value: ", dVal)
     print("Current Analog Value: ", "{:.2f}".format(aVal), "V")
     tIntv = 10
-    avg = m.getPkPkAvg(tIntv)
-    print("Calculating Average over 10 second interval...")
-    print("Average Digital Value: ", "{:.0f}".format(avg))
-    print("Average Analog Value: ",  "{:.2f}".format(m.getAnalogVal(avg)), "V")
+    # avg = m.getPkPkAvg(tIntv)
+    # print("Calculating Average over 10 second interval...")
+    # print("Average Digital Value: ", "{:.0f}".format(avg))
+    # print("Average Analog Value: ",  "{:.2f}".format(m.getAnalogVal(avg)), "V")
     trigVal = 10
     isTriggered = m.trigger(trigVal, tIntv)
     message = "Voltage is above threshold value..." if isTriggered else "Voltage is below threshold value..."
