@@ -182,7 +182,7 @@ def updateBrightness():
     while True:
         with spiL:
             currBrightness = phyUI.getBrightness()
-            print(str(curBrightness))
+            print(str(currBrightness))
         with i2cL:
             phyUI.setBrightness(currBrightness)
 
