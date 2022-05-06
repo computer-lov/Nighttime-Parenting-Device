@@ -140,7 +140,7 @@ def haltStressRelief():
 def wakeupEvent():
     global log
     wakeup.wait()
-    wakeupTime = datetime.now().strftime("%B %d, %Y %H:%M:%S %p")
+    wakeupTime = datetime.now().strftime("%B %d, %Y %I:%M:%S %p")
     log.append(wakeupTime)
     message = """Subject: Your baby is Awake!\n 
         
