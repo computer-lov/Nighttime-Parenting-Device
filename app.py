@@ -251,7 +251,7 @@ if __name__ == "__main__":
     #sender_email = "apm532@nyu.edu"
     reeiver_email = "ag7997@nyu.edu"
     password = "sprintev3"
-    sender_email = "arongoldberg4@gmail.com"
+    sender_email = "tzali.goldberg@yahoo.com"
     # receiver_email = input("Type your email and press enter: ")
     # password = input("Type your password and press enter: ")
 
