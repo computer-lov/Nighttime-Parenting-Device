@@ -198,9 +198,9 @@ def sendSOS():
             # send email
             print("button")
             message = "\
-            Subject: SOS
-                
-            In dire need of assistance! Please come help!"
+            Subject: SOS"
+            #  k  
+            #In dire need of assistance! Please come help!"
             sendEmail(message)
 
             # show confirmation on display
