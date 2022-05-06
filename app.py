@@ -196,11 +196,12 @@ def sendSOS():
     while True:
         if phyUI.triggerSOS():
             # send email
-            message = """\
+            print("button")
+            message = "\
             Subject: SOS
                 
-            In dire need of assistance! Please come help!"""
-            #sendEmail(message)
+            In dire need of assistance! Please come help!"
+            sendEmail(message)
 
             # show confirmation on display
             confirmMes = "Email sent successfully!"
