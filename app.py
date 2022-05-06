@@ -142,11 +142,10 @@ def wakeupEvent():
     wakeup.wait()
     wakeupTime = datetime.now().strftime("%B %d, %Y %H:%M:%S %p")
     log.append(wakeupTime)
-    message = """\
-    Subject: Your baby is Awake! 
+    message = """Subject: Your baby is Awake!\n 
         
     Your baby woke up at approximately """ + wakeupTime + "."
-    # sendEmail(message)
+    sendEmail(message)
     wakeup.clear()
 
 ############### tasks that run in response to stress browser UI ##############
