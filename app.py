@@ -249,7 +249,7 @@ if __name__ == "__main__":
                 "Houston, we have a problem... It is code brown."]
 
     # set up server for email
-    port = 587 #465 #587  # For starttls
+    port = 465 #587  # For starttls
     smtp_server = "smtp.mail.yahoo.com" #"smtp.gmail.com"
     #sender_email = "apm532@nyu.edu"
     receiver_email = "ag7997@nyu.edu"
