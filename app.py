@@ -96,11 +96,10 @@ def timeDisplay():
 # sends email warning stress levels are high
 def notifyStessLevels():
     stressHigh.wait()    
-    message = """\
-    Subject: Stress Level Elevated!
+    message = """Subject: Stress Level Elevated!\n
 
     BPM above 110 and SPO2 below 95%."""
-    # sendEmail(message)
+    sendEmail(message)
 
 # displays encouriging messages
 def messageDisplay():
