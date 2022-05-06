@@ -111,7 +111,7 @@ def messageDisplay():
                 with i2cL:
                     oled.clearDisplay()
                     oled.printMessage(mes)
-                time.sleep(10)
+            time.sleep(10)
             # time.sleep(10) # new message displayed every 3 seconds
 
 # updates breathing
