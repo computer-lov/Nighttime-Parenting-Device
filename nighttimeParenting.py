@@ -496,9 +496,8 @@ class PhysicalUI:
 
     def setBrightness(self, currBrightness):
         # toggle brightness by difference
-        if (currBrightness > 700):
+        if (currBrightness > 200):
             self.oled.turnDisplayOff()
-        
         else:
             self.oled.turnDisplayOn()
 
