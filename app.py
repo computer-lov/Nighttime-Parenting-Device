@@ -210,6 +210,7 @@ def sendSOS():
             confirmMes = "Email sent successfully!"
             with displayL:
                 with i2cL:
+                    print(confirmMes)
                     oled.clearDisplay()
                     oled.displayTime()
                 time.sleep(3)
