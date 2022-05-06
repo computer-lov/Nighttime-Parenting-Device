@@ -347,7 +347,7 @@ class HRSensor:
     
         # grab all the data and stash it into arrays
         # loop until data is found
-        while dataCount <= dataCap and ((time.time()-start) < timeout):
+        while dataCount <= dataCap:
             # check if any data is available
             num_bytes = self.sensor.get_data_present()
 
