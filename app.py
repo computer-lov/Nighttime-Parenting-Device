@@ -182,7 +182,7 @@ def updateBrightness():
     while True:
         with spiL:
             currBrightness = phyUI.getBrightness()
-        print("brightness is level: " + str(currBrightness))
+            print("brightness is level: " + str(currBrightness))
         with i2cL:
             phyUI.setBrightness(currBrightness)
 
@@ -201,8 +201,7 @@ def sendSOS():
         if phyUI.triggerSOS():
             # send email
             print("button")
-            message = """
-            Subject: SOS\n
+            message = """Subject: SOS\n
             
             In dire need of assistance! Please come help!"""
             sendEmail(message)
