@@ -247,7 +247,10 @@ if __name__ == "__main__":
     # set up server for email
     port = 587  # For starttls
     smtp_server = "smtp.gmail.com"
-    sender_email = "apm532@nyu.edu"
+    #sender_email = "apm532@nyu.edu"
+    reeiver_email = "ag7997@nyu.edu"
+    password = "sprintev3"
+    sender_email = "arongoldberg4@gmail.com"
     # receiver_email = input("Type your email and press enter: ")
     # password = input("Type your password and press enter: ")
 
