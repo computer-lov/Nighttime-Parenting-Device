@@ -183,7 +183,12 @@ def updateBrightness():
         with spiL:
             currBrightness = phyUI.getBrightness()
             print(str(currBrightness))
+        #if displayL.locked():
+         #   displayL.release()
+        if i2cL.locked():
+            i2cL.release()
         with i2cL:
+          #  with displayL:
             phyUI.setBrightness(currBrightness)
 
         time.sleep(3)
