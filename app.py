@@ -16,9 +16,10 @@ import smtplib, ssl
 # sends email to caregiver
 def sendEmail(message):
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port) as server:
+    with smtplib.SMTP(smtp_server, port) as server:
         server.set_debuglevel(1)
-        #server.starttls(context=context)
+        server.ehlo()
+        server.starttls(context=context)
         server.ehlo()
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
@@ -248,7 +249,7 @@ if __name__ == "__main__":
                 "Houston, we have a problem... It is code brown."]
 
     # set up server for email
-    port = 465 #587  # For starttls
+    port = 587 #465 #587  # For starttls
     smtp_server = "smtp.mail.yahoo.com" #"smtp.gmail.com"
     #sender_email = "apm532@nyu.edu"
     receiver_email = "ag7997@nyu.edu"
