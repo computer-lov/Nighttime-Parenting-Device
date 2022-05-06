@@ -16,7 +16,7 @@ import smtplib, ssl
 # sends email to caregiver
 def sendEmail(message):
     context = ssl.create_default_context()
-    with smtplib.SMTP(smtp_server, port) as server:
+    with smtplib.SMTP_SSL(smtp_server, port) as server:
         server.starttls(context=context)
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
@@ -249,7 +249,7 @@ if __name__ == "__main__":
     port = 587  # For starttls
     smtp_server = "smtp.mail.yahoo.com" #"smtp.gmail.com"
     #sender_email = "apm532@nyu.edu"
-    reeiver_email = "ag7997@nyu.edu"
+    receiver_email = "ag7997@nyu.edu"
     password = "sprintev3"
     sender_email = "tzali.goldberg@yahoo.com"
     # receiver_email = input("Type your email and press enter: ")
