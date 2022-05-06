@@ -19,7 +19,7 @@ def sendEmail(message):
     with smtplib.SMTP_SSL(smtp_server, port) as server:
         server.set_debuglevel(1)
         #server.starttls(context=context)
-        server.ehlo
+        server.ehlo()
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
 
