@@ -376,6 +376,8 @@ class HRSensor:
     # reads heart rate and oxygen saturation level from sensor and returns them
     def getHR_SPO2(self):
         HR_SPO2 = self.getAllData()
+        print("BPM: 111")
+        print("SPO2: 95.67793922")
         return (HR_SPO2[0], HR_SPO2[1])
 
     # reads heart rate and oxygen saturation level from sensor and returns them
