@@ -197,10 +197,10 @@ def sendSOS():
         if phyUI.triggerSOS():
             # send email
             print("button")
-            message = "\
-            Subject: SOS"
-            #  k  
-            #In dire need of assistance! Please come help!"
+            message = """\
+            Subject: SOS
+            
+            In dire need of assistance! Please come help!"""
             sendEmail(message)
 
             # show confirmation on display
@@ -247,7 +247,7 @@ if __name__ == "__main__":
 
     # set up server for email
     port = 587  # For starttls
-    smtp_server = "smtp.gmail.com"
+    smtp_server = "smtp.mail.yahoo.com" #"smtp.gmail.com"
     #sender_email = "apm532@nyu.edu"
     reeiver_email = "ag7997@nyu.edu"
     password = "sprintev3"
