@@ -16,8 +16,11 @@ import smtplib, ssl
 # sends email to caregiver
 def sendEmail(message):
     context = ssl.create_default_context()
-    with smtplib.SMTP(smtp_server, port) as server:
-        server.starttls(context=context)
+    with smtplib.SMTP_SSL(smtp_server, port) as server:
+        server.set_debuglevel(1)
+        #server.ehlo()
+        #server.starttls(context=context)
+        server.ehlo()
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
 
@@ -93,11 +96,10 @@ def timeDisplay():
 # sends email warning stress levels are high
 def notifyStessLevels():
     stressHigh.wait()    
-    message = """\
-    Subject: Stress Level Elevated!
+    message = """Subject: Stress Level Elevated!\n
 
     BPM above 110 and SPO2 below 95%."""
-    # sendEmail(message)
+    sendEmail(message)
 
 # displays encouriging messages
 def messageDisplay():
@@ -108,7 +110,7 @@ def messageDisplay():
                 with i2cL:
                     oled.clearDisplay()
                     oled.printMessage(mes)
-                time.sleep(10)
+            time.sleep(10)
             # time.sleep(10) # new message displayed every 3 seconds
 
 # updates breathing
@@ -138,13 +140,12 @@ def haltStressRelief():
 def wakeupEvent():
     global log
     wakeup.wait()
-    wakeupTime = datetime.now().strftime("%B %d, %Y %H:%M:%S %p")
+    wakeupTime = datetime.now().strftime("%B %d, %Y %I:%M:%S %p")
     log.append(wakeupTime)
-    message = """\
-    Subject: Your baby is Awake! 
+    message = """Subject: Your baby is Awake!\n 
         
     Your baby woke up at approximately """ + wakeupTime + "."
-    # sendEmail(message)
+    sendEmail(message)
     wakeup.clear()
 
 ############### tasks that run in response to stress browser UI ##############
@@ -179,6 +180,7 @@ def updateBrightness():
     while True:
         with spiL:
             currBrightness = phyUI.getBrightness()
+            print("brightness is level: " + str(currBrightness))
         with i2cL:
             phyUI.setBrightness(currBrightness)
 
@@ -196,18 +198,19 @@ def sendSOS():
     while True:
         if phyUI.triggerSOS():
             # send email
-            message = """\
-            Subject: SOS
-                
+            print("button")
+            message = """Subject: SOS\n
+            
             In dire need of assistance! Please come help!"""
-            #sendEmail(message)
+            sendEmail(message)
 
             # show confirmation on display
             confirmMes = "Email sent successfully!"
-            # with i2cL:
-            #    oled.clearDisplay()
-            #    oled.printMessage(confirmMes)
-        time.sleep(3) # let it appear on screen for 3 seconds
+            with displayL:
+                with i2cL:
+                    oled.clearDisplay()
+                    oled.printMessage(confirmMes)
+                time.sleep(3) # let it appear on screen for 3 seconds
 
 if __name__ == "__main__":
     # create objects
@@ -245,9 +248,12 @@ if __name__ == "__main__":
                 "Houston, we have a problem... It is code brown."]
 
     # set up server for email
-    port = 587  # For starttls
-    smtp_server = "smtp.gmail.com"
-    sender_email = "apm532@nyu.edu"
+    port = 465 #587  # For starttls
+    smtp_server = "smtp.mail.yahoo.com" #"smtp.gmail.com"
+    #sender_email = "apm532@nyu.edu"
+    receiver_email = "ag7997@nyu.edu"
+    password = "spqcgqenfthwonyz"
+    sender_email = "tzali.goldberg@yahoo.com"
     # receiver_email = input("Type your email and press enter: ")
     # password = input("Type your password and press enter: ")
 

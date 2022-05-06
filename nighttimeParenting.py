@@ -470,7 +470,7 @@ class PhysicalUI:
 
         # set up GPIO
         GPIO.setmode(GPIO.BCM)
-        self.pin = 17 # gpio 17
+        self.pin = 16 # gpio 17
         GPIO.setup(self.pin, GPIO.IN)
 
     # changes stereo decoder volume
@@ -496,10 +496,11 @@ class PhysicalUI:
 
     def setBrightness(self, currBrightness):
         # toggle brightness by difference
-        if (currBrightness > 700):
+        if (currBrightness > 200):
+            print("disp off")
             self.oled.turnDisplayOff()
-        
         else:
+            print("disp on")
             self.oled.turnDisplayOn()
 
     # trigger SOS button
