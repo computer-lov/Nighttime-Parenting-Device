@@ -359,6 +359,7 @@ class HRSensor:
     
         # calculate hr and spo2
         bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
+        self.sensor.reset()
 
         # validate data
         if valid_bpm and valid_spo2:
