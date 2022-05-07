@@ -104,7 +104,7 @@ if __name__ == "__main__":
     hr_spo2 = hrs.getHR_SPO2()
     print("Heart Rate (BPM): ", hr_spo2[0])
     print("Oxygen Saturation Level (SPO2): ", hr_spo2[1])
-    
+    """
     ###################### CODE TO TEST LED Bar #######################
 
     # initialize led bar object
@@ -130,7 +130,7 @@ if __name__ == "__main__":
             phyUI.triggerSOS()
         except KeyboardInterrupt:
             break
-
+    """
 
 
 
