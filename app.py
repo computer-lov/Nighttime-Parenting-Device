@@ -47,9 +47,6 @@ def monitorBaby():
 
         if isTriggered:
             trigCount += 1
-
-        if not isTriggered:
-            trigCount = 0
             
         time.sleep(3)
 
@@ -57,11 +54,8 @@ def monitorBaby():
 def calculateStessLevel():
     while True:
         # get stress level
-        print("Waiting to acquire i2cL in calculateStressLevel")
         with i2cL:
-            print("Acquired i2cL in calculateStressLevel")
             stressLevel = hrs.getHR_SPO2()
-        print("Released i2cL in calculateStressLevel")
         
         # determine if stress level is high
         if (stressLevel[0] != None and stressLevel[1] != None):
