@@ -26,8 +26,8 @@ def sendEmail(message):
 def monitorBaby():
     # time interval to 10 seconds
     timeInt = 2
-    # trigger value (pk-pk) set to 40
-    trigVal = 40
+    # trigger value (pk-pk) set to 35
+    trigVal = 35
 
     # constantly monitor audio levels
     while True:
@@ -36,7 +36,6 @@ def monitorBaby():
         
         # set wakeup event in motion if threshold is broken over 5 times
         if isTriggered:
-            trigCount = 0
             wakeup.set()
             asleep.wait()
             
