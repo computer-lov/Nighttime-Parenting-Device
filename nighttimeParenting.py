@@ -342,8 +342,8 @@ class HRSensor:
         red_data = []
         dataCap = 100
         dataCount = 0
-        start = time.time()
-        timeout = 30
+        # start = time.time()
+        # timeout = 30
     
         # grab all the data and stash it into arrays
         # loop until data is found
