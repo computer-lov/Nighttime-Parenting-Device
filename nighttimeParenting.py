@@ -330,19 +330,14 @@ class OLED:
 
 class HRSensor:
 
-    # initializes Heart Rate Sensor sensor
-    def __init__(self):
-        self.bpm = 0
-
     # collects bpm and spo2 data from heart rate sensor
-    def getAllData(self):
+    def readSensor(self):
         # initialize heart rate monitor class
         sensor = MAX30102.MAX30102()
         ir_data = []
         red_data = []
         dataCap = 100
         dataCount = 0
-
     
         # grab all the data and stash it into arrays
         # loop until data is found
@@ -371,7 +366,7 @@ class HRSensor:
 
     # reads heart rate and oxygen saturation level from sensor and returns them
     def getHR_SPO2(self):
-        HR_SPO2 = self.getAllData()
+        HR_SPO2 = self.readSensor()
         return (HR_SPO2[0], HR_SPO2[1])
 
     # reads heart rate and oxygen saturation level from sensor and returns them
@@ -409,13 +404,8 @@ class ledBar:
     def set_bar_level(self, level):
         GPIO.output(5,  level & 0b1000000000)
         GPIO.output(27, level & 0b0100000000)
-        self.spi.xfer([ level & 0b0011111111])
+        self.spi.xfer([level & 0b0011111111])
 
-    #def breathe_in(ledbarthing): goes in app layer
-    #    for val in [list of 10-bit values]:
-    #        with spiL:
-    #            set_bar_level(88)
-    #        time.sleep(somethign)
 
     def breathe_in(self):
         GPIO.output(5, GPIO.LOW)

@@ -42,6 +42,7 @@ def monitorBaby():
         # return true if audio level above threshold
         if isTriggered:
             wakeup.set()
+            asleep.wait()
         time.sleep(3)
 
 # calculate stress level of caregiver
@@ -53,7 +54,6 @@ def calculateStessLevel():
             print("Acquired i2cL in calculateStressLevel")
             stressLevel = hrs.getHR_SPO2()
         print("Released i2cL in calculateStressLevel")
-        time.sleep(2)
         
         # determine if stress level is high
         if (stressLevel[0] != None and stressLevel[1] != None):
@@ -62,17 +62,13 @@ def calculateStessLevel():
             Spo2 = stressLevel[1]
 
             if (BPM >= 110 and Spo2 < 95):
-                disableAll.clear()
                 stressHigh.set()
                 enableBreathing.set()
                 enableMessages.set()
                 enableMusic.set()
-        else:
-            stressHigh.clear()
-            enableBreathing.clear()
-            enableMessages.clear()
-            enableMusic.clear()
-            disableAll.set()
+
+        # read bpm and spo2 every 5 minutes
+        time.sleep(300)
 
 # displays time
 def timeDisplay():
@@ -82,50 +78,51 @@ def timeDisplay():
                 with i2cL:
                     oled.clearDisplay()
                     oled.displayTime()
-            # time.sleep(60) # new time displayed every 60 seconds
+                time.sleep(60) # new time display every minute
 
 ############### tasks that run in response to stress level ##############
 
 # sends email warning stress levels are high
 def notifyStessLevels():
-    stressHigh.wait()    
-    message = """Subject: Stress Level Elevated!\n
+    while True:
+        stressHigh.wait()    
+        message = """Subject: Stress Level Elevated!\n
 
-    BPM above 110 and SPO2 below 95%."""
-    sendEmail(message)
+        BPM above 110 and SPO2 below 95%."""
+        sendEmail(message)
+        stressHigh.clear()
 
 # displays encouriging messages
 def messageDisplay():
-    while toggleMessage:
+    while True:
         enableMessages.wait()
-        for mes in messages:
-            with displayL:
-                with i2cL:
-                    oled.clearDisplay()
-                    oled.printMessage(mes)
-            time.sleep(10)
-            # time.sleep(10) # new message displayed every 3 seconds
+        if toggleMessage:
+            for mes in messages:
+                with displayL:
+                    with i2cL:
+                        oled.clearDisplay()
+                        oled.printMessage(mes)
+                time.sleep(10)
 
 # updates breathing
 def updateBreathing():
     while True:
         enableBreathing.wait()
-        with spiL:
-            lBar.breathe_in()
-            lBar.breathe_out()
-        time.sleep(3)
+        for val in [0b0000000000, 0b1000000000, 0b1100000000, 0b1110000000, 0b1111000000, 
+                    0b1111100000, 0b1111110000, 0b1111111000, 0b1111111100, 0b1111111110, 0b1111111111]:
+            with spiL:
+                infra.set_bar_level(val)
+            time.sleep(0.5)
+        for val in [0b1111111111, 0b1111111110, 0b1111111100, 0b1111111000, 0b1111110000, 
+                    0b1111100000, 0b1111000000, 0b1110000000, 0b1100000000, 0b1000000000, 0b0000000000]:
+            with spiL:
+                infra.set_bar_level(val)
+            time.sleep(0.5)
 
 # turns on soothing music
 def playMusic():
     enableMusic.wait()
     sd.play()
-
-# stops music, breathing exercise, and ecouraging messages
-def haltStressRelief():
-    disableAll.wait()
-    sd.stop()
-    # with i2cL:
-    #    oled.turnDisplayOff()
 
 ############### tasks that run in response to baby wakeup ##############
 
@@ -173,10 +170,8 @@ def updateBrightness():
     while True:
         with spiL:
             currBrightness = phyUI.getBrightness()
-            # print("brightness is level: " + str(currBrightness))
         with i2cL:
             phyUI.setBrightness(currBrightness)
-
         time.sleep(3)
     
 # updates volume
@@ -224,11 +219,11 @@ if __name__ == "__main__":
 
     # create events
     wakeup = Event()
+    asleep = Event()
     stressHigh = Event()
     enableBreathing = Event()
     enableMusic = Event()
     enableMessages = Event()
-    disableAll = Event()
 
     # set state to zero by default (display encouring messages)
     toggleMessage = True
@@ -265,16 +260,14 @@ if __name__ == "__main__":
     t6.start()
     t7 = Thread(target=playMusic)
     t7.start()
-    t8 = Thread(target=haltStressRelief)
+    t8 = Thread(target=wakeupEvent)
     t8.start()
-    t9 = Thread(target=wakeupEvent)
+    t9 = Thread(target=updateBrightness)
     t9.start()
-    t10 = Thread(target=updateBrightness)
+    t10 = Thread(target=updateVolume)
     t10.start()
-    t11 = Thread(target=updateVolume)
+    t11 = Thread(target=sendSOS)
     t11.start()
-    t12 = Thread(target=sendSOS)
-    t12.start()
 
     # join threads
     t1.join()
@@ -288,5 +281,4 @@ if __name__ == "__main__":
     t9.join()
     t10.join()
     t11.join()
-    t12.join()
 
