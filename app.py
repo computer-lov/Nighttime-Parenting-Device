@@ -60,12 +60,15 @@ def calculateStessLevel():
             # calculate average bpm and sp02 
             BPM = stressLevel[0]
             Spo2 = stressLevel[1]
+        
+        BPM = 111
+        Spo2 = 94
 
-            if (BPM >= 110 and Spo2 < 95):
-                stressHigh.set()
-                enableBreathing.set()
-                enableMessages.set()
-                enableMusic.set()
+        if (BPM >= 110 and Spo2 < 95):
+            stressHigh.set()
+            enableBreathing.set()
+            enableMessages.set()
+            enableMusic.set()
 
         # read bpm and spo2 every 5 minutes
         time.sleep(300)
