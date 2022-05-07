@@ -6,10 +6,8 @@ import smtplib, ssl
 
 # TODO:
 #       need to test this layer
-#       need to check if pi has smtplib, ssl libraries
 #       might need to remove a few functions
 #       have to figure out stuff for analytics
-#       figure out when to show time vs encouraging messages
 
 ######################## supporting functions ########################
 
@@ -29,20 +27,29 @@ def sendEmail(message):
 # monitors audio level in bedrooom
 def monitorBaby():
     # time interval to 10 seconds
-    timeInt = 10
+    timeInt = 2
     # trigger value 10
-    trigVal = 10
+    trigVal = 30
+    # trig count 
+    trigCount = 0
 
     # constantly monitor audio levels
     while True:
         with spiL:
-            # isTriggered = m.trigger(trigVal, timeInt)
-            isTriggered = True # made this change to test app layer w/o mic
+            isTriggered = m.trigger(trigVal, timeInt)
         
-        # return true if audio level above threshold
-        if isTriggered:
+        # set wakeup event in motion if threshold is broken over 5 times
+        if trigCount >= 5:
+            trigCount = 0
             wakeup.set()
             asleep.wait()
+
+        if isTriggered:
+            trigCount += 1
+
+        if not isTriggered:
+            trigCount = 0
+            
         time.sleep(3)
 
 # calculate stress level of caregiver
