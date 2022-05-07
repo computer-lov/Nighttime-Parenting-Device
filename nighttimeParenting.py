@@ -332,15 +332,17 @@ class HRSensor:
 
     # initializes Heart Rate Sensor sensor
     def __init__(self):
-        # initialize heart rate monitor class
-        self.sensor = MAX30102.MAX30102()
+        self.bpm = 0
 
     # collects bpm and spo2 data from heart rate sensor
     def getAllData(self):
+        # initialize heart rate monitor class
+        sensor = MAX30102.MAX30102()
         ir_data = []
         red_data = []
         dataCap = 100
         dataCount = 0
+
     
         # grab all the data and stash it into arrays
         # loop until data is found
@@ -358,8 +360,8 @@ class HRSensor:
     
         # calculate hr and spo2
         bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
-        self.sensor.reset()
-
+        sensor.shutdown()
+        
         # validate data
         if valid_bpm and valid_spo2:
             # case if finger not detected
