@@ -27,7 +27,7 @@ def monitorBaby():
     # time interval to 10 seconds
     timeInt = 2
     # trigger value (pk-pk) set to 35
-    trigVal = 35
+    trigVal = 32
 
     # constantly monitor audio levels
     while True:
