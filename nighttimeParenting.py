@@ -440,10 +440,8 @@ class PhysicalUI:
     def setBrightness(self, currBrightness):
         # toggle brightness by difference
         if (currBrightness > 200):
-            print("disp off")
             self.oled.turnDisplayOff()
         else:
-            print("disp on")
             self.oled.turnDisplayOn()
 
     # trigger SOS button
