@@ -114,12 +114,12 @@ def updateBreathing():
         for val in [0b0000000000, 0b0010000000, 0b0011000000, 0b0011100000, 0b0011110000, 
                     0b0011111000, 0b0011111100, 0b0011111110, 0b0011111111, 0b0111111111, 0b1111111111]:
             with spiL:
-                infra.set_bar_level(val)
+                lBar.set_bar_level(val)
             time.sleep(0.5)
         for val in [0b1111111111, 0b0111111111, 0b0011111111, 0b0011111110, 0b0011111100, 
                     0b0011111000, 0b0011110000, 0b0011100000, 0b0011000000, 0b0010000000, 0b0000000000]:
             with spiL:
-                infra.set_bar_level(val)
+                lBar.set_bar_level(val)
             time.sleep(0.5)
 
 # turns on soothing music
