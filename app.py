@@ -5,8 +5,6 @@ from datetime import datetime
 import smtplib, ssl
 
 # TODO:
-#       need to test this layer
-#       might need to remove a few functions
 #       have to figure out stuff for analytics
 
 ######################## supporting functions ########################
@@ -33,7 +31,6 @@ def monitorBaby():
 
     # constantly monitor audio levels
     while True:
-        print(trigCount)
         with spiL:
             isTriggered = m.trigger(trigVal, timeInt)
         
