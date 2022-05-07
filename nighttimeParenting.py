@@ -55,12 +55,12 @@ class micCircuit:
         return aVal
 
     # gets local maximum in single step interval
-    def getAmplitude(self, step):
+    def getPkPkVal(self, timeInterval):
         start = time.time()
         localMax = 0
         localMin = 1024
         # get local max and min in step interval
-        while ((time.time() - start) <= step):
+        while ((time.time() - start) <= timeInterval):
             currVal = self.getDigitalVal()
             localMax = max(currVal, localMax)
             localMin = min(currVal, localMin)
@@ -68,25 +68,6 @@ class micCircuit:
         # calculate peakTopeak amplitude
         peakToPeak = localMax - localMin
         return peakToPeak
-
-    # calculate and returns peak-to-peak average value over a given time interval
-    # step value is set to 100ms by default
-    def getPkPkAvg(self, timeInterval, step = 0.1):
-        start = time.time()
-        # sums up digital value
-        sum = 0
-        # count number of times something is added to sum
-        count = 0
-        while ((time.time() - start) <= timeInterval):
-            curr = self.getAmplitude(step)
-            if (curr > 0):
-                sum += curr
-                count += 1
-        
-        if (count > 0):
-            return sum / count
-        else:
-            return 0
         
     # returns true if avg digital value is greater than threshold false otherwise
     def trigger(self, thresholdVal, timeInterval):
@@ -192,9 +173,6 @@ class OLED:
     OLED_REGADDR = 0x00
     OLED_DISPOFF = 0xAE
     OLED_DISPON  = 0xAF
-
-
-    
 
     # initializes i2c communication parameters for OLED
     def __init__(self):
@@ -405,27 +383,6 @@ class ledBar:
         GPIO.output(5,  level & 0b1000000000)
         GPIO.output(27, level & 0b0100000000)
         self.spi.xfer([level & 0b0011111111])
-
-
-    def breathe_in(self):
-        GPIO.output(5, GPIO.LOW)
-        GPIO.output(27, GPIO.LOW)
-        for val in [0b00000000, 0b10000000, 0b11000000, 0b11100000, 0b11110000, 0b11111000, 0b11111100, 0b11111110, 0b11111111]:
-            self.spi.xfer([val])
-            time.sleep(self.dt)
-        GPIO.output(27, GPIO.HIGH)
-        time.sleep(self.dt)
-        GPIO.output(5, GPIO.HIGH)
-        time.sleep(self.dt)
-
-    def breathe_out(self):
-        GPIO.output(5, GPIO.LOW)
-        time.sleep(self.dt)
-        GPIO.output(27, GPIO.LOW)
-        time.sleep(self.dt)
-        for val in [0b11111111, 0b11111110, 0b11111100, 0b11111000, 0b11110000, 0b11100000, 0b11000000, 0b10000000, 0b00000000]:
-            self.spi.xfer([val])
-            time.sleep(self.dt)
 
 ############################## Physical UI ###############################
 
