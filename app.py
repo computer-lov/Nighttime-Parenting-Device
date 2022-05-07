@@ -28,10 +28,8 @@ def sendEmail(message):
 def monitorBaby():
     # time interval to 10 seconds
     timeInt = 2
-    # trigger value 10
-    trigVal = 30
-    # trig count 
-    trigCount = 0
+    # trigger value (pk-pk) set to 40
+    trigVal = 40
 
     # constantly monitor audio levels
     while True:
@@ -40,15 +38,12 @@ def monitorBaby():
             isTriggered = m.trigger(trigVal, timeInt)
         
         # set wakeup event in motion if threshold is broken over 5 times
-        if trigCount >= 5:
+        if isTriggered:
             trigCount = 0
             wakeup.set()
             asleep.wait()
-
-        if isTriggered:
-            trigCount += 1
             
-        time.sleep(3)
+        time.sleep(2)
 
 # calculate stress level of caregiver
 def calculateStessLevel():
