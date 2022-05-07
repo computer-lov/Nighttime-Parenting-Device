@@ -334,7 +334,6 @@ class HRSensor:
     def __init__(self):
         # initialize heart rate monitor class
         self.sensor = MAX30102.MAX30102()
-        self.oled = OLED()
 
     # collects bpm and spo2 data from heart rate sensor
     def getAllData(self):
