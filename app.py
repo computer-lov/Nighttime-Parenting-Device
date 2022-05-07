@@ -56,17 +56,17 @@ def calculateStessLevel():
         time.sleep(2)
         
         # determine if stress level is high
-        if (BPM != None and Spo2 != None):
+        if (stressLevel[0] != None and stressLevel[1] != None):
             # calculate average bpm and sp02 
             BPM = stressLevel[0]
             Spo2 = stressLevel[1]
 
-        if (BPM >= 110 and Spo2 < 95):
-            disableAll.clear()
-            stressHigh.set()
-            enableBreathing.set()
-            enableMessages.set()
-            enableMusic.set()
+            if (BPM >= 110 and Spo2 < 95):
+                disableAll.clear()
+                stressHigh.set()
+                enableBreathing.set()
+                enableMessages.set()
+                enableMusic.set()
         else:
             stressHigh.clear()
             enableBreathing.clear()
@@ -173,7 +173,7 @@ def updateBrightness():
     while True:
         with spiL:
             currBrightness = phyUI.getBrightness()
-            print("brightness is level: " + str(currBrightness))
+            # print("brightness is level: " + str(currBrightness))
         with i2cL:
             phyUI.setBrightness(currBrightness)
 
