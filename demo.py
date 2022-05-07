@@ -4,7 +4,7 @@ import time
 if __name__ == "__main__":
 
     ##################### CODE TO TEST MIC CIRCUIT #####################
-
+    """
     # initialize mic object
     m = infra.micCircuit()
     print("Testing Microphone Circuit...")
@@ -60,6 +60,7 @@ if __name__ == "__main__":
     print("Stopping audio...")
     sd.stop()
     
+    #################### CODE TO TEST OLED ##################
     oled = infra.OLED()
     print("Displaying clock")
     print(oled.displayTime())
@@ -93,7 +94,7 @@ if __name__ == "__main__":
     print("Clearing display")
     oled.clearDisplay()
     time.sleep(3)
-    
+    """
     ################## CODE TO TEST HEART RATE SENSOR #################
 
     # initialize heart rate sensor object
