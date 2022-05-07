@@ -4,7 +4,6 @@ import time
 if __name__ == "__main__":
 
     ##################### CODE TO TEST MIC CIRCUIT #####################
-    """
     # initialize mic object
     m = infra.micCircuit()
     print("Testing Microphone Circuit...")
@@ -94,7 +93,7 @@ if __name__ == "__main__":
     print("Clearing display")
     oled.clearDisplay()
     time.sleep(3)
-    """
+
     ################## CODE TO TEST HEART RATE SENSOR #################
 
     # initialize heart rate sensor object
@@ -104,7 +103,7 @@ if __name__ == "__main__":
     hr_spo2 = hrs.getHR_SPO2()
     print("Heart Rate (BPM): ", hr_spo2[0])
     print("Oxygen Saturation Level (SPO2): ", hr_spo2[1])
-    """
+
     ###################### CODE TO TEST LED Bar #######################
 
     # initialize led bar object
@@ -130,7 +129,6 @@ if __name__ == "__main__":
             phyUI.triggerSOS()
         except KeyboardInterrupt:
             break
-    """
 
 
 
