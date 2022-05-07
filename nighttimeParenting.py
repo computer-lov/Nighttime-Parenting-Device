@@ -348,10 +348,10 @@ class HRSensor:
         # loop until data is found
         while dataCount <= dataCap:
             # check if any data is available
-            num_bytes = self.sensor.get_data_present()
+            num_bytes = sensor.get_data_present()
 
             while num_bytes > 0:
-                red, ir = self.sensor.read_fifo()
+                red, ir = sensor.read_fifo()
                 num_bytes -= 1
                 dataCount += 1
                 ir_data.append(ir)
@@ -361,7 +361,7 @@ class HRSensor:
         # calculate hr and spo2
         bpm, valid_bpm, spo2, valid_spo2 = hrcalc.calc_hr_and_spo2(ir_data, red_data)
         sensor.shutdown()
-        
+
         # validate data
         if valid_bpm and valid_spo2:
             # case if finger not detected
