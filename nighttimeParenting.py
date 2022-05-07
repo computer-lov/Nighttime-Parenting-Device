@@ -71,7 +71,7 @@ class micCircuit:
         
     # returns true if avg digital value is greater than threshold false otherwise
     def trigger(self, thresholdVal, timeInterval):
-        dVal = self.getPkPkAvg(timeInterval)
+        dVal = self.getPkPkVal(timeInterval)
         res = True if (dVal  >= thresholdVal) else False
         return res
 
