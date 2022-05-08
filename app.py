@@ -177,9 +177,13 @@ def addMessage(mes):
     messages.append(mes)
 
 # deletes specified message
-def deleteMessage(mes):
+# or pops last message
+def deleteMessage(mes=''):
     global messages
-    messages.remove(mes)
+    if mes != '':
+        messages.remove(mes)
+    else:
+        messages.pop()
 
 ############### tasks that run in response to physical UI ##############
 
