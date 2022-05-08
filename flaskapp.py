@@ -12,6 +12,8 @@ def getMessages():
         displayMes += (mes + "\n")
     return displayMes
 
+displayMes = getMessages()
+
 # flask app functions
 @app.route("/")
 def home():
@@ -25,7 +27,6 @@ def home_template():
 def setup_template():
     global caregiver
     caregiver = str(request.form.get("caregiver"))
-    displayMes = getMessages()
 
     if request.method == "GET":
 
@@ -45,13 +46,13 @@ def setup_template():
         if "add" in request.form:
             text = request.form["text"]
             nighttimeAPI.addMessage(text)
-            displayMes = getMessages()
+            displayMes.append(text)
             return render_template("setup.html", messages=displayMes)
 
         if "delete" in request.form:
             text = request.form["text"]
             nighttimeAPI.deleteMessage(text)
-            displayMes = getMessages()
+            displayMes.remove(text)
             return render_template("setup.html", messages=displayMes)
 
     else:
