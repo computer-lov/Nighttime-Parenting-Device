@@ -44,12 +44,13 @@ def setup_template():
     elif request.method == "POST":
         if "add" in request.form:
             text = request.form["text"]
-            nighttimeAPI.messages.append(text)
+            nighttimeAPI.addMessage(text)
             displayMes = getMessages()
             return render_template("setup.html", messages=displayMes)
 
         if "delete" in request.form:
-            nighttimeAPI.messages.pop()
+            text = request.form["text"]
+            nighttimeAPI.deleteMessage(text)
             displayMes = getMessages()
             return render_template("setup.html", messages=displayMes)
 

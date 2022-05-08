@@ -171,6 +171,14 @@ def adjustVolume(volLevel):
     with spiL:
         sd.setVol(volLevel)
 
+# adds message
+def addMessage(mes):
+    messages.append(mes)
+
+# deletes specified message
+def deleteMessage(mes):
+    messages.remove(mes)
+
 ############### tasks that run in response to physical UI ##############
 
 # updates brightness
