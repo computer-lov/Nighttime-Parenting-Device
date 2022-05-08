@@ -56,14 +56,14 @@ def setup_template():
             return render_template("setup.html")
 
         return render_template("setup.html")
-        
+
     else:
         return render_template("setup.html")
 
 @app.route("/templates/analytics")
 def analytics_template():
     data = [17, "01:37:43 AM", "14 minutes 21 seconds", "UP"]
-    return render_template("analytics.html", wakeups=data[0], avgWakeupTime=data[1], avgAwakeTime=data[2], stressLevels=data[4])
+    return render_template("analytics.html", wakeups=data[0], avgWakeupTime=data[1], avgAwakeTime=data[2], stressLevels=data[3])
 
 
 if __name__ == "__main__":
