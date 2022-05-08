@@ -29,7 +29,7 @@ def setup_template():
             return render_template("setup.html")
 
         if "volume" in request.form:
-            nighttimeAPI.adjustVolume(request.form.get("volume"))
+            nighttimeAPI.adjustVolume(float(request.form.get("volume")))
             return render_template("setup.html")
 
         if "add" in request.form:
