@@ -43,14 +43,6 @@ def setup_template():
         nighttimeAPI.messages.pop()
         return render_template("setup.html", messages=displayMes)
 
-    if "guidedBreathing" in request.method:
-        nighttimeAPI.pauseBreathing()
-        return render_template("setup.html", messages=displayMes)
-
-    if not "guidedBreathing" in request.method:
-        nighttimeAPI.resumeBreathing()
-        return render_template("setup.html", messages=displayMes)
-
     if "messages" in request.method:
         nighttimeAPI.pauseMessages()
         return render_template("setup.html", messages=displayMes)
