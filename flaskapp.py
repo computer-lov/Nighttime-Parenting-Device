@@ -24,41 +24,40 @@ def setup_template():
         global caregiver
         caregiver = str(request.form.get("caregiver"))
 
-        if request.form.get("pause"):
+        if "pause" in request.method:
             nighttimeAPI.pauseMusic()
             return render_template("setup.html", messages=displayMes)
 
-        if request.form.get("play"):
+        if "play" in request.method:
             nighttimeAPI.unpauseMusic()
             return render_template("setup.html", messages=displayMes)
 
-        volLevel = request.form.get("volume")
-        if volLevel:
-            nighttimeAPI.adjustVolume(volLevel)
+        if "volume" in request.method:
+            nighttimeAPI.adjustVolume(request.form.get("volume"))
             return render_template("setup.html", messages=displayMes)
 
-        if request.form.get("add"):
+        if "add" in request.method:
             text = request.form["text"]
             nighttimeAPI.messages.append(text)
             return render_template("setup.html", messages=displayMes)
 
-        if request.form.get("delete"):
+        if "delete" in request.method:
             nighttimeAPI.messages.pop()
             return render_template("setup.html", messages=displayMes)
 
-        if request.form.get("guidedBreathing"):
+        if "guidedBreathing" in request.method:
             nighttimeAPI.pauseBreathing()
             return render_template("setup.html", messages=displayMes)
 
-        if not request.form.get("guidedBreathing"):
+        if not "guidedBreathing" in request.method:
             nighttimeAPI.resumeBreathing()
             return render_template("setup.html", messages=displayMes)
 
-        if request.form.get("messages"):
+        if "messages" in request.method:
             nighttimeAPI.pauseMessages()
             return render_template("setup.html", messages=displayMes)
 
-        if not request.form.get("messages"):
+        if not "messages" in request.method:
             nighttimeAPI.resumeMessages()
             return render_template("setup.html", messages=displayMes)
 
