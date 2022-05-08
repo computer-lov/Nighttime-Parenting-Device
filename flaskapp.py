@@ -26,6 +26,7 @@ def home_template():
 @app.route("/templates/setup", methods=['POST', 'GET'])
 def setup_template():
     global caregiver
+    global displayMes
     caregiver = str(request.form.get("caregiver"))
 
     if request.method == "GET":
