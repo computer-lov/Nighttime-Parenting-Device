@@ -1,3 +1,4 @@
+import re
 from flask import Flask, render_template, redirect, request
 import app as nighttimeAPI
 
@@ -36,8 +37,8 @@ def setup_template():
             nighttimeAPI.adjustVolume(volLevel)
             return render_template("setup.html", messages=displayMes)
 
-        text = request.form["add"]
-        if text:
+        if request.form.get("add"):
+            text = request.form["text"]
             nighttimeAPI.messages.append(text)
             return render_template("setup.html", messages=displayMes)
 
@@ -64,7 +65,7 @@ def setup_template():
         return render_template("setup.html", messages=displayMes)
 
     else:
-        return render_template("setup.html", messages=nighttimeAPI.messages)
+        return render_template("setup.html", messages=displayMes)
 
 @app.route("/templates/analytics")
 def analytics_template():
