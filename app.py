@@ -7,6 +7,21 @@ import smtplib, ssl
 # TODO:
 #       have to figure out stuff for analytics
 
+######################## global variables ############################
+
+ # taken from parenting.firstcry.com
+messages = ["You are doing great; it will be over soon, hang in there!", 
+            "Keep calm, hold your breath, and change this diaper.", 
+            "3 am. Party in my crib, be there. Bring your own diaper.",
+            "Poops, I did it again, I made you believe that this could be pee.",
+            "Houston, we have a problem... It is code brown."]
+
+# create empty log
+log = []
+
+# set state to zero by default (display encouring messages)
+toggleMessage = True
+
 ######################## supporting functions ########################
 
 # sends email to caregiver
@@ -202,9 +217,6 @@ if __name__ == "__main__":
     hrs = infra.HRSensor()
     phyUI = infra.PhysicalUI(sd, oled, lBar)
 
-    # create empty log
-    log = []
-
     # creates locks
     i2cL = Lock()
     spiL = Lock()
@@ -217,16 +229,6 @@ if __name__ == "__main__":
     enableBreathing = Event()
     enableMusic = Event()
     enableMessages = Event()
-
-    # set state to zero by default (display encouring messages)
-    toggleMessage = True
-
-    # taken from parenting.firstcry.com
-    messages = ["You are doing great; it will be over soon, hang in there!", 
-                "Keep calm, hold your breath, and change this diaper.", 
-                "3 am. Party in my crib, be there. Bring your own diaper.",
-                "Poops, I did it again, I made you believe that this could be pee.",
-                "Houston, we have a problem... It is code brown."]
 
     # set up server for email
     port = 465 #587  # For starttls
