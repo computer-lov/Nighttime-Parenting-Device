@@ -64,7 +64,7 @@ def setup_template():
         return render_template("setup.html", messages=displayMes)
 
     else:
-        return render_template("setup.html", messages=displayMes)
+        return render_template("setup.html", messages=nighttimeAPI.messages)
 
 @app.route("/templates/analytics")
 def analytics_template():
