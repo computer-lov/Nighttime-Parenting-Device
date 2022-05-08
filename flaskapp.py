@@ -56,6 +56,9 @@ def setup_template():
             return render_template("setup.html")
 
         return render_template("setup.html")
+        
+    else:
+        return render_template("setup.html")
 
 @app.route("/templates/analytics")
 def analytics_template():
