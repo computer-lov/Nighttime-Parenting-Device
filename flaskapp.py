@@ -13,52 +13,60 @@ def home_template():
 
 @app.route("/templates/setup", methods=['POST', 'GET'])
 def setup_template():
+
+
     if request.method=="POST":
         global caregiver
         caregiver = str(request.form.get("caregiver"))
 
+        # get messages to display
+        displayMes = ""
+        for mes in nighttimeAPI.messages:
+            displayMes += mes
+            displayMes += '\n'
+
         if request.form.get("pause"):
             nighttimeAPI.pauseMusic()
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         if request.form.get("play"):
             nighttimeAPI.unpauseMusic()
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         volLevel = request.form.get("volume")
         if volLevel:
             nighttimeAPI.adjustVolume(volLevel)
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         text = request.form["add"]
         if text:
             nighttimeAPI.messages.append(text)
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         if request.form.get("delete"):
             nighttimeAPI.messages.pop()
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         if request.form.get("guidedBreathing"):
             nighttimeAPI.pauseBreathing()
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         if not request.form.get("guidedBreathing"):
             nighttimeAPI.resumeBreathing()
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         if request.form.get("messages"):
             nighttimeAPI.pauseMessages()
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
         if not request.form.get("messages"):
             nighttimeAPI.resumeMessages()
-            return redirect("/templates/setup")
+            return render_template("setup.html", messages=displayMes)
 
-        return render_template("setup.html")
+        return render_template("setup.html", messages=displayMes)
 
     else:
-        return render_template("setup.html")
+        return render_template("setup.html", messages=displayMes)
 
 @app.route("/templates/analytics")
 def analytics_template():
