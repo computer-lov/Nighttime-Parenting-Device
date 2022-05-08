@@ -19,37 +19,46 @@ def setup_template():
 
         if request.form.get("pause"):
             nighttimeAPI.pauseMusic()
+            return render_template("setup.html")
 
         if request.form.get("play"):
             nighttimeAPI.unpauseMusic()
+            return render_template("setup.html")
 
         volLevel = request.form.get("volume")
         if volLevel:
             nighttimeAPI.adjustVolume(volLevel)
+            return render_template("setup.html")
 
         text = request.form["add"]
         if text:
             nighttimeAPI.messages.append(text)
+            return render_template("setup.html")
 
         if request.form.get("delete"):
             nighttimeAPI.messages.pop()
+            return render_template("setup.html")
 
         if request.form.get("guidedBreathing"):
             nighttimeAPI.pauseBreathing()
-        else:
+            return render_template("setup.html")
+
+        if not request.form.get("guidedBreathing"):
             nighttimeAPI.resumeBreathing()
+            return render_template("setup.html")
 
         if request.form.get("messages"):
             nighttimeAPI.pauseMessages()
-        else:
+            return render_template("setup.html")
+
+        if not request.form.get("messages"):
             nighttimeAPI.resumeMessages()
-    
-    return render_template("setup.html")
+            return render_template("setup.html")
 
 @app.route("/templates/analytics")
 def analytics_template():
-    data = [8, 6, 7, 5, 3]
-    return render_template("analytics.html", wakeups=data[0], avgWakeupTime=data[1], avgAwakeTime=data[2], stressLevels=data[3], workload=data[4])
+    data = [17, "01:37:43 AM", "14 minutes 21 seconds", "UP"]
+    return render_template("analytics.html", wakeups=data[0], avgWakeupTime=data[1], avgAwakeTime=data[2], stressLevels=data[4])
 
 
 if __name__ == "__main__":
