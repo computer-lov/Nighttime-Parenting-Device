@@ -25,7 +25,7 @@ def setup_template():
             return render_template("setup.html")
 
         if "play" in request.form:
-            nighttimeAPI.unpauseMusic()
+            nighttimeAPI.resumeMusic()
             return render_template("setup.html")
 
         if "volume" in request.form:
