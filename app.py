@@ -22,6 +22,27 @@ log = []
 # set state to zero by default (display encouring messages)
 toggleMessage = True
 
+# create objects
+m = infra.micCircuit()
+sd = infra.StereoDecoder()
+oled = infra.OLED()
+lBar = infra.ledBar()
+hrs = infra.HRSensor()
+phyUI = infra.PhysicalUI(sd, oled, lBar)
+
+# creates locks
+i2cL = Lock()
+spiL = Lock()
+displayL = Lock()
+
+# create events
+wakeup = Event()
+asleep = Event()
+stressHigh = Event()
+enableBreathing = Event()
+enableMusic = Event()
+enableMessages = Event()
+
 ######################## supporting functions ########################
 
 # sends email to caregiver
@@ -223,26 +244,6 @@ def sendSOS():
                 time.sleep(3) # let it appear on screen for 3 seconds
 
 if __name__ == "__main__":
-    # create objects
-    m = infra.micCircuit()
-    sd = infra.StereoDecoder()
-    oled = infra.OLED()
-    lBar = infra.ledBar()
-    hrs = infra.HRSensor()
-    phyUI = infra.PhysicalUI(sd, oled, lBar)
-
-    # creates locks
-    i2cL = Lock()
-    spiL = Lock()
-    displayL = Lock()
-
-    # create events
-    wakeup = Event()
-    asleep = Event()
-    stressHigh = Event()
-    enableBreathing = Event()
-    enableMusic = Event()
-    enableMessages = Event()
 
     # set up server for email
     port = 465 #587  # For starttls
