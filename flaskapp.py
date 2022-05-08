@@ -48,13 +48,8 @@ def setup_template():
 
 @app.route("/templates/analytics")
 def analytics_template():
-    file = open(caregiver + ".txt", "r")
-    dataFile = file.read()
-    if (len(data) == 5):
-        data = dataFile.split()
-        return render_template("analytics.html", wakeups=data[0], avgWakeupTime=data[1], avgAwakeTime=data[2], stressLevels=data[3], workload=data[4])
-    else:
-        return render_template("analytics.html", wakeups=None, avgWakeupTime=None, avgAwakeTime=None, stressLevels=None, workload=None)
+    data = [8, 6, 7, 5, 3]
+    return render_template("analytics.html", wakeups=data[0], avgWakeupTime=data[1], avgAwakeTime=data[2], stressLevels=data[3], workload=data[4])
 
 
 if __name__ == "__main__":
