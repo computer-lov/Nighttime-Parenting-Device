@@ -19,52 +19,47 @@ def setup_template():
     for mes in nighttimeAPI.messages:
         displayMes += (mes + "\n")
 
-    # if a button is pushed
-    if request.method=="POST":
-        global caregiver
-        caregiver = str(request.form.get("caregiver"))
+    global caregiver
+    caregiver = str(request.form.get("caregiver"))
 
-        if "pause" in request.method:
-            nighttimeAPI.pauseMusic()
-            return render_template("setup.html", messages=displayMes)
-
-        if "play" in request.method:
-            nighttimeAPI.unpauseMusic()
-            return render_template("setup.html", messages=displayMes)
-
-        if "volume" in request.method:
-            nighttimeAPI.adjustVolume(request.form.get("volume"))
-            return render_template("setup.html", messages=displayMes)
-
-        if "add" in request.method:
-            text = request.form["text"]
-            nighttimeAPI.messages.append(text)
-            return render_template("setup.html", messages=displayMes)
-
-        if "delete" in request.method:
-            nighttimeAPI.messages.pop()
-            return render_template("setup.html", messages=displayMes)
-
-        if "guidedBreathing" in request.method:
-            nighttimeAPI.pauseBreathing()
-            return render_template("setup.html", messages=displayMes)
-
-        if not "guidedBreathing" in request.method:
-            nighttimeAPI.resumeBreathing()
-            return render_template("setup.html", messages=displayMes)
-
-        if "messages" in request.method:
-            nighttimeAPI.pauseMessages()
-            return render_template("setup.html", messages=displayMes)
-
-        if not "messages" in request.method:
-            nighttimeAPI.resumeMessages()
-            return render_template("setup.html", messages=displayMes)
-
+    if "pause" in request.method:
+        nighttimeAPI.pauseMusic()
         return render_template("setup.html", messages=displayMes)
 
-    else:
+    if "play" in request.method:
+        nighttimeAPI.unpauseMusic()
         return render_template("setup.html", messages=displayMes)
+
+    if "volume" in request.method:
+        nighttimeAPI.adjustVolume(request.form.get("volume"))
+        return render_template("setup.html", messages=displayMes)
+
+    if "add" in request.method:
+        text = request.form["text"]
+        nighttimeAPI.messages.append(text)
+        return render_template("setup.html", messages=displayMes)
+
+    if "delete" in request.method:
+        nighttimeAPI.messages.pop()
+        return render_template("setup.html", messages=displayMes)
+
+    if "guidedBreathing" in request.method:
+        nighttimeAPI.pauseBreathing()
+        return render_template("setup.html", messages=displayMes)
+
+    if not "guidedBreathing" in request.method:
+        nighttimeAPI.resumeBreathing()
+        return render_template("setup.html", messages=displayMes)
+
+    if "messages" in request.method:
+        nighttimeAPI.pauseMessages()
+        return render_template("setup.html", messages=displayMes)
+
+    if not "messages" in request.method:
+        nighttimeAPI.resumeMessages()
+        return render_template("setup.html", messages=displayMes)
+
+    return render_template("setup.html", messages=displayMes)
 
 @app.route("/templates/analytics")
 def analytics_template():
