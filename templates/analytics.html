@@ -7,7 +7,6 @@
     <title>NighttimeParentingBrowser</title>
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 
 <body>
@@ -24,14 +23,17 @@
         </nav>
         <div class="row">
             <div class="col-md-6">
-                <h3>Weekly Stats</h3><p>In the past week you have...<br><i class="far fa-bell"></i> Woken up {{ wakeups }} times...<br><i class="far fa-clock"></i> Average wake up time {{ avgWakeupTime }}<br><i class="far fa-calendar"></i>  Stayed up {{ avgAwakeTime }} on average<br><i class="fas fa-arrow-down"></i> Stress levels have gone {{ stressLevels }}<br><i class="fas fa-user"></i> Parent 1 had done {{ workload }} of the work</p>
+                <h3>Weekly Stats</h3><p>In the past week you have...<br><i class="far fa-bell"></i> Woken up {{ wakeups }} times...<br><i class="far fa-clock"></i> Average wake up time {{ avgWakeupTime }}<br><i class="far fa-calendar"></i>  Stayed up {{ avgAwakeTime }} on average<br><i class="fas fa-arrow-down"></i> Stress levels have gone {{ stressLevels }}<br>
             </div>
             <div class="col-md-6">
-                <h3>Monthly Overview</h3><img>
+                <h3>Monthly Overview</h3>
+                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Week 1&quot;,&quot;Week 2&quot;,&quot;Week 3&quot;,&quot;Week 4&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Wakeups&quot;,&quot;backgroundColor&quot;:&quot;rgba(159,78,223,0)&quot;,&quot;borderColor&quot;:&quot;#9f4edf&quot;,&quot;data&quot;:[&quot;11&quot;,&quot;14&quot;,&quot;9&quot;,&quot;17&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;,&quot;text&quot;:&quot;Wakeups Over Past 4 Weeks&quot;,&quot;display&quot;:true},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true},&quot;gridLines&quot;:{&quot;drawOnChartArea&quot;:true}}],&quot;yAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:true}}]}}}"></canvas></div>
             </div>
         </div>
     </div>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/chart.min.js"></script>
+    <script src="../assets/js/bs-init.js"></script>
 </body>
 
 </html>
