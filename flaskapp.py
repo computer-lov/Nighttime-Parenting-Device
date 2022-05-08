@@ -35,6 +35,7 @@ def setup_template():
         return render_template("setup.html", messages=displayMes)
 
     if "add" in request.method:
+        print("added")
         text = request.form["text"]
         nighttimeAPI.messages.append(text)
         return render_template("setup.html", messages=displayMes)
