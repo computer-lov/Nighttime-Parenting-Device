@@ -19,41 +19,41 @@ def setup_template():
 
         if request.form.get("pause"):
             nighttimeAPI.pauseMusic()
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         if request.form.get("play"):
             nighttimeAPI.unpauseMusic()
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         volLevel = request.form.get("volume")
         if volLevel:
             nighttimeAPI.adjustVolume(volLevel)
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         text = request.form["add"]
         if text:
             nighttimeAPI.messages.append(text)
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         if request.form.get("delete"):
             nighttimeAPI.messages.pop()
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         if request.form.get("guidedBreathing"):
             nighttimeAPI.pauseBreathing()
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         if not request.form.get("guidedBreathing"):
             nighttimeAPI.resumeBreathing()
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         if request.form.get("messages"):
             nighttimeAPI.pauseMessages()
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         if not request.form.get("messages"):
             nighttimeAPI.resumeMessages()
-            return render_template("setup.html")
+            return redirect("/templates/setup")
 
         return render_template("setup.html")
 
