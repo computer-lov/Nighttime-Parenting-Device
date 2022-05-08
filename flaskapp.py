@@ -18,7 +18,7 @@ def setup_template():
     global displayMes
     caregiver = str(request.form.get("caregiver"))
 
-    if request.method == "GET":
+    if request.method == "POST":
 
         if "pause" in request.form:
             nighttimeAPI.pauseMusic()
@@ -32,7 +32,6 @@ def setup_template():
             nighttimeAPI.adjustVolume(request.form.get("volume"))
             return render_template("setup.html")
 
-    elif request.method == "POST":
         if "add" in request.form:
             text = request.form["text"]
             nighttimeAPI.addMessage(text)
