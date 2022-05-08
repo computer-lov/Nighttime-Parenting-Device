@@ -1,9 +1,18 @@
-import re
 from flask import Flask, render_template, redirect, request
 import app as nighttimeAPI
 
 app = Flask(__name__, static_folder='assets')
 
+# helper functions
+# updates messages when added or deleted in browser
+def getMessages():
+    # get messages to displays
+    displayMes = ""
+    for mes in nighttimeAPI.messages:
+        displayMes += (mes + "\n")
+    return displayMes
+
+# flask app functions
 @app.route("/")
 def home():
     return redirect("/templates/index")
@@ -14,13 +23,9 @@ def home_template():
 
 @app.route("/templates/setup", methods=['POST', 'GET'])
 def setup_template():
-    # get messages to display
-    displayMes = ""
-    for mes in nighttimeAPI.messages:
-        displayMes += (mes + "\n")
-
     global caregiver
     caregiver = str(request.form.get("caregiver"))
+    displayMes = getMessages()
 
     if request.method == "GET":
 
@@ -38,13 +43,14 @@ def setup_template():
 
     elif request.method == "POST":
         if "add" in request.form:
-            print("added")
             text = request.form["text"]
             nighttimeAPI.messages.append(text)
+            displayMes = getMessages()
             return render_template("setup.html", messages=displayMes)
 
         if "delete" in request.form:
             nighttimeAPI.messages.pop()
+            displayMes = getMessages()
             return render_template("setup.html", messages=displayMes)
 
     else:
