@@ -27,7 +27,7 @@ def setup_template():
         if volLevel:
             nighttimeAPI.adjustVolume(volLevel)
 
-        text = request.form["text"]
+        text = request.form["add"]
         if text:
             nighttimeAPI.messages.append(text)
 
