@@ -55,6 +55,8 @@ def setup_template():
             nighttimeAPI.resumeMessages()
             return render_template("setup.html")
 
+        return render_template("setup.html")
+
 @app.route("/templates/analytics")
 def analytics_template():
     data = [17, "01:37:43 AM", "14 minutes 21 seconds", "UP"]
