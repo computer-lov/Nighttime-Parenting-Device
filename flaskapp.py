@@ -3,17 +3,6 @@ import app as nighttimeAPI
 
 app = Flask(__name__, static_folder='assets')
 
-# helper functions
-# updates messages when added or deleted in browser
-def getMessages():
-    # get messages to displays
-    displayMes = ""
-    for mes in nighttimeAPI.messages:
-        displayMes += (mes + "\n")
-    return displayMes
-
-displayMes = getMessages()
-
 # flask app functions
 @app.route("/")
 def home():
@@ -33,40 +22,38 @@ def setup_template():
 
         if "pause" in request.form:
             nighttimeAPI.pauseMusic()
-            return render_template("setup.html", messages=displayMes)
+            return render_template("setup.html")
 
         if "play" in request.form:
             nighttimeAPI.unpauseMusic()
-            return render_template("setup.html", messages=displayMes)
+            return render_template("setup.html")
 
         if "volume" in request.form:
             nighttimeAPI.adjustVolume(request.form.get("volume"))
-            return render_template("setup.html", messages=displayMes)
+            return render_template("setup.html")
 
     elif request.method == "POST":
         if "add" in request.form:
             text = request.form["text"]
             nighttimeAPI.addMessage(text)
-            displayMes.append(text)
-            return render_template("setup.html", messages=displayMes)
+            return render_template("setup.html")
 
         if "delete" in request.form:
             text = request.form["text"]
             nighttimeAPI.deleteMessage(text)
-            displayMes.remove(text)
-            return render_template("setup.html", messages=displayMes)
+            return render_template("setup.html")
 
     else:
 
         if "messages" in request.form:
             nighttimeAPI.pauseMessages()
-            return render_template("setup.html", messages=displayMes)
+            return render_template("setup.html")
 
         if not "messages" in request.form:
             nighttimeAPI.resumeMessages()
-            return render_template("setup.html", messages=displayMes)
+            return render_template("setup.html")
 
-    return render_template("setup.html", messages=displayMes)
+    return render_template("setup.html")
 
 @app.route("/templates/analytics")
 def analytics_template():
