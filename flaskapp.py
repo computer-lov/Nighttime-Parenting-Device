@@ -11,7 +11,7 @@ def home():
 def home_template():
     return render_template("index.html")
 
-@app.route("/templates/input", methods=['POST', 'GET'])
+@app.route("/templates/setup", methods=['POST', 'GET'])
 def setup_template():
     if request.method=="POST":
         global caregiver
