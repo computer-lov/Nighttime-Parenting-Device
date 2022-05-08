@@ -173,10 +173,12 @@ def adjustVolume(volLevel):
 
 # adds message
 def addMessage(mes):
+    global messages
     messages.append(mes)
 
 # deletes specified message
 def deleteMessage(mes):
+    global messages
     messages.remove(mes)
 
 ############### tasks that run in response to physical UI ##############
