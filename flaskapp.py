@@ -16,8 +16,7 @@ def setup_template():
     # get messages to display
     displayMes = ""
     for mes in nighttimeAPI.messages:
-        displayMes += mes
-        displayMes += '\n'
+        displayMes += (mes + "\n")
 
     # if a button is pushed
     if request.method=="POST":
