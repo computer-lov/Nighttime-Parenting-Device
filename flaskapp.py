@@ -13,17 +13,16 @@ def home_template():
 
 @app.route("/templates/setup", methods=['POST', 'GET'])
 def setup_template():
+    # get messages to display
+    displayMes = ""
+    for mes in nighttimeAPI.messages:
+        displayMes += mes
+        displayMes += '\n'
 
-
+    # if a button is pushed
     if request.method=="POST":
         global caregiver
         caregiver = str(request.form.get("caregiver"))
-
-        # get messages to display
-        displayMes = ""
-        for mes in nighttimeAPI.messages:
-            displayMes += mes
-            displayMes += '\n'
 
         if request.form.get("pause"):
             nighttimeAPI.pauseMusic()
