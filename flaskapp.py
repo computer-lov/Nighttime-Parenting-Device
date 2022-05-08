@@ -22,35 +22,40 @@ def setup_template():
     global caregiver
     caregiver = str(request.form.get("caregiver"))
 
-    if "pause" in request.form:
-        nighttimeAPI.pauseMusic()
-        return render_template("setup.html", messages=displayMes)
+    if request.method == "GET":
 
-    if "play" in request.form:
-        nighttimeAPI.unpauseMusic()
-        return render_template("setup.html", messages=displayMes)
+        if "pause" in request.form:
+            nighttimeAPI.pauseMusic()
+            return render_template("setup.html", messages=displayMes)
 
-    if "volume" in request.form:
-        nighttimeAPI.adjustVolume(request.form.get("volume"))
-        return render_template("setup.html", messages=displayMes)
+        if "play" in request.form:
+            nighttimeAPI.unpauseMusic()
+            return render_template("setup.html", messages=displayMes)
 
-    if "add" in request.form:
-        print("added")
-        text = request.form["text"]
-        nighttimeAPI.messages.append(text)
-        return render_template("setup.html", messages=displayMes)
+        if "volume" in request.form:
+            nighttimeAPI.adjustVolume(request.form.get("volume"))
+            return render_template("setup.html", messages=displayMes)
 
-    if "delete" in request.form:
-        nighttimeAPI.messages.pop()
-        return render_template("setup.html", messages=displayMes)
+    elif request.method == "POST":
+        if "add" in request.form:
+            print("added")
+            text = request.form["text"]
+            nighttimeAPI.messages.append(text)
+            return render_template("setup.html", messages=displayMes)
 
-    if "messages" in request.form:
-        nighttimeAPI.pauseMessages()
-        return render_template("setup.html", messages=displayMes)
+        if "delete" in request.form:
+            nighttimeAPI.messages.pop()
+            return render_template("setup.html", messages=displayMes)
 
-    if not "messages" in request.form:
-        nighttimeAPI.resumeMessages()
-        return render_template("setup.html", messages=displayMes)
+    else:
+
+        if "messages" in request.form:
+            nighttimeAPI.pauseMessages()
+            return render_template("setup.html", messages=displayMes)
+
+        if not "messages" in request.form:
+            nighttimeAPI.resumeMessages()
+            return render_template("setup.html", messages=displayMes)
 
     return render_template("setup.html", messages=displayMes)
 
