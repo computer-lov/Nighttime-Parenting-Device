@@ -97,6 +97,7 @@ def calculateStessLevel():
                 enableMusic.set()
 
         # read bpm and spo2 every minute
+        print("BPM: " + BPM + "Spo2 " + Spo2)
         time.sleep(60)
 
 ############### tasks that run in response to stress level ##############
@@ -131,7 +132,7 @@ def timeDisplay():
                 with i2cL:
                     oled.clearDisplay()
                     oled.displayTime()
-                time.sleep(60) # new time display every minute
+            time.sleep(60) # new time display every minute
 
 
 # updates breathing
