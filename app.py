@@ -97,7 +97,7 @@ def calculateStessLevel():
                 enableMusic.set()
 
         # read bpm and spo2 every minute
-        print("BPM: " + str(BPM) + "Spo2 " + str(Spo2))
+        print("BPM: " + str(BPM) + " Spo2: " + str(Spo2))
         time.sleep(60)
 
 ############### tasks that run in response to stress level ##############
