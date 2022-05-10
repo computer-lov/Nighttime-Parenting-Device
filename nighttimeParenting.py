@@ -163,7 +163,7 @@ class StereoDecoder:
 # Last Updated: 4/6/2022
 # License: MIT License 2022
 # Further Description:
-#  Uses PIL library and i2c
+#  Uses PIL library, adafruit-circuitpython-ssd1306, and smbus for i2c
 
 class OLED:
 
