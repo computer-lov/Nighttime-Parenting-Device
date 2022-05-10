@@ -259,15 +259,9 @@ class OLED:
         
         self.oled.image(image)
         self.oled.show()
-        
-        # helper function for displayTime
-    def posn(self, angle, arm_length):
-        dx = int(math.cos(math.radians(angle)) * arm_length)
-        dy = int(math.sin(math.radians(angle)) * arm_length)
-        return (dx, dy)
       
         
-    # displays analog and digital time
+    # displays digital time in 12H hour:minute format
     def displayTime(self):
         today_last_time = "Unknown"
         image = Image.new("1", (self.oled.width, self.oled.height))
